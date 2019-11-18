@@ -44,6 +44,13 @@
 % microtypographical features, makes the text look nicer on the small scale
 \usepackage{microtype}
 
+% C++ typesetting
+%\usepackage{relsize}
+%\newcommand\CC{C\nolinebreak[4]\hspace{-.05em}\raisebox{.4ex}{\relsize{-3}{\textbf{++}}}}
+\usepackage{ifthen}
+\newcommand{\CC}[1][]{$\text{C\hspace{-.25ex}}^{_{_{_{++}}}}
+                      \ifthenelse{\equal{#1}{}}{}{\text{\hspace{-.625ex}#1}}$}
+
 %------------------------------------------------------------------------------
 %------------------------ Math Packages and settings --------------------------
 %------------------------------------------------------------------------------
@@ -131,7 +138,7 @@
 %------------------------------------------------------------------------------
 
 \author{Jean-Marco Alameddine}
-\title{\LaTeX-Dokumentenklasse und Vorlage für Abschlussarbeiten an der TU Dortmund}
+\title{Working title}
 \date{2019}
 \birthplace{Iserlohn}
 \chair{Lehrstuhl für Experimentelle Physik V}
