@@ -8,5 +8,62 @@ On this basis, MMC has been rewritten within a dissertation to create the \CC li
 To allow for a more universal use of the program, PROPOSAL can be used in Python through a wrapper as well.
 More modern programming concepts such as polymorphism and a modular code structure were introduced in a recent update of PROPOSAL \cite{dunsch_2018_proposal_improvements}.
 
-The recent version of the code is publicy available on GitHub\footnote{\url{https://github.com/tudo-astroparticlephysics/PROPOSAL}} and can be used under the terms of a modified LGPL license.
+The current version of the code is publicy available on GitHub\footnote{\url{https://github.com/tudo-astroparticlephysics/PROPOSAL}} and can be used under the terms of a modified LGPL license.
 Examples of applications are the neutrino observatories IceCube and RNO who use PROPOSAL as a part of their simulation chain.
+
+\subsection{Calculation of energy losses}
+
+Energy losses of the particles form the basis for the propagation algorithm in PROPOSAL.
+Considering a particle with an initial energy $E_i$, an energy loss is determined by its absolute value
+\begin{equation}
+	\nu = E_i \cdot v
+\end{equation}
+where $v$ describes the relative energy loss of the particle and $E_f = E_i - \nu$ the final particle energy.
+Processes that causing energy losses and implemented in PROPOSAL are
+\begin{itemize}
+	\item Bremsstrahlung,
+	\item Ionization,
+	\item Photonuclear interactions and
+	\item pair production of an electron-positron pair.
+\end{itemize}
+
+Quantitatively, the interaction probability for a process is described by its cross section $\sigma$.
+To describe the process with respect to a specific variable in the final state, the cross section can be written in a differential form, for example $\sfrac{\symup{d}\sigma}{\symup{d}v}$.
+
+In principle, this information could be used right away to sample energy losses from differential cross sections, which can be treated as probablity density functions, by using inverse sampling.
+However, this approach would cause two immediate problems:
+Firstly the propagation process would be very time inefficient since small energy losses, especially below the energy threshold of a detector, would be sampled individually.
+Secondly numerical problems could occur due to the nature of the bremsstrahlung interaction:
+Since photons are massless, the bremsstrahlung cross sections diverges for $v \to 0$, making inverse sampling over the whole parameter range impossible.
+
+As a solution, PROPOSAL differentiates between continous and stochastic energy losses.
+The energy cut parameter $v_\text{cut}$ is defined as
+\begin{equation}
+	\label{eqn:cut}
+	v_\text{cut} = \text{min}\left[\sfrac{e_\text{cut}}{E}, v\prime_\text{cut} \right]
+\end{equation}
+with a relative energy cut $v\prime_\text{cut}$ and an absolute energy cut $\sfrac{e_\text{cut}}{E}$.
+Energy losses with $v < v_\text{cut}$ are treated as continous losses, energy losses with $v > v_\text{cut}$ as stochastic losses.
+The defintion in \ref{eqn:cut} ensures that losses above an absolute detector threshold $e_\text{cut}$ are treated as stochastic although their relative value is too small.
+
+The propagation algorithm in PROPOSAL consists of several propagation steps where each steps consists of continous losses and a stochastic loss, see \ref{sec:algorithm} for a detailed description.
+To perform one propagation step, it is therefore necessary to have a mathematical expression to sample stochastic losses.
+
+Let $E_i$ be the initial energy of a particle and
+\begin{equation}
+	\label{eqn:cum}
+	P\left(E_f \leq E \leq E_i\right) = - \int_{E_i}^{E_f} p\left(E \right) \, \symup(d)E
+\end{equation}
+a cumulative distribution function describing the probability for a stochastic loss at a particle energy $E \geq E_f$.
+With inverse sampling, this function can be used to sample the energy of the occurence of the next stochastic loss.
+
+To derive an expression for \label{eqn:cum}, the distance between the initial particle position $x_i$ and the position of the stochastic loss is discretised.
+The probability for a stochastic loss after a distance of $x_f$ can be described as
+\begin{align}
+	\Delta P\left(x_f\right) &= P\left( x_f + \Delta x \right)\\
+	&= \left( 1 - \sigma\left( x_i \right) \Delta x \right) \cdot \left( 1 - \sigma\left( x_{i+1} \right) \Delta x \right) \dots \left( 1 - \sigma\left( x_{f-1} \right) \Delta x \right) \cdot \sigma\left( x_f \right) \Delta x
+\end{align}
+
+
+\section{Propagation algorithm}
+\label{sec:algorithm}
