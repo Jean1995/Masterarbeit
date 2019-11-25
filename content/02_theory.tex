@@ -123,15 +123,40 @@ It follows that
 	\end{split}
 \end{equation}
 
-By replacing the probability $P$ in \ref{eqn:cum_final} by a random number $\xi \in \left(0, 1\right]$ we obtain the energy integral
+By replacing the probability $P$ in \ref{eqn:cum_final} by a random number $\xi \in \left(0, 1\right]$ we the energy integral
 
 \begin{equation}
 	\label{eqn:energy_integral}
-	\int_{E_i}^{E_f} \frac{\sigma(E)}{-f(E)} \, \symup{d}E = - \log{\xi}
+	\int_{E_i}^{E_f} \frac{\sigma(E)}{-f(E)} \, \symup{d}E = - \log{\xi},
 \end{equation}
 
-originally derived in \cite{chirkin2004propagating}. 
+originally derived in \cite{chirkin2004propagating}, is obtained. 
 By sampling $\xi$, \ref{eqn:energy_integral} can be used to calculate the energy of the occurrence of the next stochastic loss.
 
 \subsection{Propagation algorithm}
 \label{sec:algorithm}
+
+The task of the propagation algorithm of PROPOSAL is to simulate the properties of the secondary particles produced in interactions as well as the properties of the initial particle after each interaction.
+This includes information on the energy, position, direction and time of the initial particle and the secondary particles.
+
+On the technical note, the structure of the propagation process in PROPOSAL is determined by the concept of a "chain of responsibility".
+Part of this chain are the \emph{Sector} objects and a \emph{Propagator} object.
+
+Each \emph{Sector} is defined by its geometry, its medium, its energy cut settings and other sector-specific properties.
+The cut settings itself differentiate between various particle positions with respect to a predefined \emph{Detector} geometry.
+By having sectors with varying characteristics the user has the possibility to appropriately model the simulation environment.
+
+The \emph{Propagator} object chooses which sector is responsible for the propagation of the particle at its current position.
+The assigned \emph{Sector} then propagates the particle within its borders and returns the propagated particle back to the \emph{Propagator}.
+This process is repeated either until the propagated distance of the initial particle surpasses a preset maximal propagation distance $d_\text{max}$ or until the initial particle energy falls below a preset threshold energy $e_\text{low}$.
+
+The following steps give a simplified overview of the propagation process within a \emph{Sector}.
+
+\textbf{Energy of next interaction}
+
+According to \ref{eqn:energy_integral}, the energy of the occurrence of the next stochastic energy loss is calculated.
+Furthermore, based on the lifetime $\tau$ of the initial particle, an energy where the particle decays is sampled.
+Both energy values are compared and the higher energy value, together with its interaction type (stochastic loss or decay), are used for the next step\footnote{If a decay is the next interaction, steps x to y are replaced accordingly by a decay method.}.
+
+\textbf{Particle displacement}
+
