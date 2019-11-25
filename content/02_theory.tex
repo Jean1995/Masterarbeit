@@ -3,80 +3,90 @@
 \section{The lepton propagator PROPOSAL}
 
 PROPOSAL (\textbf{Pr}opagator with \textbf{o}ptimal \textbf{p}recision and \textbf{o}ptimized \textbf{s}peed for \textbf{a}ll \textbf{l}eptons) is a Monte Carlo simulation library capable of simulating the interactions of high energy leptons.
-The original program called MMC (\textbf{M}uon \textbf{M}onte \textbf{C}arlo) has been written in the programming language Java focussing on a precise but also fast muon and tau propagation \cite{chirkin2004propagating}.
+The original program called MMC (\textbf{M}uon \textbf{M}onte \textbf{C}arlo) has been written in the programming language Java focusing on a precise but also fast muon and tau propagation \cite{chirkin2004propagating}.
 On this basis, MMC has been rewritten within a dissertation to create the \CC library PROPOSAL \cite{Kohne:2013zbq}.
 To allow for a more universal use of the program, PROPOSAL can be used in Python through a wrapper as well.
 More modern programming concepts such as polymorphism and a modular code structure were introduced in a recent update of PROPOSAL \cite{dunsch_2018_proposal_improvements}.
 
-The current version of the code is publicy available on GitHub\footnote{\url{https://github.com/tudo-astroparticlephysics/PROPOSAL}} and can be used under the terms of a modified LGPL license.
+The current version of the code is publicly available on GitHub\footnote{\url{https://github.com/tudo-astroparticlephysics/PROPOSAL}} and can be used under the terms of a modified LGPL license.
 Examples of applications are the neutrino observatories IceCube and RNO who use PROPOSAL as a part of their simulation chain.
 
 \subsection{Calculation of energy losses}
 
-Energy losses of the particles form the basis for the propagation algorithm in PROPOSAL.
-Considering a particle with an initial energy $E_i$, an energy loss is determined by its absolute value
+Energy losses of particles form the basis for the propagation algorithm in PROPOSAL.
+Assuming a particle with an initial energy $E_i$, an energy loss is determined by its absolute value
+
 \begin{equation}
 	\nu = E_i \cdot v
 \end{equation}
+
 where $v$ describes the relative energy loss of the particle and $E_f = E_i - \nu$ the final particle energy.
-Processes that causing energy losses and implemented in PROPOSAL are
+Processes that cause energy losses and are implemented in PROPOSAL are
+
 \begin{itemize}
-	\item Bremsstrahlung,
-	\item Ionization,
-	\item Photonuclear interactions and
+	\item bremsstrahlung,
+	\item ionization,
+	\item photonuclear interactions and
 	\item pair production of an electron-positron pair.
 \end{itemize}
 
 Quantitatively, the interaction probability for a process is described by its cross section $\sigma$.
 To describe the process with respect to a specific variable in the final state, the cross section can be written in a differential form, for example $\sfrac{\symup{d}\sigma}{\symup{d}v}$.
 
-In principle, this information could be used right away to sample energy losses from differential cross sections, which are treated as probablity density functions, by using inverse sampling.
+In principle, this information could be used right away to sample energy losses from differential cross sections, which are treated as probability density functions, by using inverse sampling.
 However, this approach would cause two immediate problems:
 Firstly the propagation process would be very time inefficient since small energy losses, especially below the energy threshold of a detector, would be sampled individually.
 Secondly numerical problems could occur due to the nature of the bremsstrahlung interaction:
 Since photons are massless, the bremsstrahlung cross sections diverges for $v \to 0$, making inverse sampling over the whole parameter range impossible.
 
-As a solution, PROPOSAL differentiates between continous and stochastic energy losses.
+As a solution, PROPOSAL differentiates between continuous and stochastic energy losses.
 The energy cut parameter $v_\text{cut}$ is defined as
+
 \begin{equation}
 	\label{eqn:cut}
 	v_\text{cut} = \text{min}\left[\sfrac{e_\text{cut}}{E}, v\prime_\text{cut} \right]
 \end{equation}
-with a relative energy cut $v\prime_\text{cut}$ and an absolute energy cut $\sfrac{e_\text{cut}}{E}$.
-Energy losses with $v < v_\text{cut}$ are treated as continous losses, energy losses with $v > v_\text{cut}$ as stochastic losses.
-The defintion in \ref{eqn:cut} ensures that losses above an absolute detector threshold $e_\text{cut}$ are treated as stochastic although their relative value is too small.
 
-The propagation algorithm in PROPOSAL consists of several propagation steps where each steps consists of continous losses and a stochastic loss, see \ref{sec:algorithm} for a detailed description.
+with a relative energy cut $v\prime_\text{cut}$ and an absolute energy cut $e_\text{cut}$.
+Energy losses with $v < v_\text{cut}$ are treated as continuous losses, energy losses with $v > v_\text{cut}$ are treated as stochastic losses.
+The definition in \ref{eqn:cut} ensures that losses above an absolute detector threshold $e_\text{cut}$ are treated as stochastic even if their relative value is too small.
+
+The propagation algorithm in PROPOSAL consists of numerous propagation steps where each step consists of continuous losses and a stochastic loss, see \ref{sec:algorithm} for a detailed description.
 To perform one propagation step, it is therefore necessary to have a mathematical expression to sample stochastic losses.
 
 Let $E_i$ be the initial energy of a particle and
+
 \begin{equation}
 	\label{eqn:cum}
-	P\left(E_f \leq E \leq E_i\right) = - \int_{E_i}^{E_f} p\left(E \right) \, \symup(d)E
+	P\left(E_f \leq E \leq E_i\right) = - \int_{E_i}^{E_f} p(E) \, \symup{d}E
 \end{equation}
-a cumulative distribution function describing the probability for a stochastic loss at a particle energy $E \geq E_f$.
-With inverse sampling, this function can be used to sample the energy of the occurence of the next stochastic loss.
 
-To derive an expression for \ref{eqn:cum}, the distance between the initial particle position $x_i$ and the position of the stochastic loss is discretised into sections of $\Delta x$.
-The probability for a stochastic loss after a distance of $x_f$, without any stochastic losses in the interval $\left(x_i, x_f\right)$, can be described as
+a cumulative distribution function describing the probability for a stochastic loss at a particle energy $E \geq E_f$.
+With inverse sampling, this function can be used to sample the energy of the occurrence of the next stochastic loss.
+
+To derive an expression for \ref{eqn:cum}, the distance between the initial particle position $x_i$ and the position of the stochastic loss is discretized into sections of $\Delta x$.
+The probability for a stochastic loss after a propagation distance of $x_f$, without any stochastic losses in the interval $\left(x_i, x_f\right)$, can be described as
+
 \begin{equation}
 	\label{eqn:discrete}
 	\begin{split}
 	\Delta P\left(x_f\right) &= P\left( x_f + \Delta x \right) - P\left( x_f \right)\\
 	&= \left( 1 - \sigma(x_i) \Delta x \right) \cdot \left( 1 - \sigma(x_{i+1}) \Delta x \right) \cdot\ldots\cdot \left( 1 - \sigma(x_{f-1}) \Delta x \right) \cdot \sigma(x_f) \Delta x \\
 	&\approx \exp \left( - \sum_{j=i}^{f-1} \sigma(x_j) \Delta x_j \right) \cdot \sigma(x_f) \Delta x\\
-	\intertext{or, in a differential form,}
+	\intertext{where $\Delta x \ll 1$ was used in the last step. In a differential form, this relation can be written as}
 	\symup{d}P\left( x_f \right) &= \exp\left(-\int_{x_i}^{x_f} \sigma(x) \, \symup{d}x \right) \cdot \sigma(x_f) \, \symup{d} x_f.
 	\end{split}
 \end{equation}
 
 To transfer the dependency on the location $x$ to a dependency on the energy $E$, the relation
+
 \begin{equation}
 	\label{eqn:fE}
 	f(E) = -\frac{\symup{d}E}{\symup{d}x} = E \frac{N_A}{A} \int_{v_\text{min}}^{v_\text{cut}} \frac{\symup{d}\sigma}{\symup{d}v} \, \symup{d}v
 \end{equation}
+
 is introduced.
-Here, $f(E)$ describes the continuous energy losses between to stochastic losses and is calculated by taking the average energy loss for all interactions below the energy cut $v_\text{cut}$.
+Here, $f(E)$ describes the continuous energy losses between two stochastic losses and is calculated by taking the average energy loss for all interactions below the energy cut $v_\text{cut}$.
 Applying relation \ref{eqn:fE} on \ref{eqn:discrete} yields
 
 \begin{equation}
@@ -84,7 +94,44 @@ Applying relation \ref{eqn:fE} on \ref{eqn:discrete} yields
 	\symup{d}P\left(E_f\right) = \exp \left( \int_{E_i}^{E_f} \frac{\sigma(E)}{ f(E) } \, \symup{d}E \right) \cdot \frac{\sigma(E_f)}{-f(E_f)} \, \symup{d}E_f.
 \end{equation}
 
-%% ... we get the formula originally derived in (MMC-paper)
+The cumulative distribution function is obtained by integrating over the probabilities in \ref{eqn:discrete_energy}:
 
-\section{Propagation algorithm}
+\begin{equation}
+	\label{eqn:cum_detail}
+	\begin{split}
+	P\left(E_f \leq E \leq E_i\right) &= \int_{P(E_i)=0}^{P(E_f)} \symup{d}P(E_f)\\
+	&= \int_{E_i}^{E_f} \exp \left( \int_{E_i}^{E_f'} \frac{\sigma(E)}{ f(E) } \, \symup{d}E \right) \cdot \frac{\sigma(E'_f)}{-f(E'_f)} \, \symup{d}E'_f.
+	\end{split}
+\end{equation}
+
+The expression in \ref{eqn:cum_detail} is simplified by using the substitution
+
+\begin{align}
+	v(E) &= \int_{E_i}^{E} \frac{\sigma(E')}{f(E')} \, \symup{d}E', & \symup{d}v &= \frac{\sigma(E)}{f(E)} \, \symup{d}E
+\end{align}
+
+where the fundamental theorem of calculus has been applied to obtain the expression for $\symup{d}v$.
+It follows that
+
+\begin{equation}
+	\label{eqn:cum_final}
+	\begin{split}
+	P\left(E_f \leq E \leq E_i\right) &= - \int_{E_i}^{E_f} \exp \left( v(E_f') \right) \, \symup{d}v \\
+	&= \left[ \exp \left( v(E'_f) \right) \right]_{E_i}^{E_f}\\
+	&= \exp\left( v(E_f) \right) - \underbrace{\exp \left( v(E_i) \right)}_{= 0} \\
+	&= \exp{\left( \int_{E_i}^{E_f} \frac{\sigma(E)}{f(E)} \, \symup{d}E \right)}.
+	\end{split}
+\end{equation}
+
+By replacing the probability $P$ in \ref{eqn:cum_final} by a random number $\xi \in \left(0, 1\right]$ we obtain the energy integral
+
+\begin{equation}
+	\label{eqn:energy_integral}
+	\int_{E_i}^{E_f} \frac{\sigma(E)}{-f(E)} \, \symup{d}E = - \log{\xi}
+\end{equation}
+
+originally derived in \cite{chirkin2004propagating}. 
+By sampling $\xi$, \ref{eqn:energy_integral} can be used to calculate the energy of the occurrence of the next stochastic loss.
+
+\subsection{Propagation algorithm}
 \label{sec:algorithm}
