@@ -154,9 +154,76 @@ The following steps give a simplified overview of the propagation process within
 
 \textbf{Energy of next interaction}
 
-According to \ref{eqn:energy_integral}, the energy of the occurrence of the next stochastic energy loss is calculated.
+According to \ref{eqn:energy_integral}, the energy of the occurrence of the next stochastic energy loss is calculated with a random number $\xi$.
+If
+
+\begin{equation}
+	\xi > \exp{\left( \int_{E_i}^{e_\text{low}} \frac{\sigma(E)}{f(E)} \, \symup{d}E \right)}
+\end{equation}
+
+the sampled energy of the next stochastic loss would fall below the threshold energy $e_\text{low}$, in this case there is no stochastic loss.
+
 Furthermore, based on the lifetime $\tau$ of the initial particle, an energy where the particle decays is sampled.
-Both energy values are compared and the higher energy value, together with its interaction type (stochastic loss or decay), are used for the next step\footnote{If a decay is the next interaction, steps x to y are replaced accordingly by a decay method.}.
+Both energy values are compared and the higher energy value, together with its interaction type (stochastic loss or decay), are used for the next step\footnote{If a decay is the next interaction, the step "Simulation of stochastic energy loss" is replaced accordingly by a decay method.}.
 
 \textbf{Particle displacement}
+
+Given the initial energy $E_i$ and the energy of the interaction $E_f$, the (straight-lined) displacement is calculated with the tracking integral
+
+\begin{equation}
+	\label{eqn:tracking_integral}
+	x_f = x_i - \int_{E_i}^{E_f} \frac{\symup{d}E}{f(E)}
+\end{equation}
+
+where $x_f - x_i$ describes the propagated distance.
+If the calculated propagated distance would exceed the distance to the sector border $d$, $E_f$ is recalculated by setting $x_f = x_i + d$ in \ref{eqn:tracking_integral} and solving the integral equation for $E_f$.
+In this case, no interaction will occur at $E_f$.
+
+The elapsed time it determined by the time integral 
+
+\begin{equation}
+	t_f = t_i + \int_{x_i}^{x_f} \frac{\symup{d}x}{v(x)} = t_i - \int_{E_i}^{E_f} \frac{\symup{d}E}{f(E)v(E)}
+\end{equation}
+
+with the particle velocity $v(E)$, or alternatively using the approximation $v=c$ with 
+
+\begin{equation}
+	t_f = t_i + \frac{x_f - x_i}{c}.
+\end{equation}
+
+Optionally, PROPOSAL can apply multiple scattering effects on the calculated displacement.
+This changes the position of the next stochastic loss by applying a sampled deflection angle as well as the new direction of the particle.
+Currently, three different parametrization for multiple scattering can be used in PROPOSAL:
+A parametrization based on Molière's theory of multiple scattering as well as two parametrization based on a gaussian-like approximation of the Molière theory by Highland, see \cite{GeiselBrinck2013RevisionOT} for a detailed description of the scattering parametrization used in PROPOSAL. 
+
+\textbf{Continuous energy losses and continuous randomization}
+
+The energy loss between $E_i$ and $E_f$ is treated continuously according to formula \ref{eqn:fE}, meaning that the particle energy is set to $E = E_f$.
+However, this can cause discontinuities in the energy spectrum as shown in figure \ref{fig:cont_rand}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/cont_rand.pdf}
+    \caption[]{Energy spectrum of \num{e5} muons with a starting energy of \SI{e8}{\mega\electronvolt}, propagated in \SI{300}{\meter} of standard rock\footnotemark. The spectrum show the effects of an energy cut with or without continuous randomization.}
+    \label{fig:cont_rand}
+\end{figure}
+\footnotetext{Standard rock means a material with $Z = 11$, $A=22$ and a density of $\rho = \SI{2.65}{\gram\per\centi\metre^3}$, see e.g.\ \cite{PhysRevD.98.030001} for a detailed list of material properties.}
+
+For a sufficiently large $v_\text{cut}$, for example $v_\text{cut} = 0.05$ in figure \ref{fig:cont_rand}, a peak in the final muon energy spectrum appears.
+This peaks corresponds to all muons without any stochastic losses within the propagation distance.
+These particle all have the same energy loss since no random numbers were effectively used to calculate their final energy, meaning that no fluctuations of the continuous losses are taken into account.
+Setting the energy cut to a significantly lower value, for example $\v_\text{cut} = \num{e-4}$ in \ref{fig:cont_rand}, eliminates this peaks, however the runtime for the propagation is increased by at least an order of magnitude.
+
+As a more time-efficient solution the option \emph{continuous randomization} can be enabled in PROPOSAL.
+This applies fluctuations on the continuous loss energy sampled from a gaussian distribution.
+The mean of this distribution corresponds to $E_i - E_f$, the variance is calculated by
+
+\begin{equation}
+	\left< \Delta (\Delta E)^2 \right> = \int_{E_i}^{E_f} \frac{E^2}{-f(E)} \left< \frac{\symup{d}E^2}{\symup{d}x} \right>,
+\end{equation}
+
+where the derivation of the variance follows similar steps to the derivation of \ref{eqn:energy_integral}, see \cite{chirkin2004propagating} for a detailed derivation and description. 
+The effects can be seen in \ref{fig:cont_rand}, the energy spectrum becomes continuous and the running time behaves similarly to the running time for the propagation without continuous randomization.
+
+\textbf{Simulation of stochastic energy loss}
 
