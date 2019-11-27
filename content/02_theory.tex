@@ -49,9 +49,9 @@ The energy cut parameter $v_\text{cut}$ is defined as
 
 with a relative energy cut $v\prime_\text{cut}$ and an absolute energy cut $e_\text{cut}$.
 Energy losses with $v < v_\text{cut}$ are treated as continuous losses, energy losses with $v > v_\text{cut}$ are treated as stochastic losses.
-The definition in \ref{eqn:cut} ensures that losses above an absolute detector threshold $e_\text{cut}$ are treated as stochastic even if their relative value is too small.
+The definition in \eqref{eqn:cut} ensures that losses above an absolute detector threshold $e_\text{cut}$ are treated as stochastic even if their relative value is too small.
 
-The propagation algorithm in PROPOSAL consists of numerous propagation steps where each step consists of continuous losses and a stochastic loss, see \ref{sec:algorithm} for a detailed description.
+The propagation algorithm in PROPOSAL consists of numerous propagation steps where each step consists of continuous losses and a stochastic loss, see chapter \ref{sec:algorithm} for a detailed description.
 To perform one propagation step, it is therefore necessary to have a mathematical expression to sample stochastic losses.
 
 Let $E_i$ be the initial energy of a particle and
@@ -64,7 +64,7 @@ Let $E_i$ be the initial energy of a particle and
 a cumulative distribution function describing the probability for a stochastic loss at a particle energy $E \geq E_f$.
 With inverse sampling, this function can be used to sample the energy of the occurrence of the next stochastic loss.
 
-To derive an expression for \ref{eqn:cum}, the distance between the initial particle position $x_i$ and the position of the stochastic loss is discretized into sections of $\Delta x$.
+To derive an expression for \eqref{eqn:cum}, the distance between the initial particle position $x_i$ and the position of the stochastic loss is discretized into sections of $\Delta x$.
 The probability for a stochastic loss after a propagation distance of $x_f$, without any stochastic losses in the interval $\left(x_i, x_f\right)$, can be described as
 
 \begin{equation}
@@ -73,8 +73,8 @@ The probability for a stochastic loss after a propagation distance of $x_f$, wit
 	\Delta P\left(x_f\right) &= P\left( x_f + \Delta x \right) - P\left( x_f \right)\\
 	&= \left( 1 - \sigma(x_i) \Delta x \right) \cdot \left( 1 - \sigma(x_{i+1}) \Delta x \right) \cdot\ldots\cdot \left( 1 - \sigma(x_{f-1}) \Delta x \right) \cdot \sigma(x_f) \Delta x \\
 	&\approx \exp \left( - \sum_{j=i}^{f-1} \sigma(x_j) \Delta x_j \right) \cdot \sigma(x_f) \Delta x\\
-	\intertext{where $\Delta x \ll 1$ was used in the last step. In a differential form, this relation can be written as}
-	\symup{d}P\left( x_f \right) &= \exp\left(-\int_{x_i}^{x_f} \sigma(x) \, \symup{d}x \right) \cdot \sigma(x_f) \, \symup{d} x_f.
+	\intertext{where $\sigma$ describes the propability for a stochastic loss. Note that $\Delta x \ll 1$ was used in the last step. In a differential form, the relation can be written as}
+	\symup{d}P\left( x_f \right) &= \exp\left(-\int_{x_i}^{x_f} \sigma(x) \, \symup{d}x \right) \cdot \sigma(x_f) \, \symup{d} x_f
 	\end{split}
 \end{equation}
 
@@ -87,14 +87,14 @@ To transfer the dependency on the location $x$ to a dependency on the energy $E$
 
 is introduced.
 Here, $f(E)$ describes the continuous energy losses between two stochastic losses and is calculated by taking the average energy loss for all interactions below the energy cut $v_\text{cut}$.
-Applying relation \ref{eqn:fE} on \ref{eqn:discrete} yields
+Applying \eqref{eqn:fE} on \eqref{eqn:discrete} yields
 
 \begin{equation}
 	\label{eqn:discrete_energy}
 	\symup{d}P\left(E_f\right) = \exp \left( \int_{E_i}^{E_f} \frac{\sigma(E)}{ f(E) } \, \symup{d}E \right) \cdot \frac{\sigma(E_f)}{-f(E_f)} \, \symup{d}E_f.
 \end{equation}
 
-The cumulative distribution function is obtained by integrating over the probabilities in \ref{eqn:discrete_energy}:
+The cumulative distribution function is obtained by integrating over the probabilities in \eqref{eqn:discrete_energy}:
 
 \begin{equation}
 	\label{eqn:cum_detail}
@@ -104,7 +104,7 @@ The cumulative distribution function is obtained by integrating over the probabi
 	\end{split}
 \end{equation}
 
-The expression in \ref{eqn:cum_detail} is simplified by using the substitution
+The expression in \eqref{eqn:cum_detail} is simplified by using the substitution
 
 \begin{align}
 	v(E) &= \int_{E_i}^{E} \frac{\sigma(E')}{f(E')} \, \symup{d}E', & \symup{d}v &= \frac{\sigma(E)}{f(E)} \, \symup{d}E
@@ -123,7 +123,7 @@ It follows that
 	\end{split}
 \end{equation}
 
-By replacing the probability $P$ in \ref{eqn:cum_final} by a random number $\xi \in \left(0, 1\right]$ we the energy integral
+By replacing the probability $P$ in \eqref{eqn:cum_final} by a random number $\xi \in \left(0, 1\right]$ we the energy integral
 
 \begin{equation}
 	\label{eqn:energy_integral}
@@ -131,7 +131,7 @@ By replacing the probability $P$ in \ref{eqn:cum_final} by a random number $\xi 
 \end{equation}
 
 originally derived in \cite{chirkin2004propagating}, is obtained. 
-By sampling $\xi$, \ref{eqn:energy_integral} can be used to calculate the energy of the occurrence of the next stochastic loss.
+By sampling $\xi$, \eqref{eqn:energy_integral} can be used to calculate the energy of the occurrence of the next stochastic loss.
 
 \subsection{Propagation algorithm}
 \label{sec:algorithm}
@@ -154,7 +154,7 @@ The following steps give a simplified overview of the propagation process within
 
 \textbf{Energy of next interaction}
 
-According to \ref{eqn:energy_integral}, the energy of the occurrence of the next stochastic energy loss is calculated with a random number $\xi$.
+According to \eqref{eqn:energy_integral}, the energy of the occurrence of the next stochastic energy loss is calculated with a random number $\xi$.
 If
 
 \begin{equation}
@@ -164,7 +164,7 @@ If
 the sampled energy of the next stochastic loss would fall below the threshold energy $e_\text{low}$, in this case there is no stochastic loss.
 
 Furthermore, based on the lifetime $\tau$ of the initial particle, an energy where the particle decays is sampled.
-Both energy values are compared and the higher energy value, together with its interaction type (stochastic loss or decay), are used for the next step\footnote{If a decay is the next interaction, the step "Simulation of stochastic energy loss" is replaced accordingly by a decay method.}.
+Both energy values are compared and the higher energy value, together with its interaction type (stochastic loss or decay), are used for the next step\footnote{If a decay is the next interaction, the step "Simulation of the stochastic energy loss" is replaced accordingly by a decay method.}.
 
 \textbf{Particle displacement}
 
@@ -176,7 +176,7 @@ Given the initial energy $E_i$ and the energy of the interaction $E_f$, the (str
 \end{equation}
 
 where $x_f - x_i$ describes the propagated distance.
-If the calculated propagated distance would exceed the distance to the sector border $d$, $E_f$ is recalculated by setting $x_f = x_i + d$ in \ref{eqn:tracking_integral} and solving the integral equation for $E_f$.
+If the calculated propagated distance would exceed the distance to the sector border $d$, $E_f$ is recalculated by setting $x_f = x_i + d$ in \eqref{eqn:tracking_integral} and solving the integral equation for $E_f$.
 In this case, no interaction will occur at $E_f$.
 
 The elapsed time it determined by the time integral 
@@ -198,7 +198,7 @@ A parametrization based on Molière's theory of multiple scattering as well as t
 
 \textbf{Continuous energy losses and continuous randomization}
 
-The energy loss between $E_i$ and $E_f$ is treated continuously according to formula \ref{eqn:fE}, meaning that the particle energy is set to $E = E_f$.
+The energy loss between $E_i$ and $E_f$ is treated continuously according to \eqref{eqn:fE}, meaning that the particle energy is set to $E = E_f$.
 However, this can cause discontinuities in the energy spectrum as shown in figure \ref{fig:cont_rand}
 
 \begin{figure}
@@ -212,7 +212,7 @@ However, this can cause discontinuities in the energy spectrum as shown in figur
 For a sufficiently large $v_\text{cut}$, for example $v_\text{cut} = 0.05$ in figure \ref{fig:cont_rand}, a peak in the final muon energy spectrum appears.
 This peaks corresponds to all muons without any stochastic losses within the propagation distance.
 These particle all have the same energy loss since no random numbers were effectively used to calculate their final energy, meaning that no fluctuations of the continuous losses are taken into account.
-Setting the energy cut to a significantly lower value, for example $\v_\text{cut} = \num{e-4}$ in \ref{fig:cont_rand}, eliminates this peaks, however the runtime for the propagation is increased by at least an order of magnitude.
+Setting the energy cut to a significantly lower value, for example $\v_\text{cut} = \num{e-4}$ in figure \ref{fig:cont_rand}, eliminates this peaks, however the runtime for the propagation is increased by at least an order of magnitude.
 
 As a more time-efficient solution the option \emph{continuous randomization} can be enabled in PROPOSAL.
 This applies fluctuations on the continuous loss energy sampled from a gaussian distribution.
@@ -222,8 +222,28 @@ The mean of this distribution corresponds to $E_i - E_f$, the variance is calcul
 	\left< \Delta (\Delta E)^2 \right> = \int_{E_i}^{E_f} \frac{E^2}{-f(E)} \left< \frac{\symup{d}E^2}{\symup{d}x} \right>,
 \end{equation}
 
-where the derivation of the variance follows similar steps to the derivation of \ref{eqn:energy_integral}, see \cite{chirkin2004propagating} for a detailed derivation and description. 
-The effects can be seen in \ref{fig:cont_rand}, the energy spectrum becomes continuous and the running time behaves similarly to the running time for the propagation without continuous randomization.
+where the derivation of the variance follows similar steps to the derivation of \eqref{eqn:energy_integral}, see \cite{chirkin2004propagating} for a detailed derivation and description. 
+The effects can be seen in figure \ref{fig:cont_rand}, the energy spectrum becomes continuous and the running time behaves similarly to the running time for the propagation without continuous randomization.
 
-\textbf{Simulation of stochastic energy loss}
+\textbf{Simulation of the stochastic energy loss}
+
+If the stochastic energy loss falls inside the sector and occurs before the initial particle decays, a stochastic loss at the energy $E_f$ is sampled.
+The total stochastic cross section for the process $i$ is calculated by
+
+\begin{equation}
+	\sigma_{\text{stoch},i}(E_f) \propto \int_{v_\text{cut}}^{v_\text{max}} \frac{\symup{d}\sigma_i(E_f)}{\symup{d}v} \, \symup{d}v.
+\end{equation}
+
+Using a random number, the occurring process is calculated where the ratios of the process probabilities are represented by the ratios of the corresponding total stochastic cross sections.
+To calculate the relative size $v$ of the stochastic loss, the integral equation
+
+\begin{equation}
+	\frac{1}{\sigma_{\text{stoch},i}} \int_{v_\text{cut}}^{v} \frac{\symup{d}\sigma_i}{\symup{d}v} \, \symup{d}v = \xi
+\end{equation}
+
+is solved for $v$ where $\xi \in \left[0,1\right)$ is a random number and $i$ the selected process.
+
+The propagation routine is repeated with the sampling of the energy of the next interaction until the particle has decayed, has reached the sector border or until its energy has reached the threshold energy $e_\text{low}$.
+
+\subsection{Muon propagation with PROPOSAL}
 

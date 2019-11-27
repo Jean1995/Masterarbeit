@@ -7,6 +7,7 @@ tex_preamble = [
 
 font_size = 11
 tick_size = 9
+width = 5.45
 
 params = {
     'backend': 'pdf',

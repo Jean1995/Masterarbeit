@@ -92,7 +92,7 @@ if __name__ == "__main__":
 
     binning = 100
 
-    fig = plt.figure(figsize=(5.5,3))
+    fig = plt.figure(figsize=(width,3.2))
     ax = fig.add_subplot(111)
 
     ax.hist(
@@ -124,7 +124,7 @@ if __name__ == "__main__":
     ax.set_ylabel(r'Frequency')
     fig.tight_layout()
     ax.legend(loc='upper left')
-
+    plt.grid(True)
     fig.savefig("build/cont_rand.pdf")
 
 
