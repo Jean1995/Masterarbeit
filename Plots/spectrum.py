@@ -53,7 +53,7 @@ class ProgressBar(object):
         self._bar_full = "="
         self._bar_empty = " "
 
-        for key, value in keywords.iteritems():
+        for key, value in keywords.items():
             if key is "pacman":
                 assert type(value) is bool
                 self._pacman = value
