@@ -125,28 +125,6 @@ def plot_hist(ax, prim, sec, label):
 
     hist = ax.hist2d(prim, sec, bins=(x_space, y_space), norm=LogNorm())
 
-    #if len(prim) != 0 and len(sec) != 0:
-    #    hist = ax.hist2d(
-    #        prim,
-    #        sec,
-    #        bins=100,
-    #        norm=LogNorm(),
-    #    )
-    #else:
-    #    hist = ax.hist2d(
-    #        prim,
-    #        sec,
-    #        bins=100,
-    #    )
-
-    #ax.set_xlim(xmin=2, xmax=14)
-    #ax.set_ylim(ymin=-2, ymax=14)
-    #ax.grid(ls=":", lw=0.2)
-
-    #textstr = "count = {:g}\ntotal energy loss = {:.1e} MeV".format(
-    #    sum([sum(x) for x in hist[0]]),
-    #    sum([math.pow(10, x) for x in sec])
-
     textstr = label
     
     props = dict(facecolor='white', alpha=0.8, edgecolor='none')
@@ -276,6 +254,5 @@ if __name__ == "__main__":
     plt.tick_params(labelcolor='none', top=False, bottom=False, left=False, right=False)
     plt.xlabel(r'$  E_{\textrm{primary}}\,/\, \mathrm{MeV} $')
     plt.ylabel(r'$  E_{\textrm{primary}} \cdot v \,/\, \mathrm{MeV} $', labelpad=10)
-    #fig.tight_layout()
 
     fig.savefig("build/secondary_number.pdf")

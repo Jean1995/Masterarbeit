@@ -176,33 +176,42 @@ def propagate_muons():
         secondarys = prop.propagate(propagation_length)
 
         for sec in secondarys:
-            log_sec_energy = math.log10(sec.energy)
+            sec_energy = sec.energy
 
             if sec.id == pp.particle.Data.Epair:
-                epair_secondary_energy.append(log_sec_energy)
+                epair_secondary_energy.append(sec_energy)
             elif sec.id == pp.particle.Data.Brems:
-                brems_secondary_energy.append(log_sec_energy)
+                brems_secondary_energy.append(sec_energy)
             elif sec.id == pp.particle.Data.DeltaE:
-                ioniz_secondary_energy.append(log_sec_energy)
+                ioniz_secondary_energy.append(sec_energy)
             elif sec.id == pp.particle.Data.NuclInt:
-                photo_secondary_energy.append(log_sec_energy)
+                photo_secondary_energy.append(sec_energy)
             else:
                 print("Something unknown: ", sec.id)
 
     #statistics:
     num_all = len(brems_secondary_energy) + len(epair_secondary_energy) + len(photo_secondary_energy) + len(ioniz_secondary_energy)
-    print(num_all)
-    print("Brem: ", len(brems_secondary_energy), len(brems_secondary_energy)/num_all)
+    ene_all = sum(brems_secondary_energy) + sum(epair_secondary_energy) + sum(photo_secondary_energy) + sum(ioniz_secondary_energy)
+
+    print("Anzahl:")
+    print("Brems: ", len(brems_secondary_energy), len(brems_secondary_energy)/num_all)
     print("Epair: ", len(epair_secondary_energy), len(epair_secondary_energy)/num_all)
     print("photo: ", len(photo_secondary_energy), len(photo_secondary_energy)/num_all)
     print("Ioniz: ", len(ioniz_secondary_energy), len(ioniz_secondary_energy)/num_all)
+    print("Energie:")
 
+    print("Brems ", sum(brems_secondary_energy), sum(brems_secondary_energy)/ene_all)
+    print("Epair: ", sum(epair_secondary_energy), sum(epair_secondary_energy)/ene_all)
+    print("photo: ", sum(photo_secondary_energy), sum(photo_secondary_energy)/ene_all)
+    print("Ioniz: ", sum(ioniz_secondary_energy), sum(ioniz_secondary_energy)/ene_all)
 
     plt.rcParams.update(params)
 
     fig_all = plt.figure(
         figsize=(width, 4)
     )
+
+    x_space = np.logspace(min(np.log10(np.concatenate((ioniz_secondary_energy,brems_secondary_energy,photo_secondary_energy,epair_secondary_energy)))), E_log, 100)
 
     ax_all = fig_all.add_subplot(111)
     ax_all.hist(
@@ -220,16 +229,19 @@ def propagate_muons():
         ],
         histtype='step',
         log=True,
-        bins=100,
-        label=['Ionization', 'Photonuclear', 'Bremsstrahlung', r'$e$ pair production', 'Sum']
+        bins=x_space,
+        label=['Ionization', 'Photonuclear', 'Bremsstrahlung', r'$e$ pair production', 'Sum'],
+        zorder = 3
     )
-    minor_locator = AutoMinorLocator()
-    ax_all.xaxis.set_minor_locator(minor_locator)
+
+    plt.xscale('log')
+    #minor_locator = AutoMinorLocator()
+    #ax_all.xaxis.set_minor_locator(minor_locator)
     ax_all.legend(loc='best')
-    ax_all.set_xlabel(r'$ \log\left( E \cdot v \,/\, \mathrm{MeV} \right)$')
+    ax_all.set_xlabel(r'$ E \cdot v \,/\, \mathrm{MeV} $')
     ax_all.set_ylabel(r'Frequency')
-    plt.xlim(left=2.5)
-    plt.grid(True)
+    #plt.xlim(left=2.5)
+    plt.grid(ls=":", lw=0.2, zorder=0)
     fig_all.tight_layout()
     fig_all.savefig("build/spectrum.pdf")
 
