@@ -247,3 +247,58 @@ The propagation routine is repeated with the sampling of the energy of the next 
 
 \subsection{Muon propagation with PROPOSAL}
 
+%%% Macros to include numbers in tables
+\CatchFileDef{\epaircount}{build/numbers/epair_count.tex}{}
+\CatchFileDef{\bremscount}{build/numbers/brems_count.tex}{}
+\CatchFileDef{\photocount}{build/numbers/photo_count.tex}{}
+\CatchFileDef{\ionizcount}{build/numbers/ioniz_count.tex}{}
+
+\CatchFileDef{\epairsum}{build/numbers/epair_esum.tex}{}
+\CatchFileDef{\bremssum}{build/numbers/brems_esum.tex}{}
+\CatchFileDef{\photosum}{build/numbers/photo_esum.tex}{}
+\CatchFileDef{\ionizsum}{build/numbers/ioniz_esum.tex}{}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/dEdx.pdf}
+    \caption{Contious losses theory values.}
+    \label{fig:dEdx}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/spectrum.pdf}
+    \caption{Secondary particle spectrum.}
+    \label{fig:spectrum}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/secondary_number.pdf}
+    \caption{Secondary spectra.}
+    \label{fig:secondary_number}
+\end{figure}
+
+\begin{table}
+	\centering
+	\caption[]{Accoding to \ref{secondary_number}}
+	\label{tab:secondary_number}
+	\sisetup{
+  		output-exponent-marker = \text{e},
+  		table-format=+1.2e+2,
+  		exponent-product={},
+  		retain-explicit-plus
+	}	
+	\begin{tabular}{l S S}
+		\toprule
+		{Interaction} & {Frequency} & {$\sum E_\text{prim} \cdot v \:/\: \si{\mega\electronvolt}$} \\	
+		\midrule
+		\text{pair production} & \epaircount & \epairsum \\
+		\text{Bremsstrahlung} & \bremscount & \bremssum \\
+		\text{Photonuclear} & \photocount & \photosum \\
+		\text{Ionization} & \ionizcount & \ionizsum \\
+		\bottomrule
+	\end{tabular}
+\end{table}
+
+

@@ -3,8 +3,11 @@ import pyPROPOSAL
 import math
 import time
 import datetime
+import os
 
 from matplotlibconfig import *
+
+from decimal import Decimal
 
 try:
     import matplotlib
@@ -118,6 +121,11 @@ class ProgressBar(object):
         sys.stdout.flush()
 
 
+def save_number_to_tex(number, filename):
+    text_file = open(filename, "w")
+    text_file.write(number)
+    text_file.close()
+
 def plot_hist(ax, prim, sec, label):
 
     x_space = np.logspace(  2, 14, 100)
@@ -135,7 +143,7 @@ def plot_hist(ax, prim, sec, label):
     ax.set_xscale("log", nonposx='clip')
     ax.set_yscale("log", nonposy='clip')
 
-    ax.grid(ls=":", lw=0.2)
+    ax.grid(grid_conf)
 
     count = sum([sum(x) for x in hist[0]])
     esum = sum(sec)
@@ -237,12 +245,13 @@ if __name__ == "__main__":
     primary_energies = [epair_primary_energy, brems_primary_energy, photo_primary_energy, ioniz_primary_energy]
     secondary_energies = [epair_secondary_energy, brems_secondary_energy, photo_secondary_energy, ioniz_secondary_energy]
     labels = [r'$e$ pair production', "Bremsstrahlung", "Photonuclear", "Ionization"]
+    short_labels = ['epair', 'brems', 'photo', 'ioniz']
 
     for ax, primary_energy, secondary_energy, label in zip(axes.flat, primary_energies, secondary_energies, labels):
     	ax, hist_tmp, count, esum = plot_hist(ax, primary_energy, secondary_energy, label)
     	hists.append(hist_tmp[3])
     	counts.append(count)
-    	esums.append(esums)
+    	esums.append(esum)
     fig.tight_layout(rect=(0.02, 0.02, 1, 1)) # rect = (0,0,1,1) is the default option
 
     fig.subplots_adjust(wspace=0.15, hspace=0.1, right=0.88)
@@ -256,3 +265,20 @@ if __name__ == "__main__":
     plt.ylabel(r'$  E_{\textrm{primary}} \cdot v \,/\, \mathrm{MeV} $', labelpad=10)
 
     fig.savefig("build/secondary_number.pdf")
+
+    # Save stuff
+
+    for count, esum, label in zip(counts, esums, short_labels):
+        print(label + ":")
+
+        print("Counts:")
+        tmp = '%.2E' % Decimal(count)
+        print(tmp)
+        save_number_to_tex(tmp, 'build/numbers/' + label + '_count.tex')
+
+        print("E_sum:")
+        tmp = '%.2E' % Decimal(esum)
+        print(tmp)
+        save_number_to_tex(tmp, 'build/numbers/' + label + '_esum.tex')
+
+

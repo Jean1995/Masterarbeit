@@ -9,7 +9,7 @@ build/spectrum.pdf: Plots/spectrum.py Plots/matplotlibconfig.py | build
 build/dEdx.pdf: Plots/dEdx.py Plots/matplotlibconfig.py | build 
 	python Plots/dEdx.py
 
-build/secondary_number.pdf: Plots/secondary_number.py Plots/matplotlibconfig.py resources/config_ice.json | build 
+build/secondary_number.pdf: Plots/secondary_number.py Plots/matplotlibconfig.py resources/config_ice.json | build
 	python Plots/secondary_number.py	
 
 TeXOptions = -lualatex \
@@ -27,6 +27,7 @@ FORCE:
 
 build:
 	mkdir -p build/
+	mkdir -p build/numbers/
 
 clean:
 	rm -rf build

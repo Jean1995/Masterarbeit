@@ -23,3 +23,5 @@ params = {
     'ytick.labelsize': tick_size,
     'axes.unicode_minus': True
 }
+
+grid_conf = 'ls=":", lw=0.2, zorder=0'

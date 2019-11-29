@@ -19,6 +19,7 @@ except ImportError:
 
 import math
 
+import matplotlibconfig as conf
 
 if __name__ == "__main__":
 
@@ -116,6 +117,8 @@ if __name__ == "__main__":
     # 	Plot
     # =========================================================
 
+    plt.rcParams.update(conf.params)
+    plt.figure(figsize=(conf.width,4.0))
 
     labels = [r'$e$ pair production', 'Bremsstrahlung', 'Photonuclear', 'Ionization']
 
@@ -129,7 +132,7 @@ if __name__ == "__main__":
 
     plt.xlabel(r'$ \log\left( E \,/\, \mathrm{MeV} \right)$')
     plt.ylabel(r'$\left(\frac{\mathrm{d}E}{\mathrm{d}X}\right) \,\left/\, \left( \rm{MeV} \cdot \rm{g}^{-1} \rm{cm}^2 \right) \right. $')
-    plt.grid(True)
+    plt.grid(conf.grid_conf)
     plt.legend(loc='best')
 
     plt.xlim(1e3, 1e12)

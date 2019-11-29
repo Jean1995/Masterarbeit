@@ -124,7 +124,7 @@ if __name__ == "__main__":
     ax.set_ylabel(r'Frequency')
     fig.tight_layout()
     ax.legend(loc='upper left')
-    plt.grid(True)
+    plt.grid(grid_conf)
     fig.savefig("build/cont_rand.pdf")
 
 

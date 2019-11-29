@@ -241,7 +241,7 @@ def propagate_muons():
     ax_all.set_xlabel(r'$ E \cdot v \,/\, \mathrm{MeV} $')
     ax_all.set_ylabel(r'Frequency')
     #plt.xlim(left=2.5)
-    plt.grid(ls=":", lw=0.2, zorder=0)
+    plt.grid(grid_conf)
     fig_all.tight_layout()
     fig_all.savefig("build/spectrum.pdf")
 
