@@ -24,7 +24,7 @@ import matplotlibconfig as conf
 if __name__ == "__main__":
 
     mu = pp.particle.MuMinusDef.get()
-    medium = pp.medium.StandardRock(1.0)  # With densitiy correction
+    medium = pp.medium.Ice(1.0)  # With densitiy correction
     cuts = pp.EnergyCutSettings(-1, -1)  # ecut, vcut
 
     dEdx_photo = []
@@ -130,7 +130,7 @@ if __name__ == "__main__":
             label=_label
         )
 
-    plt.xlabel(r'$ \log\left( E \,/\, \mathrm{MeV} \right)$')
+    plt.xlabel(r'$E \,/\, \mathrm{MeV} $')
     plt.ylabel(r'$\left(\frac{\mathrm{d}E}{\mathrm{d}X}\right) \,\left/\, \left( \rm{MeV} \cdot \rm{g}^{-1} \rm{cm}^2 \right) \right. $')
     plt.grid(conf.grid_conf)
     plt.legend(loc='best')

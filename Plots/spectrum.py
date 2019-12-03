@@ -137,7 +137,7 @@ def propagate_muons():
 
     sector_def = pp.SectorDefinition()
     sector_def.cut_settings = pp.EnergyCutSettings(ecut, vcut)
-    sector_def.medium = pp.medium.StandardRock(1.0)
+    sector_def.medium = pp.medium.Ice(1.0)
     sector_def.geometry = geometry
     sector_def.scattering_model = pp.scattering.ScatteringModel.NoScattering
     sector_def.crosssection_defs.brems_def.lpm_effect = True
@@ -150,9 +150,9 @@ def propagate_muons():
 
     prop = pp.Propagator(mu_def, [sector_def], detector, interpolation_def)
 
-    statistics_log = 4
+    statistics_log = 3
     statistics = int(10**statistics_log)
-    propagation_length = 1e4 # cm
+    propagation_length = 1e20 # cm
     E_log = 8.0
     pp.RandomGenerator.get().set_seed(1234)
 
@@ -186,8 +186,6 @@ def propagate_muons():
                 ioniz_secondary_energy.append(sec_energy)
             elif sec.id == pp.particle.Data.NuclInt:
                 photo_secondary_energy.append(sec_energy)
-            else:
-                print("Something unknown: ", sec.id)
 
     #statistics:
     num_all = len(brems_secondary_energy) + len(epair_secondary_energy) + len(photo_secondary_energy) + len(ioniz_secondary_energy)

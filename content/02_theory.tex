@@ -258,30 +258,33 @@ The propagation routine is repeated with the sampling of the energy of the next 
 \CatchFileDef{\photosum}{build/numbers/photo_esum.tex}{}
 \CatchFileDef{\ionizsum}{build/numbers/ioniz_esum.tex}{}
 
+At the end of the propagation process, PROPOSAL returns the properties of the produced secondary particles as well as the final properties of the initial particle or, if it did decay during propagation, its decay products.
+In this chapter the characteristic energy losses of muons are described, where ice is used exemplarily as a medium for all plots. The parametrizations for the interactions are always the default options in PROPOSAL, the Landau-Pomeranchuk-Migdal effect for bremsstrahlung and pair production has been enabled. \todo{Source for LPM effect}
+
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx.pdf}
-    \caption{Contious losses theory values.}
+    \caption{Continuous energy losses of muons in ice. No energy cuts are applied in this plot, hence are losses are continuous.  }
     \label{fig:dEdx}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/spectrum.pdf}
-    \caption{Secondary particle spectrum.}
+    \caption{Secondary particle spectrum for $\num{e5}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. The histogram shows the frequency of the stochastic losses during propagating, classified by type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
     \label{fig:spectrum}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/secondary_number.pdf}
-    \caption{Secondary spectra.}
+    \caption{Energy spectra for $\num{e5}$ muons propagated in ice. For each histogram, the x-axis shows the energy of the primary particle during the stochastic loss and the y-axis the energy of the secondary particle created in the stochastic loss.The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
     \label{fig:secondary_number}
 \end{figure}
-
+\todo{Adapt numbers in captions of figures}
 \begin{table}
 	\centering
-	\caption[]{According to \ref{fig:secondary_number}}
+	\caption[]{Interaction-specific frequency and sum of stochastic energy losses according to figure \ref{fig:secondary_number}.}
 	\label{tab:secondary_number}
 	\sisetup{
   		output-exponent-marker = \text{e},
