@@ -21,7 +21,8 @@ params = {
     'legend.fontsize': font_size,
     'xtick.labelsize': tick_size,
     'ytick.labelsize': tick_size,
-    'axes.unicode_minus': True
+    'axes.unicode_minus': True,
+    'axes.labelsize' : font_size,
 }
 
 grid_conf = 'ls=":", lw=0.2, zorder=0'

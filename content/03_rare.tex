@@ -1,1 +1,24 @@
 \chapter{Integration of rare processes}
+
+\section{Muon pair production}
+
+\begin{figure}
+	\centering
+	\input{content/feynman/feynman_mupair.tex}
+    \caption{One possible feynman diagram describing the creation of muon pairs by an ingoing muon.}
+    \label{fig:feynman_mupair}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/dEdx_mupair.pdf}
+    \caption{Continuous energy losses of muons in ice. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuous.  }
+    \label{fig:dEdx_mupair}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/spectrum_mupair.pdf}
+    \caption{Secondary particle spectrum for $\num{e5}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
+    \label{fig:spectrum_mupair}
+\end{figure}
