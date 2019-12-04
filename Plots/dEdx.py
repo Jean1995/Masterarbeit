@@ -118,7 +118,7 @@ if __name__ == "__main__":
     # =========================================================
 
     plt.rcParams.update(conf.params)
-    plt.figure(figsize=(conf.width,4.0))
+    plt.figure(figsize=(conf.width,3.2))
 
     labels = [r'$e$ pair production', 'Bremsstrahlung', 'Photonuclear', 'Ionization']
 
@@ -131,7 +131,7 @@ if __name__ == "__main__":
         )
 
     plt.xlabel(r'$E \,/\, \mathrm{MeV} $')
-    plt.ylabel(r'$\left(\frac{\mathrm{d}E}{\mathrm{d}X}\right) \,\left/\, \left( \rm{MeV} \cdot \rm{g}^{-1} \rm{cm}^2 \right) \right. $')
+    plt.ylabel(r'$\left\langle\frac{\mathrm{d}E}{\mathrm{d}X}\right\rangle \,\left/\, \left( \rm{MeV} \cdot \rm{g}^{-1} \rm{cm}^2 \right) \right. $')
     plt.grid(conf.grid_conf)
     plt.legend(loc='best')
 

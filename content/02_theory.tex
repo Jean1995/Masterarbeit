@@ -259,29 +259,62 @@ The propagation routine is repeated with the sampling of the energy of the next 
 \CatchFileDef{\ionizsum}{build/numbers/ioniz_esum.tex}{}
 
 At the end of the propagation process, PROPOSAL returns the properties of the produced secondary particles as well as the final properties of the initial particle or, if it did decay during propagation, its decay products.
-In this chapter the characteristic energy losses of muons are described, where ice is used exemplarily as a medium for all plots. The parametrizations for the interactions are always the default options in PROPOSAL, the Landau-Pomeranchuk-Migdal effect for bremsstrahlung and pair production has been enabled. \todo{Source for LPM effect}
+In this chapter the characteristic energy losses of muons are described, where ice is used exemplarily as a medium for all plots. The parametrizations for the interactions are always the default options in PROPOSAL, the Landau-Pomeranchuk-Migdal (LPM) effect for bremsstrahlung and pair production has been enabled. \todo{Source for LPM effect}
+
+In figure \ref{fig:dEdx} the continuous energy losses of muons in ice, calculated according to \eqref{eqn:fE}, are shown.
+For this plot the energy cut has been set to $v_\text{cut} = v_\text{max}$, therefore the values shown correspond to the complete average energy losses of muons in ice. 
+It can be seen that the average energy loss is quantitatively dominated by ionization for lower energies while §e§ pair production, bremsstrahlung and photonuclear interactions become dominant for higher energies.
+Furthermore, it can clearly be seen that the parametrization
+
+\begin{equation}
+	- \left\langle \frac{\symup{d}E}{\symup{d}x} \right\rangle \approx a(E) + b(E) \cdot E
+\end{equation}
+
+of the average energy loss as a quasi-linear function is valid where $a(E)$ corresponds to energy losses due to ionization and $b(E)$ to energy losses due to $e$ pair production, bremsstrahlung and photonuclear interactions.
+The parameters $a(E), b(E)$ vary only slightly with energy.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx.pdf}
-    \caption{Continuous energy losses of muons in ice. No energy cuts are applied in this plot, hence are losses are continuous.  }
+    \caption{Continuous energy losses of muons in ice. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuous.  }
     \label{fig:dEdx}
 \end{figure}
+
+In figure \ref{fig:spectrum} and \ref{fig:secondary_number} the stochastic losses for muons propagated in ice are shown, the energy cuts used here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$ and $v_\text{cut} = \num{0.05}$ which corresponds to the energy cuts used in the analysis of the IceCube experiment.
+In both figures, the muons are propagated until they decay.
+
+The histogram in figure \ref{fig:spectrum} shows the energies of all secondary particles sorted by interaction type for $\num{e5}$ muons propagated with an initial energy of $\SI{e8}{\mega\electronvolt}$.
+Between about $\SI{e3}{\mega\electronvolt}$ and $\SI{e6}{\mega\electronvolt}$ the energy losses are dominated by $e$ pair production, this dominance could for example be used to probe the pair production parametrization in this energy range.
+For higher secondary energies, bremsstrahlung and photonuclear interactions are the dominant effects.
+Another effect that can be seen it the energy cut at $e_\text{cut} = \SI{500}{\mega\electronvolt}$ where the histogram cuts off abruptly.
+The energy losses below $e_\text{cut}$ correspond to losses where $E \cdot v < e_\text{cut}$ but $v > v_\text{cut} = 0.05$.
+These losses are dominated by ionization losses since ionization is the relevant process for low energies.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/spectrum.pdf}
-    \caption{Secondary particle spectrum for $\num{e5}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. The histogram shows the frequency of the stochastic losses during propagating, classified by type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
+    \caption{Secondary particle spectrum for $\num{e5}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
     \label{fig:spectrum}
 \end{figure}
+
+The two-dimensional histograms in figure \ref{fig:secondary_number} show the sorted energy losses correlated with the energy of the initial particle at the time the interaction.
+Here, $\num{e3}$ muons with an initial energy of $\SI{e14}{\mega\electronvolt}$ are propagated.
+Table \ref{tab:secondary_number} additionally shows the sum of the secondary energy losses as well as the frequency of the energy losses for every possible interaction.
+
+It can be seen that bremsstrahlung and photonuclear interaction tend to have a more homogeneous spectrum where the secondary energy is less uncorrelated with the primary energy than for ionization and pair production.
+For bremsstrahlung, the effects of the LPM effect can be seen since this effect causes the bremsstrahlung cross section to be suppressed for small $v$ at very high energies.
+Especially for the ionization histogram the effects of the combined $e_\text{cut}$ and $v_\text{cut}$ can be seen for small primary energies leading to secondary energies below $e_\text{cut}$.
+Table \ref{tab:secondary_number} shows that the sum of the energy losses are of the same order of magnitude for pair production, bremsstrahlung and photonuclear interaction while the contribution for ionization is significantly lower since the latter is mainly treated continuously.
+Although the energy loss contribution of pair production is comparable to bremsstrahlung and photonuclear interaction its frequency is of several orders of magnitude higher due to its tendency to produce energy losses with a smaller relative energy loss.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/secondary_number.pdf}
-    \caption{Energy spectra for $\num{e5}$ muons propagated in ice. For each histogram, the x-axis shows the energy of the primary particle during the stochastic loss and the y-axis the energy of the secondary particle created in the stochastic loss.The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
+    \caption{Energy spectra for $\num{e3}$ muons with an initial energy of $E = \SI{e14}{\mega\electronvolt}$ propagated in ice. For each histogram, the x-axis shows the energy of the primary particle during the stochastic loss and the y-axis the energy of the secondary particle created in the stochastic loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
     \label{fig:secondary_number}
 \end{figure}
 \todo{Adapt numbers in captions of figures}
+
 \begin{table}
 	\centering
 	\caption[]{Interaction-specific frequency and sum of stochastic energy losses according to figure \ref{fig:secondary_number}.}
