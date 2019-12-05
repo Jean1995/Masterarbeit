@@ -2,12 +2,65 @@
 
 \section{Muon pair production}
 
+The process of muon pair production is a rare process with a negligible contribution to the overall energy loss of a propagated particle.
+Although quantitatively negligible, the created signatures may be qualitatively relevant for underground detectors examining muons or the IceCube detector, see chapter \ref{sec:signatures} for a description of these signatures.
+
+\subsection{Theoretical description}
+
+Muon pair production describes the creation of a muon-antimuon pair by an particle in the field of an atom nucleus $Z$, for example for an initial muon
+\begin{align*}
+    \mu^- + Z \rightarrow \mu^- + \mu^+ + \mu^- + Z.
+\end{align*}
+A feynman diagram in leading order for the process is shown in figure \ref{fig:feynman_mupair}.
+
 \begin{figure}
 	\centering
 	\input{content/feynman/feynman_mupair.tex}
-    \caption{One possible feynman diagram describing the creation of muon pairs by an ingoing muon.}
+    \caption{One possible feynman diagram describing the creation of a muon pair by an ingoing muon.}
     \label{fig:feynman_mupair}
 \end{figure}
+
+The process has been described in \cite{Kelner2000} where an simplified analytical double-differential cross section for is given by
+\begin{equation}
+    \label{eqn:mupair}
+    \frac{\mathrm{d}\sigma}{\mathrm{d}v \mathrm{d}\rho} = \frac{2}{3\pi} (Z \alpha r_\mu)^2 \frac{1-v}{v} \Phi(v, \rho) \ln \left( X \left(E, v, \rho \right) \right)
+\end{equation}
+with the relative energy loss $v$ and the asymmetry parameter $\rho$ defined by
+\begin{align}
+    v &= \frac{E_+ + E_-}{E} & \rho, &= \frac{E_+ - E_-}{E_+ + E_-}
+\end{align}
+and $E_+$, $E_-$ the energy of the produced (anti)muon.
+The functions $\Phi(v, \rho)$ and $X(E, v, \rho)$ have the form
+\begin{align}
+    \begin{split}
+    \Phi(v, \rho) &= \left[ (2 + \rho^2) (1 + \beta) + \xi (3 + \rho^2) \right] \cdot \ln{ \left( 1 + \frac{1}{\xi} \right) }\\ &+ \left[ (1 + \rho^2) \left( 1 + \frac{3}{2} \beta \right) - \frac{1}{\xi} (1 + 2 \beta) (1 - \rho^2) \right] \cdot \ln{ (1 + \xi) }\\ &- 1 - 3 \rho^2 + \beta (1 - 2 \rho^2)
+    \end{split}
+\end{align}
+where $X$ is given by
+\begin{equation}
+    X = 1 + U(E, v, \rho) - U(E, v, \rho_\text{max}),
+\end{equation}
+with 
+\begin{equation}
+    U(E, v, \rho) = \frac{\frac{0.65 m_{\mu}}{m_e} A^{-0.27} B Z^{-\sfrac{1}{3}}}{1 + \frac{2 \sqrt{e} \mu^2 B Z^{-\sfrac{1}{3}} (1 + \xi) (1 + Y) }{m_e E v (1 - \rho^2)} }
+\end{equation}
+and with 
+\begin{align}
+    \xi &= \frac{v^2 (1 - \rho^2)}{4 (1 - v)}, & \beta &= \frac{v^2}{2 (1 - v)}, & Y &= 12 \sqrt{\frac{m_{\mu}}{E}}.
+\end{align}
+
+The approximative expression \eqref{eqn:mupair} takes into account the finiteness of the nucleus as well as screening effects of the nucleus by atomic electrons.
+A more precise formula for the differential cross section is given in \cite{Kelner2000} as well, however it includes multidimensional integrals that are hard to evaluate and is therefore not suited to be used here.
+Furthermore, \eqref{eqn:mupair} is chosen to have a discrepancy of below $\SI{10}{\percent}$ for all $E > \SI{e4}{\mega\electronvolt}$ compared to the precise formula, the discrepancy of the derived total cross section is even below $\SI{3}{\percent}$ for $E > \SI{3e4}{\mega\electronvolt}$.
+
+The kinematic limits of the process for $v$ and $\rho$ are
+%
+\begin{align}
+    v_\text{min} &= \frac{2 m_{\mu}}{E}, & v_\text{max} &= 1 - \frac{m}{E}, & \left| \rho \right| \leq \rho_{\text{max}} &= 1 - \frac{2 m_{\mu}}{v E},
+\end{align}
+%
+for an initial particle with mass $m$ and are easy to retrace by demanding the condition that all particles involved have to fulfill $E > m_{\text{rest}}$ at all times.
+
 
 \begin{figure}
     \centering
@@ -16,9 +69,22 @@
     \label{fig:dEdx_mupair}
 \end{figure}
 
+
+\subsection{Implementation in PROPOSAL}
+
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/spectrum_mupair.pdf}
     \caption{Secondary particle spectrum for $\num{e5}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
     \label{fig:spectrum_mupair}
 \end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/mupair_rho.pdf}
+    \caption{Histogram of $\rho$ for different $v$.}
+    \label{fig:rho_mupair}
+\end{figure}
+
+\subsection{Significant detector signatures}
+\label{sec:signatures}
