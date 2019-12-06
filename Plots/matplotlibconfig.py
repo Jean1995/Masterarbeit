@@ -26,3 +26,9 @@ params = {
 }
 
 grid_conf = 'ls=":", lw=0.2, zorder=0'
+
+grid_conf = {
+    'ls': ':',
+    'lw': 0.2,
+    'zorder': 0,
+}
