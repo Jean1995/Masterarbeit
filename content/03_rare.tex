@@ -3,11 +3,11 @@
 \section{Muon pair production}
 
 The process of muon pair production is a rare process with a negligible contribution to the overall energy loss of a propagated particle.
-Although quantitatively negligible, the created signatures may be qualitatively relevant for underground detectors examining muons or the IceCube detector, see chapter \ref{sec:signatures} for a description of these signatures.
+Although quantitatively negligible, the created signatures may be qualitatively relevant for neutrino observatories such as IceCube or underground detectors examining muons, see chapter \ref{sec:signatures} for a description of these signatures.
 
 \subsection{Theoretical description}
 
-Muon pair production describes the creation of a muon-antimuon pair by an particle in the field of an atom nucleus $Z$, for example for an initial muon
+Muon pair production describes the creation of a muon-antimuon pair by an particle in the field of an atom nucleus $Z$, for example in case of an initial muon the reaction is
 \begin{align*}
     \mu^- + Z \rightarrow \mu^- + \mu^+ + \mu^- + Z.
 \end{align*}
@@ -20,14 +20,14 @@ A feynman diagram in leading order for the process is shown in figure \ref{fig:f
     \label{fig:feynman_mupair}
 \end{figure}
 
-The process has been described in \cite{Kelner2000} where an simplified analytical double-differential cross section for is given by
+The process has been described in \cite{Kelner2000} where a simplified analytical double-differential cross section for is given by
 \begin{equation}
     \label{eqn:mupair}
     \frac{\mathrm{d}\sigma}{\mathrm{d}v \mathrm{d}\rho} = \frac{2}{3\pi} (Z \alpha r_\mu)^2 \frac{1-v}{v} \Phi(v, \rho) \ln \left( X \left(E, v, \rho \right) \right)
 \end{equation}
 with the relative energy loss $v$ and the asymmetry parameter $\rho$ defined by
 \begin{align}
-    v &= \frac{E_+ + E_-}{E} & \rho, &= \frac{E_+ - E_-}{E_+ + E_-}
+    v &= \frac{E_+ + E_-}{E}, & \rho &= \frac{E_+ - E_-}{E_+ + E_-}
 \end{align}
 and $E_+$, $E_-$ the energy of the produced (anti)muon.
 The functions $\Phi(v, \rho)$ and $X(E, v, \rho)$ have the form
@@ -38,7 +38,7 @@ The functions $\Phi(v, \rho)$ and $X(E, v, \rho)$ have the form
 \end{align}
 where $X$ is given by
 \begin{equation}
-    X = 1 + U(E, v, \rho) - U(E, v, \rho_\text{max}),
+    X = 1 + U(E, v, \rho) - U(E, v, \rho_\text{max})
 \end{equation}
 with 
 \begin{equation}
@@ -46,7 +46,7 @@ with
 \end{equation}
 and with 
 \begin{align}
-    \xi &= \frac{v^2 (1 - \rho^2)}{4 (1 - v)}, & \beta &= \frac{v^2}{2 (1 - v)}, & Y &= 12 \sqrt{\frac{m_{\mu}}{E}}.
+    \xi &= \frac{v^2 (1 - \rho^2)}{4 (1 - v)}, & \beta &= \frac{v^2}{2 (1 - v)}, & Y &= 12 \sqrt{\frac{m_{\mu}}{E}}, & B &= 183.
 \end{align}
 
 The approximative expression \eqref{eqn:mupair} takes into account the finiteness of the nucleus as well as screening effects of the nucleus by atomic electrons.
@@ -61,21 +61,35 @@ The kinematic limits of the process for $v$ and $\rho$ are
 %
 for an initial particle with mass $m$ and are easy to retrace by demanding the condition that all particles involved have to fulfill $E > m_{\text{rest}}$ at all times.
 
+\subsection{Implementation in PROPOSAL}
+
+% sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
+\begin{sloppypar}
+The process of muon pair production is implemented as an optional, additional interaction in PROPOSAL.
+It is per default disabled in PROPOSAL and can be enabled by setting the keyword \texttt{mupair} in the configuration file to \texttt{MupairKelnerKokoulinPetrukhin} which is the parametrization that has been described in the previous chapter.
+\end{sloppypar}
+
+A comparison of the average energy loss in ice due to electron-positron pair production and muon pair production is shown in figure \ref{fig:dEdx_mupair}.
+Both functions behave similarly as the grow lineary with $E$, still muon pair production is subdominant by about three orders of magnitudes for higher energies and even more subdominant for low energies.
+This oberservation shows that the process is neglible for the energy loss for the muon which is especially a result of the difference between the muon mass and the electron mass since 
+\begin{align*}
+	\frac{\sigma_{\mu \text{pair}}}{\sigma_{e \text{pair}}} \propto \frac{r_{\mu}^2}{r_e^2} \propto \frac{m_e^2}{m_{\mu}^2} \propto \num{2e-5}.
+\end{align*}
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_mupair.pdf}
-    \caption{Continuous energy losses of muons in ice. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuous.  }
+    \caption{Comparison of the averge continuous energy losses of muons in ice due to electron-positron pair production and muon pair production. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuous.}
     \label{fig:dEdx_mupair}
 \end{figure}
 
-
-\subsection{Implementation in PROPOSAL}
+Figure \ref{fig:spectrum_mupair} shows a secondary particle spectrum where muon pair production is enabled.
+The contribution for muon pair production tends to be distributed homogeneously but is, as expected, quantitatively neglible for all secondary energies.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/spectrum_mupair.pdf}
-    \caption{Secondary particle spectrum for $\num{e5}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
+    \caption{Secondary particle spectrum for $\num{e5}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. Muon pair production is enabled. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
     \label{fig:spectrum_mupair}
 \end{figure}
 

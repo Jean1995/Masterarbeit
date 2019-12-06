@@ -138,4 +138,4 @@ if __name__ == "__main__":
     plt.xlim(1e3, 1e12)
 
     plt.tight_layout()
-    plt.savefig('build/dEdx.pdf')
+    plt.savefig('build/dEdx.pdf',bbox_inches='tight')

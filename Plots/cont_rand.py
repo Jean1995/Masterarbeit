@@ -125,7 +125,7 @@ if __name__ == "__main__":
     fig.tight_layout()
     ax.legend(loc='upper left')
     plt.grid(grid_conf)
-    fig.savefig("build/cont_rand.pdf")
+    fig.savefig("build/cont_rand.pdf",bbox_inches='tight')
 
 
 
