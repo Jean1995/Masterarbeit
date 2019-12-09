@@ -146,5 +146,5 @@ if __name__ == "__main__":
     ax.set_xlabel(r'$E$ / MeV')
     ax.set_ylabel(r'$\left\langle\frac{\mathrm{d}E}{\mathrm{d}X}\right\rangle_\mu \,\left/\, \left\langle\frac{\mathrm{d}E}{\mathrm{d}X}\right\rangle_e \right.$')
     plt.tight_layout()
-    fig.savefig('build/dEdx_mupair.pdf')
+    fig.savefig('build/dEdx_mupair.pdf',bbox_inches='tight')
     plt.show()

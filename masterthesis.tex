@@ -138,6 +138,10 @@
 \usepackage{bookmark}
 \usepackage[shortcuts]{extdash}
 
+\usepackage{url}
+\newcommand\longvar[1]{\mathchardef\UrlBreakPenalty=100
+\mathchardef\UrlBigBreakPenalty=100\url{#1}}
+
 %------------------------------------------------------------------------------
 %-------------------------    Angaben zur Arbeit   ----------------------------
 %------------------------------------------------------------------------------

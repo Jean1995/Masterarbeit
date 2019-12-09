@@ -264,7 +264,7 @@ if __name__ == "__main__":
     plt.xlabel(r'$  E_{\textrm{primary}}\,/\, \mathrm{MeV} $')
     plt.ylabel(r'$  E_{\textrm{primary}} \cdot v \,/\, \mathrm{MeV} $', labelpad=10)
 
-    fig.savefig("build/secondary_number.pdf")
+    fig.savefig("build/secondary_number.pdf",bbox_inches='tight')
 
     # Save stuff
 

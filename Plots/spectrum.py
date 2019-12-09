@@ -241,7 +241,7 @@ def propagate_muons():
     #plt.xlim(left=2.5)
     plt.grid(grid_conf)
     fig_all.tight_layout()
-    fig_all.savefig("build/spectrum.pdf")
+    fig_all.savefig("build/spectrum.pdf",bbox_inches='tight')
 
 
 
