@@ -23,13 +23,13 @@ A feynman diagram in leading order for the process is shown in figure \ref{fig:f
 The process has been described in \cite{Kelner2000} where a simplified analytical double-differential cross section for is given by
 \begin{equation}
     \label{eqn:mupair}
-    \frac{\mathrm{d}\sigma}{\mathrm{d}v \mathrm{d}\rho} = \frac{2}{3\pi} (Z \alpha r_\mu)^2 \frac{1-v}{v} \Phi(v, \rho) \ln \left( X \left(E, v, \rho \right) \right)
+    \frac{\mathrm{d}^2\sigma}{\mathrm{d}v \mathrm{d}\rho} = \frac{2}{3\pi} (Z \alpha r_\mu)^2 \frac{1-v}{v} \Phi(v, \rho) \ln \left( X \left(E, v, \rho \right) \right)
 \end{equation}
 with the relative energy loss $v$ and the asymmetry parameter $\rho$ defined by
 \begin{align}
     v &= \frac{E_+ + E_-}{E}, & \rho &= \frac{E_+ - E_-}{E_+ + E_-}
 \end{align}
-and $E_+$, $E_-$ the energy of the produced (anti)muon.
+and the energy of the produced (anti)muon $E_+$, $E_-$.
 The functions $\Phi(v, \rho)$ and $X(E, v, \rho)$ have the form
 \begin{align}
     \begin{split}
@@ -51,7 +51,7 @@ and with
 
 The approximative expression \eqref{eqn:mupair} takes into account the finiteness of the nucleus as well as screening effects of the nucleus by atomic electrons.
 A more precise formula for the differential cross section is given in \cite{Kelner2000} as well, however it includes multidimensional integrals that are hard to evaluate and is therefore not suited to be used here.
-Furthermore, \eqref{eqn:mupair} is chosen to have a discrepancy of below $\SI{10}{\percent}$ for all $E > \SI{e4}{\mega\electronvolt}$ compared to the precise formula, the discrepancy of the derived total cross section is even below $\SI{3}{\percent}$ for $E > \SI{3e4}{\mega\electronvolt}$.
+Furthermore, \eqref{eqn:mupair} is chosen to have a discrepancy compared to the precise formula of below $\SI{10}{\percent}$ for all $E > \SI{e4}{\mega\electronvolt}$, the discrepancy of the derived total cross section is even below $\SI{3}{\percent}$ for $E > \SI{3e4}{\mega\electronvolt}$.
 
 The kinematic limits of the process for $v$ and $\rho$ are
 %
@@ -69,9 +69,35 @@ The process of muon pair production is implemented as an optional, additional in
 It is per default disabled in PROPOSAL and can be enabled by setting the keyword \texttt{mupair} in the configuration file to \texttt{MupairKelnerKokoulinPetrukhin} which is the parametrization that has been described in the previous chapter.
 \end{sloppypar}
 
+\begin{sloppypar}
+To obtain the single-differential cross section in $v$ from \eqref{eqn:mupair}, a numerical integration across the entire kinematic range of $\rho$
+%
+\begin{equation}
+    \frac{\symup{d}\sigma}{\symup{d}v} = \int_{\rho_{\text{min}}}^{\rho_{\text{max}}} \frac{\mathrm{d}^2\sigma}{\mathrm{d}v \mathrm{d}\rho} \, \symup{d}\rho
+\end{equation}
+%
+is performed in PROPOSAL.
+After sampling the relative energy loss $v$ during propagation according to \eqref{eqn:sample_v}, the asymmetry parameter $\rho$ is also sampled when setting to \texttt{mupair\_particle\_output} parameter to \texttt{True}.
+In this case, \eqref{eqn:mupair} is used with a fixed $v$ to solve the integral equation
+\begin{equation}
+    \frac{1}{\sigma} \int_{\rho_\text{min}}^{\rho} \frac{\mathrm{d}^2\sigma}{\mathrm{d}v \mathrm{d}\rho} \, \symup{d}\rho = \xi
+\end{equation}
+for $\rho$ where $\xi \in \left[0,1\right)$ is a random number and $\sigma$ the result of the integration over the entire kinematic range of $\rho$.
+An additional random number is used to decide on the sign of $\rho$, the muon energies then assigned are $E_{\pm} = v E \cdot(1 \pm \rho)$.
+In figure \ref{fig:rho_mupair}, the behavior of $\rho$ for different muon energies and different $v$ is shown.
+For high energies, the process tends to have a higher asymmetry $\rho$, especially when a high relative energy loss is involved while for lower energies, lower asymmetries are favored.
+\end{sloppypar}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/mupair_rho.pdf}
+    \caption{Histogram of $\lvert\rho\rvert$ for different $v$ of muons in ice. For each $v$, $\rho$ has been sampled $\num{e6}$ times. The dashed curves correspond to an initial muon energy of $E=\SI{e4}{\mega\electronvolt}$, the solid curves to $E = \SI{e9}{\mega\electronvolt}$.}
+    \label{fig:rho_mupair}
+\end{figure}
+
 A comparison of the average energy loss in ice due to electron-positron pair production and muon pair production is shown in figure \ref{fig:dEdx_mupair}.
-Both functions behave similarly as the grow lineary with $E$, still muon pair production is subdominant by about three orders of magnitudes for higher energies and even more subdominant for low energies.
-This oberservation shows that the process is neglible for the energy loss for the muon which is especially a result of the difference between the muon mass and the electron mass since 
+Both functions behave similarly as the grow linearly with $E$, still the contribution from muon pair production is by about three orders of magnitudes lower for higher energies and even lower for small energies.
+This observation shows that the process is negligible for the energy loss for the muon which is especially a result of the difference between the muon mass and the electron mass since 
 \begin{align*}
 	\frac{\sigma_{\mu \text{pair}}}{\sigma_{e \text{pair}}} \propto \frac{r_{\mu}^2}{r_e^2} \propto \frac{m_e^2}{m_{\mu}^2} \propto \num{2e-5}.
 \end{align*}
@@ -79,25 +105,18 @@ This oberservation shows that the process is neglible for the energy loss for th
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_mupair.pdf}
-    \caption{Comparison of the averge continuous energy losses of muons in ice due to electron-positron pair production and muon pair production. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuous.}
+    \caption{Comparison of the average continuous energy losses of muons in ice due to electron-positron pair production and muon pair production. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuous.}
     \label{fig:dEdx_mupair}
 \end{figure}
 
 Figure \ref{fig:spectrum_mupair} shows a secondary particle spectrum where muon pair production is enabled.
-The contribution for muon pair production tends to be distributed homogeneously but is, as expected, quantitatively neglible for all secondary energies.
+The contribution for muon pair production tends to be distributed homogeneously but is, as expected, quantitatively negligible for all secondary energies.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/spectrum_mupair.pdf}
     \caption{Secondary particle spectrum for $\num{e5}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. Muon pair production is enabled. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
     \label{fig:spectrum_mupair}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[scale=1]{build/mupair_rho.pdf}
-    \caption{Histogram of $\rho$ for different $v$.}
-    \label{fig:rho_mupair}
 \end{figure}
 
 \subsection{Significant detector signatures}
