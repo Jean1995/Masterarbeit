@@ -104,7 +104,7 @@ if __name__ == "__main__":
 
     ax = fig.add_subplot(gs[0])
 
-    labels = [r'$e$-Paarproduktion', r'$\mu$-Paarproduktion']
+    labels = [r'$e$ pair production', r'$\mu$ pair production']
 
     for dEdx, param, _label in zip(dEdx_photo, params, labels):
         ax.loglog(
