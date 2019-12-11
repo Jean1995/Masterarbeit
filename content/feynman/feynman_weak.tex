@@ -1,0 +1,64 @@
+\begin{tikzpicture}
+  \centering
+   % Sizes
+   \pgfmathsetmacro{\len}{0.05cm}
+   \pgfmathsetmacro{\halflen}{\len/4}
+   \pgfmathsetmacro{\vertexsize}{\len/20}
+   \begin{feynman}
+       % vertices
+       \vertex (a) at (-1*\len, 0.5*\len);
+       \vertex (b) at (0, 0);
+       \vertex (c) at (1*\len, 0.5*\len);
+       \vertex (d) at (0, -1.5*\len);
+       \vertex (e) at (-1*\len, -2*\len);
+       \vertex (f) at (1*\len, -2*\len);
+
+       \vertex (x) at (-0.4*\len, 0.5*\len);
+       \vertex (y) at ( 0.4*\len, 0.5*\len); 
+  
+       % draw diagram
+       \diagram* {
+         (a) -- [anti fermion] (b) -- [anti fermion] (c),
+         (b) -- [boson, edge label=\(W\)] (d),
+
+       };
+       \draw[thick, double] (e) -- (d) -- (f);
+  
+       \path[] (x) edge[<->, bend left] node [above] {crossing} (y);
+
+       % labels
+       \node[left] at (a) {$\overline{\nu}_{\mu}$};
+       \node[right] at (c) {$\overline{\mu}$};
+       \node[left] at (e) {$N$};
+       \node[right] at (f) {$X$};
+
+       % arrow inbetween
+
+       \vertex (i1) at (1.6*\len, -0.75*\len);
+       \vertex (i2) at (2.4*\len, -0.75*\len);
+       \path[line width=0.8mm, black, ->, >=stealth] (i1) edge[->] node [] {} (i2);
+
+       % vertices second diagram
+       \vertex (a2) at (4*\len -1*\len, 0.5*\len);
+       \vertex (b2) at (4*\len + 0, 0);
+       \vertex (c2) at (4*\len + 1*\len, 0.5*\len);
+       \vertex (d2) at (4*\len + 0, -1.5*\len);
+       \vertex (e2) at (4*\len -1*\len, -2*\len);
+       \vertex (f2) at (4*\len + 1*\len, -2*\len);
+  
+       % draw second diagram
+       \diagram* {
+         (a2) -- [fermion] (b2) -- [fermion] (c2),
+         (b2) -- [boson, edge label=\(W\)] (d2),
+
+       };
+       \draw[thick, double] (e2) -- (d2) -- (f2);
+  
+       % labels second diagram
+       \node[left] at (a2) {$\mu$};
+       \node[right] at (c2) {$\nu_{\mu}$};
+       \node[left] at (e2) {$N$};
+       \node[right] at (f2) {$X$};
+
+  \end{feynman}
+\end{tikzpicture}
