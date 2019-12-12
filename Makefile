@@ -43,3 +43,8 @@ build:
 
 clean:
 	rm -rf build
+
+bibclean:
+	rm build/masterthesis.aux
+	rm build/masterthesis.bbl
+	rm build/masterthesis.blg

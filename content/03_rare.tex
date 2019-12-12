@@ -147,18 +147,68 @@ According to calculations in \cite{MupairInRock}, these bundles induced by muon 
 Due to the difference in the distance between the creation and observation point of the muon bundle, both effects can be separated statistically by examining the separation distance in the bundle.
 The separation of muon bundles due to muon pair production is mostly below $\SI{1}{\metre}$ while for muon bundles induced in air showers, only a small percentage of the muon bundles have such a small separation \cite{MupairInRock}.
 
-\section{Weak interaction}
+\section{Weak interaction of charged leptons}
 
+\subsection{theory and description of the data}
+\label{sec:weak_theory}
+
+The process of interest
+%
+\begin{equation}
+    \label{eqn:weak_lepton}
+    l + N \rightarrow \nu_l + X
+\end{equation}
+%
+with a charged lepton $l$, the corresponding neutrino $\nu_l$, the initial nucleon $N$ and the hadronic final state $X$ describes the conversion of a charged lepton to a neutrino under exchange of a $W$-boson.
+This specific process is related to the interaction of an anti-neutrino under exchange of a $W$ boson, i.e.\
+%
+\begin{equation}
+    \label{eqn:weak_neutrino}
+    \overline{\nu}_l + N \rightarrow \overline{l} + X,
+\end{equation}
+%
+via crossing symmetry\footnote{The argument of crossing symmetry is identical when switching all particles with their corresponding antiparticles, i.e.\ the process $\overline{l} + N \rightarrow \overline{\nu}_l + X$ is connected to $\nu_l + N \rightarrow l + X$.} which is depicted in figure \ref{fig:feynman_weak}.
+%
 \begin{figure}
     \centering
     \input{content/feynman/feynman_weak.tex}
-    \caption{Crossing symmetry.}
+    \caption{Feynman diagrams of lepton interactions under exchange of a $W$-boson and its connection via crossing symmetry.}
     \label{fig:feynman_weak}
 \end{figure}
+%
+Since the kinematics of both processes are identical, the differential cross sections are also identical except for a prefactor of $\sfrac{1}{2}$,
+%
+\begin{equation}
+    \symup{d}\sigma\left( l + N \rightarrow \nu_l + X \right) = \frac{1}{2} \symup{d}\sigma\left( \overline{\nu}_l + N \rightarrow \overline{l} + X \right).
+\end{equation}
+%
+Due to averaging over all possible initial states and summing over all possible final states when calculating feynman diagrams, the prefactor must be taken into account since the muon can both be left-handed and right-handed while neutrinos are only observed in a left-handed state (and antineutrinos in a right-handed state).
+
+Data for the differential cross section for the conversion of a neutrino to a lepton, i.e.\ the process \eqref{eqn:weak_neutrino}, are available from \cite{Cooper_Sarkar_2011}.
+By using crossing symmetry, these data can directly be used to describe the conversion of a lepton to a neutrino, i.e.\ \eqref{eqn:weak_lepton}, which is the process of interest in PROPOSAL.
+
+The cross sections for interactions of leptons with hadrons are strongly connected with parton distribution functions  which describe the probability to find a specific parton (quark or gluon) with a given fraction $x$ of the nucleon's momentum carried by the parton when the impulse transfer is given by $Q^2$.
+To make predictions for the differential cross sections, \cite{Cooper_Sarkar_2011} uses the HERAPDF1.5 data set which provides the parton distribution functions based on deep-inelastic scattering measurements at the HERA experiment.
+\todo{Insert in a short sentence what happens between PDF and differential cross section, improve the language and, if necessary, the structure}
+
+
+The values for $\sfrac{\symup{d}\sigma}{\symup{d}v}$ are provided as a two-dimensional table in $E$ and $v$ with $\num{100}$ entries in $E$ and, for each energy, $\num{110}$ entires in $v$.  
+The ranges are $\SI{10}{\giga\electronvolt} \leq E \leq \SI{e12}{\giga\electronvolt}$ and $v_\text{min} < v < 1$ with logarithmic steps in between, where the lower limit of $v$ has been set to
+%
+\begin{align}
+    v_\text{min} &= \frac{Q^2_{\text{min}}}{s}, & s &= 2 E m + m^2, & Q^2_{\text{min}} &= \SI{1}{\giga\electronvolt^2}
+\end{align}
+%
+with the mass of the involved nucleus $m$, the center-of-mass energy $\sqrt{s}$ and the momentum transfer $s$.
+For values where $Q^2 < Q_\text{min}^2$, the underlying theory of quantum chromodynamics can not be treated pertubatively anymore, meaning that the predictions for the cross sections are not reliable in this kinematic range. 
+
+\subsection{Implementation in PROPOSAL}
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dNdx_weak.pdf}
     \caption{Comparison of the stochastic cross section for muons in ice for weak interaction in comparison to other interactions. The cut settings are set to $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$. Note that the weak interaction cross section is not affected by the cut settings.}
-    \label{fig:dEdx_mupair}
+    \label{fig:dNdx_weak}
 \end{figure}
+
+\subsection{Significant detector signatures}
