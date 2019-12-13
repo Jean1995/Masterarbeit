@@ -12,6 +12,7 @@ The current version of the code is publicly available on GitHub\footnote{\url{ht
 Examples of applications are the neutrino observatories IceCube and RNO who use PROPOSAL as a part of their simulation chain.
 
 \subsection{Calculation of energy losses}
+\label{sec:energy_loss_calculation}
 
 Energy losses of particles form the basis for the propagation algorithm in PROPOSAL.
 Assuming a particle with an initial energy $E_i$, an energy loss is determined by its absolute value
@@ -233,6 +234,7 @@ If the stochastic energy loss falls inside the sector and occurs before the init
 The total stochastic cross section for the process $i$ is calculated by
 %
 \begin{equation}
+	\label{eqn:stoch_crosssection}
 	\sigma_{\text{stoch},i}(E_f) \propto \int_{v_\text{cut}}^{v_\text{max}} \frac{\symup{d}\sigma_i(E_f)}{\symup{d}v} \, \symup{d}v.
 \end{equation}
 

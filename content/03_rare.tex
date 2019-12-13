@@ -149,7 +149,7 @@ The separation of muon bundles due to muon pair production is mostly below $\SI{
 
 \section{Weak interaction of charged leptons}
 
-\subsection{theory and description of the data}
+\subsection{Theory and description of the data}
 \label{sec:weak_theory}
 
 The process of interest
@@ -187,22 +187,40 @@ Due to averaging over all possible initial states and summing over all possible 
 Data for the differential cross section for the conversion of a neutrino to a lepton, i.e.\ the process \eqref{eqn:weak_neutrino}, are available from \cite{Cooper_Sarkar_2011}.
 By using crossing symmetry, these data can directly be used to describe the conversion of a lepton to a neutrino, i.e.\ \eqref{eqn:weak_lepton}, which is the process of interest in PROPOSAL.
 
-The cross sections for interactions of leptons with hadrons are strongly connected with parton distribution functions  which describe the probability to find a specific parton (quark or gluon) with a given fraction $x$ of the nucleon's momentum carried by the parton when the impulse transfer is given by $Q^2$.
-To make predictions for the differential cross sections, \cite{Cooper_Sarkar_2011} uses the HERAPDF1.5 data set which provides the parton distribution functions based on deep-inelastic scattering measurements at the HERA experiment.
-\todo{Insert in a short sentence what happens between PDF and differential cross section, improve the language and, if necessary, the structure}
+The cross sections for interactions of leptons with hadrons can be derived under the use of parton distribution functions which describe the probability to find a specific parton (quark or gluon) with a given fraction $x$ of the nucleon's momentum when the momentum transfer is given by $Q^2$.
+To make predictions for the (anti)neutrino charged current cross sections, \cite{Cooper_Sarkar_2011} performs next-to-leading order calculations and uses the HERAPDF1.5 data set which provides the parton distribution functions based on deep-inelastic scattering measurements at the HERA experiment conducted from 2003 to 2007 \cite{am2010proton}.
 
-
-The values for $\sfrac{\symup{d}\sigma}{\symup{d}v}$ are provided as a two-dimensional table in $E$ and $v$ with $\num{100}$ entries in $E$ and, for each energy, $\num{110}$ entires in $v$.  
+The values for $\sfrac{\symup{d}\sigma}{\symup{d}v}$ are provided as a two-dimensional tables in $E$ and $v$ with $\num{100}$ entries in $E$ and, for each energy, $\num{110}$ entires in $v$.  
+Here, $v$ describes the fraction of the initial lepton energy $E$ lost to the nucleon.
+Tables are available for an ingoing neutrino or an ingoing antineutrino and for a proton or a neutron as a nucleon involved in the interaction.
 The ranges are $\SI{10}{\giga\electronvolt} \leq E \leq \SI{e12}{\giga\electronvolt}$ and $v_\text{min} < v < 1$ with logarithmic steps in between, where the lower limit of $v$ has been set to
 %
 \begin{align}
     v_\text{min} &= \frac{Q^2_{\text{min}}}{s}, & s &= 2 E m + m^2, & Q^2_{\text{min}} &= \SI{1}{\giga\electronvolt^2}
 \end{align}
 %
-with the mass of the involved nucleus $m$, the center-of-mass energy $\sqrt{s}$ and the momentum transfer $s$.
-For values where $Q^2 < Q_\text{min}^2$, the underlying theory of quantum chromodynamics can not be treated pertubatively anymore, meaning that the predictions for the cross sections are not reliable in this kinematic range. 
+with the mass of the involved nucleon $m$ and the center-of-mass energy $\sqrt{s}$.
+For values where $Q^2 < Q_\text{min}^2$, the underlying theory of quantum chromodynamics can not be treated perturbatively anymore, meaning that the predictions for the cross sections are not reliable in this kinematic range. 
 
 \subsection{Implementation in PROPOSAL}
+
+% sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
+\begin{sloppypar}
+The weak interaction process is by default disabled in PROPOSAL and can optionally be enabled by setting the keyword \texttt{weak} in the configuration file to \texttt{CooperSarkarMertsch} which is the parametrization described in the previous chapter.
+\end{sloppypar}
+For a component with an atomic number $Z$ and a mass number $A$, the differential cross section is combined to be
+%
+\begin{equation}
+	\frac{\symup{d}\sigma}{\symup{d}v} \propto Z \cdot \frac{\symup{d}\sigma_p}{\symup{d}v} + (A - Z) \cdot \frac{\symup{d}\sigma_n}{\symup{d}v}
+\end{equation}
+%
+where the subscript whether to use the table where the nucleon involved is a proton ($p$) or a neutron ($n$).
+PROPOSAL then uses a two-dimensional interpolation routine to obtain a continuous differential cross section from the discrete tables values.
+
+In contrast to previously described processes, the weak interaction is a catastrophic loss meaning that the initial particle ceases to exist since it has been converted to a different type of particle.
+Treating a process with this signature continuously as described in chapter \ref{sec:energy_loss_calculation} would therefore be unphysical.
+Instead, all interactions with catastrophic losses are treated stochastically by setting $v_{\text{min}} = v_{\text{cut}}$ in \eqref{eqn:fE}, \eqref{eqn:stoch_crosssection} and \eqref{eqn:sample_v}.
+Afterwards, PROPOSAL returns the produced neutrino as well as the energy transfer to the nucleon and stops the particle propagation.
 
 \begin{figure}
     \centering
@@ -211,4 +229,27 @@ For values where $Q^2 < Q_\text{min}^2$, the underlying theory of quantum chromo
     \label{fig:dNdx_weak}
 \end{figure}
 
+Figure \ref{fig:dNdx_weak} shows the weak interaction cross section of muons in ice compared to the total stochastic cross section of default processes.
+It is important to note for this comparison that, while $v_{\text{min}} = v_{\text{cut}}$ is used for the weak interaction, a regular energy cut of $e_\text{cut} = \SI{500}{\mega\electronvolt}$ and $v_\text{cut} = 0.05$ is still used for the other parametrizations.
+Still, it becomes obvious that weak interaction is a strongly suppressed process compared to all other interactions.
+
 \subsection{Significant detector signatures}
+
+\begin{figure}
+	\centering
+	\begin{subfigure}{0.46\textwidth}
+  		\centering
+    	\input{content/feynman/weak_tau.tex}
+  		\caption{Subfigure 1.}
+  		\label{fig:sub1}
+	\end{subfigure}%
+	\hspace{0.06\textwidth}%
+	\begin{subfigure}{0.46\textwidth}
+  		\centering
+    	\input{content/feynman/weak_myon.tex}
+  		\caption{Subfigure 2}
+  		\label{fig:sub2}
+	\end{subfigure}
+	\caption{A figure with two subfigures}
+	\label{fig:test}
+\end{figure}
