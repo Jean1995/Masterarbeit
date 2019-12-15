@@ -52,7 +52,7 @@ with a relative energy cut $v\prime_\text{cut}$ and an absolute energy cut $e_\t
 Energy losses with $v < v_\text{cut}$ are treated as continuous losses, energy losses with $v > v_\text{cut}$ are treated as stochastic losses.
 The definition in \eqref{eqn:cut} ensures that losses above an absolute detector threshold $e_\text{cut}$ are treated as stochastic even if their relative value is too small.
 
-The propagation algorithm in PROPOSAL consists of numerous propagation steps where each step consists of continuous losses and a stochastic loss, see chapter \ref{sec:algorithm} for a detailed description.
+The propagation algorithm in PROPOSAL consists of numerous propagation steps where each step consists of continuous losses and a stochastic loss, see section \ref{sec:algorithm} for a detailed description.
 To perform one propagation step, it is therefore necessary to have a mathematical expression to sample stochastic losses.
 
 Let $E_i$ be the initial energy of a particle and
@@ -264,7 +264,7 @@ The propagation routine is repeated with the sampling of the energy of the next 
 \CatchFileDef{\ionizsum}{build/numbers/ioniz_esum.tex}{}
 
 At the end of the propagation process, PROPOSAL returns the properties of the produced secondary particles as well as the final properties of the initial particle or, if it did decay during propagation, its decay products.
-In this chapter the characteristic energy losses of muons are described, where ice is used exemplarily as a medium for all plots. The parametrizations for the interactions are always the default options in PROPOSAL, the Landau-Pomeranchuk-Migdal (LPM) effect for bremsstrahlung and pair production has been enabled. \todo{Source for LPM effect}
+In this section the characteristic energy losses of muons are described, where ice is used exemplarily as a medium for all plots. The parametrizations for the interactions are always the default options in PROPOSAL, the Landau-Pomeranchuk-Migdal (LPM) effect for bremsstrahlung and pair production has been enabled. \todo{Source for LPM effect}
 
 In figure \ref{fig:dEdx} the continuous energy losses of muons in ice, calculated according to \eqref{eqn:fE}, are shown.
 For this plot the energy cut has been set to $v_\text{cut} = v_\text{max}$, therefore the values shown correspond to the complete average energy losses of muons in ice. 

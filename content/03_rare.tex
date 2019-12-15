@@ -3,7 +3,7 @@
 \section{Muon pair production}
 
 The process of muon pair production is a rare process with a negligible contribution to the overall energy loss of a propagated particle.
-Although quantitatively negligible, the created signatures may be qualitatively relevant for neutrino observatories such as IceCube or underground detectors examining muons, see chapter \ref{sec:signatures} for a description of these signatures.
+Although quantitatively negligible, the created signatures may be qualitatively relevant for neutrino observatories such as IceCube or underground detectors examining muons, see section \ref{sec:signatures} for a description of these signatures.
 
 \subsection{Theoretical description}
 
@@ -67,7 +67,7 @@ for an initial particle with mass $m$ and are easy to retrace by demanding the c
 % sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
 \begin{sloppypar}
 The process of muon pair production is implemented as an optional, additional interaction in PROPOSAL.
-It is per default disabled in PROPOSAL and can be enabled by setting the keyword \texttt{mupair} in the configuration file to \texttt{MupairKelnerKokoulinPetrukhin} which is the parametrization that has been described in the previous chapter.
+It is per default disabled in PROPOSAL and can be enabled by setting the keyword \texttt{mupair} in the configuration file to \texttt{MupairKelnerKokoulinPetrukhin} which is the parametrization that has been described in the previous section.
 \end{sloppypar}
 
 \begin{sloppypar}
@@ -123,7 +123,7 @@ The contribution for muon pair production tends to be distributed homogeneously 
 \subsection{Significant detector signatures}
 \label{sec:signatures}
 
-As already described and shown in chapter \ref{sec:mupair_implementation}, the contribution of muon pair production to the overall energy loss of muons is negligible.
+As already described and shown in section \ref{sec:mupair_implementation}, the contribution of muon pair production to the overall energy loss of muons is negligible.
 For detectors working with muons however, the effects of muon pair production may portray a source of significant signatures.
 In the following, a group of muons moving into almost the same direction with only a small separation is called a muon bundle.
 The origin of such a bundle can be muon pair production, in this case the bundle consists of three muons.
@@ -148,6 +148,9 @@ Due to the difference in the distance between the creation and observation point
 The separation of muon bundles due to muon pair production is mostly below $\SI{1}{\metre}$ while for muon bundles induced in air showers, only a small percentage of the muon bundles have such a small separation \cite{MupairInRock}.
 
 \section{Weak interaction of charged leptons}
+
+The process called weak interaction in PROPOSAL refers to the conversion of a charged lepton to a neutrino under exchange of a $W$-boson, i.e.\ a charged current interaction.
+This interaction is highly suppressed compared to other processes, its signature however can be of importance, for example as a background for tau neutrino searches as described in section \ref{sec:weak_signature}.
 
 \subsection{Theory and description of the data}
 \label{sec:weak_theory}
@@ -206,7 +209,7 @@ For values where $Q^2 < Q_\text{min}^2$, the underlying theory of quantum chromo
 
 % sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
 \begin{sloppypar}
-The weak interaction process is by default disabled in PROPOSAL and can optionally be enabled by setting the keyword \texttt{weak} in the configuration file to \texttt{CooperSarkarMertsch} which is the parametrization described in the previous chapter.
+The weak interaction process is by default disabled in PROPOSAL and can optionally be enabled by setting the keyword \texttt{weak} in the configuration file to \texttt{CooperSarkarMertsch} which is the parametrization described in the previous section.
 \end{sloppypar}
 For a component with an atomic number $Z$ and a mass number $A$, the differential cross section is combined from the given tables to be
 %
@@ -214,11 +217,11 @@ For a component with an atomic number $Z$ and a mass number $A$, the differentia
 	\frac{\symup{d}\sigma}{\symup{d}v} \propto Z \cdot \frac{\symup{d}\sigma_p}{\symup{d}v} + (A - Z) \cdot \frac{\symup{d}\sigma_n}{\symup{d}v}
 \end{equation}
 %
-where the subscript refers to the nucleon involved in the interaction ($p$ for proton and $n$ for neutron)
+where the subscript refers to the nucleon involved in the interaction ($p$ for proton and $n$ for neutron).
 PROPOSAL then uses a two-dimensional interpolation routine to obtain a continuous differential cross section from the discrete tables values.
 
 In contrast to previously described processes, the weak interaction is a catastrophic loss meaning that the initial particle ceases to exist since it is converted to a different type of particle during the interaction.
-Treating a process with this signature continuously as described in chapter \ref{sec:energy_loss_calculation} would therefore be unphysical.
+Treating a process with this signature continuously as described in section \ref{sec:energy_loss_calculation} would therefore be unphysical.
 Instead, all interactions with catastrophic losses are treated stochastically by setting $v_{\text{min}} = v_{\text{cut}}$ in \eqref{eqn:fE}, \eqref{eqn:stoch_crosssection} and \eqref{eqn:sample_v}.
 Afterwards, PROPOSAL returns the produced neutrino as well as the energy transfer to the nucleon and stops the particle propagation.
 
@@ -234,22 +237,44 @@ It is important to note for this comparison that, while $v_{\text{min}} = v_{\te
 Still, it becomes obvious that weak interaction is a strongly suppressed process compared to all other interactions.
 
 \subsection{Significant detector signatures}
+\label{sec:weak_signature}
+
+As described in the previous section, the weak interaction process is highly suppressed and therefore negligible in its contribution to the energy loss of a charged lepton.
+However, under certain conditions the detector signature of the process could be significant for searches of tau neutrinos, for example in the IceCube neutrino observatory.
 
 \begin{figure}
-	\centering
-	\begin{subfigure}{0.46\textwidth}
-  		\centering
-    	\input{content/feynman/weak_tau.tex}
-  		\caption{Subfigure 1.}
-  		\label{fig:sub1}
-	\end{subfigure}%
-	\hspace{0.06\textwidth}%
-	\begin{subfigure}{0.46\textwidth}
-  		\centering
-    	\input{content/feynman/weak_myon.tex}
-  		\caption{Subfigure 2}
-  		\label{fig:sub2}
-	\end{subfigure}
-	\caption{A figure with two subfigures}
-	\label{fig:test}
+    \centering
+    \begin{subfigure}{0.46\textwidth}
+        \centering
+        \input{content/feynman/weak_tau.tex}
+        \caption{Lollipop signature triggered by a tau neutrino.}
+        \label{fig:lollipop_signature}
+    \end{subfigure}%
+    \hspace{0.06\textwidth}%
+    \begin{subfigure}{0.46\textwidth}
+        \centering
+        \input{content/feynman/weak_myon.tex}
+        \caption{Signature of a muon weakly interacting inside the detector.}
+        \label{fig:weak_signature}
+    \end{subfigure}
+    \caption{Illustrations of two signatures relevant for tau neutrino searches. The detector volume is drawn gray, hadronic cascades are drawn as a red dot, observable tracks are drawn as blue lines and tracks that are not directly observable are drawn as a black, dotted line.}
+    \label{fig:test}
 \end{figure}
+
+One possible signature hinting at a tau neutrino event called the "lollipop" signature is illustrated in figure \ref{fig:lollipop_signature}.
+Here, a tau neutrino moving towards the detector interacts via a charged current before it reaches the detector and is being converted to a tau lepton.
+The tau lepton then enters the detector leaving behind a observable track of Cherenkov light emerging from the tau itself and the created secondary particles.
+Due to its short lifetime, the created tau can only reach the detector if its energy is high enough, the average decay length scales with energy as \SI{5}{\cm\per\tera\electronvolt} \cite{Aartsen_2016} meaning the tau energy has to be $E_{\tau} \gtrapprox \SI{100}{\tera\electronvolt}$.
+If the tau decays to a hadron inside the detector, a hadronic cascade is generated at the end of the track, giving the signature its characteristic name. 
+
+This tau neutrino signature can be imitated by the event shown in figure \ref{fig:weak_signature}.
+In this case, a muon, leaving behind a track, enters the detector where it weakly interacts and is therefore converted to a neutrino.
+Due to the energy transfer to the involved nucleus in the weak interaction, the process creates a hadronic cascade comparable to the cascade of a hadronic tau decay.
+Since the created neutrino is not observable, the overall signature where a track starts outside the detector and ends in a hadronic cascade can be confused with the lollipop signature from figure \ref{fig:lollipop_signature}.
+However, the tracks from both signatures behave differently since the energy loss per distance of a muon is higher than the energy loss of a tau.
+To have a similar track signature, the tau involved needs to have an energy that is about $\num{6}$ to $\num{11}$ times higher than the energy of a corresponding muon \cite{Sandrock:2018hpj}.
+
+It follows that analyses searching for lollipop signatures have to consider the weak interaction as a possible background.
+According to approximative calculations in \cite{Sandrock:2018hpj} based on the properties of the IceCube detector, the expected rate of false lollipop events due to atmospheric muons undergoing weak interaction is about $\SI{2e-2}{\per yr}$. 
+This, together with further approximative calculations for real lollipop signatures from tau neutrino events, corresponds to a possible background of $\SI{10}{\percent}$.
+However, further effects such as event selection efficiency (assumed to be perfect in this calculation) or a detailed detector simulation were not taken into account but need to be evaluated when conducting a detailed analysis.
