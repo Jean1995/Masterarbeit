@@ -7,7 +7,7 @@ Although quantitatively negligible, the created signatures may be qualitatively 
 
 \subsection{Theoretical description}
 
-Muon pair production describes the creation of a muon-antimuon pair by a particle in the field of an atomic nucleus $Z$, for example in case of an initial muon the reaction is
+Muon pair production describes the creation of a muon-antimuon pair by a particle in the field of an atomic nucleus $Z$, in case of an initial muon the reaction is
 \begin{align*}
     \mu^- + Z \rightarrow \mu^- + \mu^+ + \mu^- + Z.
 \end{align*}
@@ -79,14 +79,14 @@ To obtain the single-differential cross section in $v$ from \eqref{eqn:mupair}, 
 %
 is performed in PROPOSAL.
 After sampling the relative energy loss $v$ during propagation according to \eqref{eqn:sample_v}, the asymmetry parameter $\rho$ is also sampled if the parameter \texttt{mupair\_particle\_output} has been set to \texttt{True}.
-In this case, \eqref{eqn:mupair} is used with a fixed $v$ to solve the integral equation
+In this case, \eqref{eqn:mupair} is used with a fixed $v = v^{\ast}$ to solve the integral equation
 \begin{equation}
-    \left( \frac{\symup{d}\sigma}{\symup{d}v}(v) \right)^{-1} \int_{\rho_\text{min}}^{\rho} \frac{\mathrm{d}^2\sigma}{\mathrm{d}v \mathrm{d}\rho} \, \symup{d}\rho = \xi
+    \left( \frac{\symup{d}\sigma}{\symup{d}v}(v^{\ast}) \right)^{-1} \int_{\rho_\text{min}}^{\rho} \frac{\mathrm{d}^2\sigma}{\mathrm{d}v \mathrm{d}\rho}(v^{\ast}) \, \symup{d}\rho = \xi
 \end{equation}
 for $\rho$ where $\xi \in \left[0,1\right)$ is a random number.
 An additional random number is used to decide on the sign of $\rho$, the muon energies then assigned are $E_{\pm} = v E \cdot(1 \pm \rho)$.
 In figure \ref{fig:rho_mupair}, the behavior of $\rho$ for different muon energies and different $v$ is shown.
-For high energies, the process tends to have a higher asymmetry $\rho$, especially when a high relative energy loss is involved while for lower energies, lower asymmetries are favored.
+For high energies, the process tends to have a higher asymmetry $\rho$, especially when a high relative energy loss is involved, while for lower energies, lower asymmetries are favored.
 \end{sloppypar}
 
 \begin{figure}
@@ -97,7 +97,7 @@ For high energies, the process tends to have a higher asymmetry $\rho$, especial
 \end{figure}
 
 A comparison of the average energy loss in ice due to electron-positron pair production and muon pair production is shown in figure \ref{fig:dEdx_mupair}.
-Both functions behave similarly as the grow linearly with $E$, still the contribution from muon pair production is by about three orders of magnitudes lower for higher energies and even lower for small energies.
+Both functions behave similarly as they both grow linearly with $E$, still the contribution from muon pair production is by about three orders of magnitudes lower for higher energies and even lower for small energies.
 This observation shows that the process is negligible for the energy loss for the muon which is especially a result of the difference between the muon mass and the electron mass since 
 \begin{align*}
 	\frac{\sigma_{\mu \text{pair}}}{\sigma_{e \text{pair}}} \propto \frac{r_{\mu}^2}{r_e^2} \propto \frac{m_e^2}{m_{\mu}^2} \propto \num{2e-5}.
@@ -124,7 +124,7 @@ The contribution for muon pair production tends to be distributed homogeneously 
 \label{sec:signatures}
 
 As already described and shown in section \ref{sec:mupair_implementation}, the contribution of muon pair production to the overall energy loss of muons is negligible.
-For detectors working with muons however, the effects of muon pair production may portray a source of significant signatures.
+However, for detectors interested in muon events, the effects of muon pair production may portray a source of significant signatures.
 In the following, a group of muons moving into almost the same direction with only a small separation is called a muon bundle.
 The origin of such a bundle can be muon pair production, in this case the bundle consists of three muons.
 
@@ -142,14 +142,14 @@ Underground detectors observing muons originating from extensive air showers can
 This is done by comparing the frequency and multiplicity of muon bundles as well as the muon separation measured in experiments with the predictions from Monte Carlo studies.
 In \cite{MupairInRock}, the authors describe this procedure in more detail and point out a possible background from muon pair production.
 
-While about $\SI{1}{\percent}$ to $\SI{10}{\percent}$ of the observed muons are muon bundles induced in the air shower, these bundles can also be produced due to muon pair production in rock or water above the underground detector.
+While about $\SI{1}{\percent}$ to $\SI{10}{\percent}$ of the observed muons are part of muon bundles induced in the air shower, these bundles can also be produced due to muon pair production in rock or water above the underground detector.
 According to calculations in \cite{MupairInRock}, these bundles induced by muon pair production can portray a background of up to $\SI{10}{\percent}$ compared to the conventional bundles in the showers, although more exact calculations have to be performed individually for each experiment with its own geometric properties.
 Due to the difference in the distance between the creation and observation point of the muon bundle, both effects can be separated statistically by examining the separation distance in the bundle.
 The separation of muon bundles due to muon pair production is mostly below $\SI{1}{\metre}$ while for muon bundles induced in air showers, only a small percentage of the muon bundles have such a small separation \cite{MupairInRock}.
 
 \section{Weak interaction of charged leptons}
 
-The process called weak interaction in PROPOSAL refers to the conversion of a charged lepton to a neutrino under exchange of a $W$-boson, i.e.\ a charged current interaction.
+The process called weak interaction in PROPOSAL refers to the conversion of a charged lepton to a neutrino under exchange of a $W$-boson, i.e.\ a charged current weak interaction.
 This interaction is highly suppressed compared to other processes, its signature however can be of importance, for example as a background for tau neutrino searches as described in section \ref{sec:weak_signature}.
 
 \subsection{Theory and description of the data}
@@ -185,10 +185,10 @@ Since the kinematics of both processes are identical, the differential cross sec
     \symup{d}\sigma\left( l + N \rightarrow \nu_l + X \right) = \frac{1}{2} \symup{d}\sigma\left( \overline{\nu}_l + N \rightarrow \overline{l} + X \right).
 \end{equation}
 %
-Due to averaging over all possible initial states and summing over all possible final states when evaluating feynman diagrams, the prefactor must be taken into account since the muon can both be left-handed and right-handed while neutrinos are only observed in a left-handed state (and antineutrinos in a right-handed state).
+Due to averaging over all possible initial states and summing over all possible final states when evaluating feynman diagrams, the prefactor $\sfrac{1}{2}$ must be taken into account since the muon can both be left-handed and right-handed while neutrinos are only observed in a left-handed state (and antineutrinos in a right-handed state).
 
-Data for the differential cross section for the conversion of a neutrino to a lepton, i.e.\ the process \eqref{eqn:weak_neutrino}, are available from \cite{Cooper_Sarkar_2011}.
-By using crossing symmetry, these data can directly be used to describe the conversion of a lepton to a neutrino, i.e.\ \eqref{eqn:weak_lepton}, which is the process of interest in PROPOSAL.
+Data on the differential cross section for the conversion of a neutrino to a charged lepton, i.e.\ the process \eqref{eqn:weak_neutrino}, are available from \cite{Cooper_Sarkar_2011}.
+By using crossing symmetry, these data can directly be used to describe the conversion of a charged lepton to a neutrino, i.e.\ \eqref{eqn:weak_lepton}, which is the process of interest in PROPOSAL.
 
 The cross sections for interactions of leptons with hadrons can be derived under the use of parton distribution functions which describe the probability to find a specific parton (quark or gluon) with a given fraction $x$ of the nucleon's momentum when the momentum transfer is given by $Q^2$.
 To make predictions for the (anti)neutrino charged current cross sections, \cite{Cooper_Sarkar_2011} performs next-to-leading order calculations and uses the HERAPDF1.5 data set which provides the parton distribution functions based on deep-inelastic scattering measurements performed from 2003 to 2007 at the HERA experiment \cite{am2010proton}.
@@ -234,13 +234,13 @@ Afterwards, PROPOSAL returns the produced neutrino as well as the energy transfe
 
 Figure \ref{fig:dNdx_weak} shows the weak interaction cross section of muons in ice compared to the total stochastic cross section of default processes.
 It is important to note for this comparison that, while $v_{\text{min}} = v_{\text{cut}}$ is used for the weak interaction, a regular energy cut of $e_\text{cut} = \SI{500}{\mega\electronvolt}$ and $v_\text{cut} = 0.05$ is still used for the other parametrizations.
-Still, it becomes obvious that weak interaction is a strongly suppressed process compared to all other interactions.
+Still, it becomes obvious that the weak interaction is a strongly suppressed process compared to all other interactions.
 
 \subsection{Significant detector signatures}
 \label{sec:weak_signature}
 
 As described in the previous section, the weak interaction process is highly suppressed and therefore negligible in its contribution to the energy loss of a charged lepton.
-However, under certain conditions the detector signature of the process could be significant for searches of tau neutrinos, for example in the IceCube neutrino observatory.
+However, under certain conditions, the detector signature of the process could be significant for searches of tau neutrinos, for example in the IceCube neutrino observatory.
 
 \begin{figure}
     \centering
@@ -263,8 +263,8 @@ However, under certain conditions the detector signature of the process could be
 
 One possible signature hinting at a tau neutrino event called the "lollipop" signature is illustrated in figure \ref{fig:lollipop_signature}.
 Here, a tau neutrino moving towards the detector interacts via a charged current before it reaches the detector and is being converted to a tau lepton.
-The tau lepton then enters the detector leaving behind a observable track of Cherenkov light emerging from the tau itself and the created secondary particles.
-Due to its short lifetime, the created tau can only reach the detector if its energy is high enough, the average decay length scales with energy as \SI{5}{\cm\per\tera\electronvolt} \cite{Aartsen_2016} meaning the tau energy has to be $E_{\tau} \gtrapprox \SI{100}{\tera\electronvolt}$.
+The tau lepton then enters the detector, leaving behind an observable track of Cherenkov light emerging from the tau itself and the created secondary particles.
+Due to its short lifetime, the created tau can only reach the detector if its energy is high enough, the average tau decay length scales with energy as \SI{5}{\cm\per\tera\electronvolt} \cite{Aartsen_2016} meaning the tau energy has to be $E_{\tau} \gtrapprox \SI{100}{\tera\electronvolt}$.
 If the tau decays to a hadron inside the detector, a hadronic cascade is generated at the end of the track, giving the signature its characteristic name. 
 
 This tau neutrino signature can be imitated by the event shown in figure \ref{fig:weak_signature}.
