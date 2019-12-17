@@ -1,0 +1,54 @@
+\begin{tikzpicture}
+  \centering
+   % Sizes
+   \pgfmathsetmacro{\len}{0.05cm}
+   \pgfmathsetmacro{\halflen}{\len/4}
+   \pgfmathsetmacro{\vertexsize}{\len/20}
+   \begin{feynman}
+       % vertices
+       \vertex (a) at (-1*\len, 0.5*\len);
+       \vertex (b) at (0, 0);
+       \vertex (c) at (1*\len, 0.5*\len);
+       \vertex (d) at (0, -1.5*\len);
+       \vertex (e) at (-1*\len, -2*\len);
+       \vertex (f) at (1*\len, -2*\len);
+  
+       \vertex [label=\(\gamma\)] (label) at (-0.3 , -0.9 * \len);
+
+       % draw diagram
+       \diagram* {
+         (a) -- [fermion] (b) -- [fermion] (c),
+         (b) -- [photon] (d),
+         (e) -- [fermion] (d) -- [fermion] (f)
+       };  
+       % labels
+       \node[left] at (a) {$e^-$};
+       \node[right] at (c) {$e^-$};
+       \node[left] at (e) {$e^-$};
+       \node[right] at (f) {$e^-$};
+
+       % vertices
+       \vertex (a2) at (6-1*\len, 0.5*\len);
+       \vertex (b2) at (6+0, 0);
+       \vertex (f2) at (6+1*\len, 0.5*\len);
+       \vertex (d2) at (6+0, -1.5*\len);
+       \vertex (e2) at (6-1*\len, -2*\len);
+       \vertex (c2) at (6+1*\len, -2*\len);
+
+       \vertex [label=\(\gamma\)] (label2) at (6-0.3 , -0.9 * \len);
+  
+       % draw diagram
+       \diagram* {
+         (a2) -- [fermion] (b2) -- [fermion] (c2),
+         (b2) -- [photon] (d2),
+         (e2) -- [fermion] (d2) -- [fermion] (f2)
+       };  
+       % labels
+       \node[left] at (a2) {$e^-$};
+       \node[right] at (c2) {$e^-$};
+       \node[left] at (e2) {$e^-$};
+       \node[right] at (f2) {$e^-$};
+
+
+  \end{feynman}
+\end{tikzpicture}

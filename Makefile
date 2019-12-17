@@ -24,12 +24,15 @@ build/mupair_rho.pdf: Plots/mupair_rho.py Plots/matplotlibconfig.py | build
 build/dNdx_weak.pdf: Plots/dNdx_weak.py Plots/matplotlibconfig.py | build 
 	python Plots/dNdx_weak.py
 
+build/dEdx_ionization.pdf: Plots/dEdx_ionization.py Plots/matplotlibconfig.py | build 
+	python Plots/dEdx_ionization.py
+
 TeXOptions = -lualatex \
 			 -interaction=nonstopmode \
 			 -halt-on-error \
 			 -output-directory=build
                                                                                 
-build/masterthesis.pdf: FORCE build/cont_rand.pdf build/spectrum.pdf build/dEdx.pdf build/secondary_number.pdf build/dEdx_mupair.pdf build/spectrum_mupair.pdf build/mupair_rho.pdf build/dNdx_weak.pdf | build
+build/masterthesis.pdf: FORCE build/cont_rand.pdf build/spectrum.pdf build/dEdx.pdf build/secondary_number.pdf build/dEdx_mupair.pdf build/spectrum_mupair.pdf build/mupair_rho.pdf build/dNdx_weak.pdf build/dEdx_ionization.pdf | build
 	latexmk $(TeXOptions) masterthesis.tex
 
 preview: FORCE | build
