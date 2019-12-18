@@ -6,38 +6,40 @@
 
 Ionization describes the inelastic collision of a particle with atomic electrons, leading to an energy loss of the primary particle.
 For heavy, charged particles the average energy loss due to ionization is given by the Bethe formula.
-PROPOSAL uses a modified Bethe formula, taking into account density correction effects, to describe the ionization losses for muons and electrons \cite{Kohne:2013zbq}.
+PROPOSAL uses a modified Bethe formula, taking into account density correction effects, to describe the ionization losses for muons and tau \cite{Kohne:2013zbq}.
 However, the Bethe formula can't be applied for electrons and positrons due to their lower mass as well as the indistinguishability of the incoming electrons with atomic electrons.
 Therefore, a separate treatment of the ionization losses for electrons and positrons is necessary.
 
+\subsubsection{Theoretial description}
+
 For energy transfers $\nu$ significantly greater than the atomic excitation levels, the atomic electrons can be considered as free and in rest.
-In this case, the ionization process is essentially electron-electron scattering ($e^- + e^- \rightarrow e^- + e^-$), called M{\o}ller scattering, or positron-electron scattering ($e^+ + e^- \rightarrow e^+ + e^-$), called Bhabha scattering.
+In this case, the ionization process is essentially electron-electron scattering ($e^- + e^- \rightarrow e^- + e^-$), known as M{\o}ller scattering, or positron-electron scattering ($e^+ + e^- \rightarrow e^+ + e^-$), known as Bhabha scattering.
 The two feynman diagrams contributing in leading order for M{\o}ller scattering are shown in figure \ref{fig:feynman_moller}, the differential cross section \cite{PhysRev.93.38} is given by
 %
 \begin{equation}
 	\begin{split}
 	\label{eqn:moller}
-	\left(\frac{\symup{d}\sigma}{\symup{d}v}\right)_{\!\!-} &= \frac{2 \pi r_e^2 Z \gamma}{\beta^2(\gamma - 1)^2} \biggl[ \frac{(\gamma - 1)^2}{\gamma^2} + \frac{1}{\epsilon} \left( \frac{1}{\epsilon} - \frac{2\gamma - 1}{\gamma^2} \right) \\ &+ \frac{1}{1 - \epsilon} \left( \frac{1}{1 - \epsilon} - \frac{2 \gamma - 1}{\gamma^2} \right) \biggr]
+	\left(\frac{\symup{d}\sigma}{\symup{d}v}\right)_{\!\!-} = &\frac{2 \pi r_e^2 Z \gamma}{\beta^2(\gamma - 1)^2} \biggl[ \frac{(\gamma - 1)^2}{\gamma^2} + \frac{1}{\epsilon} \left( \frac{1}{\epsilon} - \frac{2\gamma - 1}{\gamma^2} \right) \\ &+ \frac{1}{1 - \epsilon} \left( \frac{1}{1 - \epsilon} - \frac{2 \gamma - 1}{\gamma^2} \right) \biggr]
 	\end{split}
 \end{equation}
 %
 with
 %
 \begin{align}
-	\epsilon &= \frac{v E}{E - m_e},& \gamma &= \frac{E}{m_e}, & \beta &= \sqrt{1 - \frac{1}{\gamma^2}}.
+	\epsilon &= \frac{v E}{E - m_e},& \gamma &= \frac{E}{m_e}, & \beta &= \sqrt{1 - \frac{1}{\gamma^2}}, & v_{\text{max}} = \frac{1}{2} - \frac{m_e}{2 E}.
 \end{align}
 
 \begin{figure}
     \centering
     \input{content/feynman/feynman_moller.tex}
-    \caption{Feynman diagram.}
+    \caption{Feynman diagrams in leading order for M{\o}ller scattering. The $t$-channel diagram is shown on the left, the $u$-channel diagram is shown on the right.}
     \label{fig:feynman_moller}
 \end{figure}
 
 For Bhabha scattering, the two feynman diagrams contributing in leading order are shown in figure \ref{fig:feynman_bhabha} and the differential cross section \cite{PhysRev.93.38} is given by
 %
 \begin{equation}
-	\label{eqn:moller}
+	\label{eqn:bhabha}
 	\left(\frac{\symup{d}\sigma}{\symup{d}v}\right)_{\!\!+} = \frac{2 \pi r_e^2 Z \gamma}{(\gamma - 1)^2} \left[ \frac{1}{\beta^2 \epsilon^2} - \frac{B_1}{\epsilon} + B_2 - B_3 \epsilon + B_4 \epsilon^2 \right]
 \end{equation}
 %
@@ -45,39 +47,76 @@ with
 %
 \begin{align*}
 	B_1 &= 2 - y^2, & B_2 &= (1 - 2y)(3 + y^2), \\ 
-	B_3 &= (1-2y)^2 + (1 - 2y)^3, & B_4 &= (1 - 2y)^3, \\
-	y &= (\gamma + 1)^{-1}.
+	B_3 &= (1-2y)^2 + (1 - 2y)^3, & B_4 &= (1 - 2y)^3 \\
+	\intertext{and}
+	y &= \frac{1}{\gamma + 1}, & v_{\text{max}} &= 1 - \frac{m_e}{E}.
 \end{align*}
 
 \begin{figure}
     \centering
     \input{content/feynman/feynman_bhabha.tex}
-    \caption{Feynman diagram.}
+    \caption{Feynman diagrams in leading order for Bhabha scattering. The diagram describing the scattering process is shown on the left, the diagram describing the annihilation process is shown on the right.}
     \label{fig:feynman_bhabha}
 \end{figure}
 
 For energy transfers $\nu$ in the same order of magnitude as the atomic excitation levels, the explicit excitation probabilities $p(E, v)$ need to be considered.
-With a threshold transfer energy $E_{\text{thres}}$ that is above the atomic excitation levels but below the energy cut in PROPOSAL, the continuous energy loss per distance due to ionization can be written as
+With a threshold transfer energy $\nu_{\text{thres}}$ that is above the atomic excitation levels but below the energy cut in PROPOSAL, the continuous energy loss per distance due to ionization can be written as
 %
 \begin{equation}
 	\label{eqn:ioniz_sum}
-	-\frac{\symup{d}E}{\symup{d}X} \propto \int_{0}^{\sfrac{E_{\text{thres}}}{E}} v \cdot p(E, v) \, \symup{d}v + \int_{\sfrac{E_{\text{thres}}}{E}}^{v_{\text{cut}}} v \left(\frac{\symup{d}\sigma}{\symup{d}v}\right)_{\!\!\pm} \, \symup{d}v. 
+	-\left(\frac{\symup{d}E}{\symup{d}X}\right)_{\!\!\pm} \propto \int_{0}^{\sfrac{\nu_{\text{thres}}}{E}} v \cdot p(E, v) \, \symup{d}v + \int_{\sfrac{\nu_{\text{thres}}}{E}}^{v_{\text{cut}}} v \cdot \left(\frac{\symup{d}\sigma}{\symup{d}v}\right)_{\!\!\pm} \, \symup{d}v. 
 \end{equation}
 %
-Assuming an appropriate value for $E_{\text{thres}}$ and using suitable approximations, \eqref{eqn:ioniz_sum} yields
+For an appropriate value of $E_{\text{thres}}$ and by applying useful approximations, \eqref{eqn:ioniz_sum} yields
 %
 \begin{equation}
-	- \frac{\symup{d}E}{\symup{d}X} = \frac{2 \pi r_e^2 m_e n}{\beta^2} \left[ \log{\left( \frac{2 m_e (\tau + 2)}{I} \right) + F^{\pm}(\tau, \Delta) - \delta } \right]
+	- \left(\frac{\symup{d}E}{\symup{d}X}\right)_{\!\!\pm} = \frac{2 \pi r_e^2 m_e}{\beta^2} \left[ \log{\left( \frac{2 m_e (\tau + 2)}{I} \right) + F^{\pm}(\tau, \Delta) - \delta } \right],
 \end{equation}
 %
-also known as the Berger-Seltzer formula \cite{Hirayama:2005zm}.
-\todo{Prefactors of the equations. Captions of plots and feynman diagrams. Kinematic limits for the cross sections.}
+also known as the Berger-Seltzer formula \cite{Hirayama:2005zm}, with
+%
+\begin{align}
+	\tau &= \gamma - 1, & \Delta = \text{min}\left[ \frac{v_{\text{max}} E}{m_e}, \frac{v_{\text{cut}} E}{m_e} \right],
+\end{align}
+%
+the mean ionization energy of the medium $I$ and the contribution from the density correction $\delta$ described in detail in \cite{Kohne:2013zbq}.
+Furthermore, $F^{\pm}(\tau, \Delta)$ differs for electrons and positrons and is defined by
+\begin{align}
+	\begin{split}
+	F^{+}(\tau, \Delta) = &\ln\left(\tau \Delta \right) - \frac{\beta^2}{\tau} \biggl[ \tau + 2 \Delta - \frac{3 \Delta^2 }{2} \\ &- (\Delta - \frac{\Delta^2}{3}) y^2 - ( \frac{\Delta^2}{2} - \frac{\tau\Delta^3}{3} + \frac{\Delta^4}{4} ) y^3 \biggr],
+	\end{split}
+	\\[2ex]
+	\begin{split}
+	F^{-}(\tau, \Delta) = &-1 - \beta^2 + \ln\left( (\tau - \Delta) \Delta \right) + \frac{\tau}{\tau - \Delta} \\ &+ \frac{1}{\gamma^2} \left[ \frac{\Delta^2}{2} + (2 \tau + 1) \log\left( 1 - \frac{\Delta}{\tau} \right) \right].
+	\end{split}
+\end{align}
+
+\subsubsection{Implementation in PROPOSAL}
+
+
+% sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
+\begin{sloppypar}
+The cross ionization cross sections for electrons and positrons described above can be used in PROPOSAL by setting the keyword \texttt{ioniz} in the configuration file to \texttt{IonizBergerSeltzerMoller} to use the parametrization for electrons and \texttt{IonizBergerSeltzerBhabha} to use the parametrization for positrons. 
+\end{sloppypar}
+
+To take into account the atomic excitation levels relevant for small energy transfers, the Berger-Seltzer formula, i.e.\ \eqref{eqn:ioniz_sum}, is used when calculating the continuous ionization losses.
+When sampling the stochastic losses, the differential cross section for M{\o}ller scattering \eqref{eqn:moller}, respectively the differential cross section for Bhabha scattering \eqref{eqn:bhabha}, is used directly since the contributions from small energy transfers are negligible here.
+
+Figure \ref{fig:dEdx_ionization} shows the differences in the continuous ionization loss for electrons and positrons when using the appropriate Berger-Seltzer formula compared to the Bethe formula.
+It can be seen that the influence is up to $\SI{20}{\percent}$ for high energies.
+%
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_ionization.pdf}
-    \caption{Plot.}
+    \caption{Average energy loss of electrons and positrons in air due to ionization.}
     \label{fig:dEdx_ionization}
 \end{figure}
+%
+Furthermore, the Berger-Seltzer formula, compared to the Bethe formula which is independent of the particle charge, differentiates between electrons and positrons.
+While the contribution from the atomic excitation levels is, as a good approximation, identical for electrons and positrons, the contribution from high energy transfers differs.
+Here, if the ingoing particle is a electron, it is indistinguishable from the atomic electron after the ionization process.
+Therefore, the electron with the higher energy after the interaction is by definition the initial particle.
+A positron as a ingoing particle however is always distinguishable from the atomic electron and can therefore be the particle with the lower energy after the interaction.
 
 \subsection{Bremsstrahlung}
 

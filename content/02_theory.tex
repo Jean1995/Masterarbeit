@@ -155,7 +155,7 @@ This process is repeated either until the propagated distance of the initial par
 
 The following steps give a simplified overview of the propagation process within a \emph{Sector}.
 
-\textbf{Energy of the occurrence of the next interaction}
+\subsubsection{Energy of the occurrence of the next interaction}
 
 According to \eqref{eqn:energy_integral}, the energy of the occurrence of the next stochastic energy loss is calculated using a random number $\xi$.
 If
@@ -169,7 +169,7 @@ the sampled energy where the next stochastic loss occurs would fall below the th
 Furthermore, based on the lifetime $\tau$ of the initial particle, an energy where the particle decays is sampled.
 Both energy values are compared and the higher energy value, together with its interaction type (stochastic loss or decay), are used for the next step\footnote{If a decay is the next interaction, the step "Simulation of the stochastic energy loss" is replaced accordingly by a decay method.}.
 
-\textbf{Particle displacement}
+\subsubsection{Particle displacement}
 
 Given the initial energy $E_i$ and the energy of the interaction $E_f$, the (straight-lined) displacement is calculated with the tracking integral
 %
@@ -199,7 +199,7 @@ This changes the position of the next stochastic loss by sampling a deflection a
 Currently, three different parametrizations for multiple scattering can be used in PROPOSAL:
 A parametrization based on Molière's theory of multiple scattering as well as two parametrizations based on a gaussian-like approximation of the Molière theory by Highland, see \cite{GeiselBrinck2013RevisionOT} for a detailed description of the scattering processes used in PROPOSAL. 
 
-\textbf{Continuous energy losses and continuous randomization}
+\subsubsection{Continuous energy losses and continuous randomization}
 
 The energy loss between $E_i$ and $E_f$ is treated continuously according to \eqref{eqn:fE}, meaning that the particle energy is set to $E = E_f$.
 However, this can cause discontinuities in the energy spectrum as shown in figure \ref{fig:cont_rand}
@@ -228,7 +228,7 @@ The mean of this distribution corresponds to $E_i - E_f$, the variance is calcul
 where the derivation of the variance follows similar steps to the derivation of \eqref{eqn:energy_integral}, see \cite{chirkin2004propagating} for a detailed derivation and description. 
 The effects can be seen in figure \ref{fig:cont_rand}, the energy spectrum becomes continuous and the running time behaves similarly to the running time for the propagation without continuous randomization.
 
-\textbf{Simulation of the stochastic energy loss}
+\subsubsection{Simulation of the stochastic energy loss}
 
 If the stochastic energy loss falls inside the sector and occurs before the initial particle decays, a stochastic loss at the energy $E_f$ is sampled.
 The total stochastic cross section for the process $i$ is calculated by
