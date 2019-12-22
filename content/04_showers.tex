@@ -7,7 +7,7 @@
 Ionization describes the inelastic collision of a particle with atomic electrons, leading to an energy loss of the primary particle.
 For heavy, charged particles the average energy loss due to ionization is given by the Bethe formula.
 PROPOSAL uses a modified Bethe formula, taking into account density correction effects, to describe the ionization losses for muons and tau \cite{Kohne:2013zbq}.
-However, the Bethe formula can't be applied for electrons and positrons due to their lower mass as well as the indistinguishability of the incoming electrons with atomic electrons.
+However, the Bethe formula can't be applied for electrons and positrons due to their lower mass as well as the indistinguishability of incoming electrons with atomic electrons.
 Therefore, a separate treatment of the ionization losses for electrons and positrons is necessary.
 
 \subsubsection{Theoretial description}
@@ -60,14 +60,14 @@ with
 \end{figure}
 
 For energy transfers $\nu$ in the same order of magnitude as the atomic excitation levels, the explicit excitation probabilities $p(E, v)$ need to be considered.
-With a threshold transfer energy $\nu_{\text{thres}}$ that is above the atomic excitation levels but below the energy cut in PROPOSAL, the continuous energy loss per distance due to ionization can be written as
+Defining a threshold transfer energy $\nu_{\text{thres}}$ that is above the atomic excitation levels but below the energy cut in PROPOSAL, the continuous energy loss per distance due to ionization can be written as
 %
 \begin{equation}
 	\label{eqn:ioniz_sum}
 	-\left(\frac{\symup{d}E}{\symup{d}X}\right)_{\!\!\pm} \propto \int_{0}^{\sfrac{\nu_{\text{thres}}}{E}} v \cdot p(E, v) \, \symup{d}v + \int_{\sfrac{\nu_{\text{thres}}}{E}}^{v_{\text{cut}}} v \cdot \left(\frac{\symup{d}\sigma}{\symup{d}v}\right)_{\!\!\pm} \, \symup{d}v. 
 \end{equation}
 %
-For an appropriate value of $E_{\text{thres}}$ and by applying useful approximations, \eqref{eqn:ioniz_sum} yields
+For an appropriate value of $\nu_{\text{thres}}$, certain approximations can be applied where \eqref{eqn:ioniz_sum} yields
 %
 \begin{equation}
 	- \left(\frac{\symup{d}E}{\symup{d}X}\right)_{\!\!\pm} = \frac{2 \pi r_e^2 m_e}{\beta^2} \left[ \log{\left( \frac{2 m_e (\tau + 2)}{I} \right) + F^{\pm}(\tau, \Delta) - \delta } \right],
@@ -96,11 +96,11 @@ Furthermore, $F^{\pm}(\tau, \Delta)$ differs for electrons and positrons and is 
 
 % sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
 \begin{sloppypar}
-The cross ionization cross sections for electrons and positrons described above can be used in PROPOSAL by setting the keyword \texttt{ioniz} in the configuration file to \texttt{IonizBergerSeltzerMoller} to use the parametrization for electrons and \texttt{IonizBergerSeltzerBhabha} to use the parametrization for positrons. 
+The ionization cross sections for electrons and positrons described above can be used in PROPOSAL by setting the keyword \texttt{ioniz} in the configuration file to \texttt{IonizBergerSeltzerMoller} to use the parametrization for electrons and \texttt{IonizBergerSeltzerBhabha} to use the parametrization for positrons. 
 \end{sloppypar}
 
 To take into account the atomic excitation levels relevant for small energy transfers, the Berger-Seltzer formula, i.e.\ \eqref{eqn:ioniz_sum}, is used when calculating the continuous ionization losses.
-When sampling the stochastic losses, the differential cross section for M{\o}ller scattering \eqref{eqn:moller}, respectively the differential cross section for Bhabha scattering \eqref{eqn:bhabha}, is used directly since the contributions from small energy transfers are negligible here.
+When sampling the stochastic losses the differential cross section for M{\o}ller scattering \eqref{eqn:moller}, respectively the differential cross section for Bhabha scattering \eqref{eqn:bhabha}, is used directly since the contributions from small energy transfers are negligible here.
 
 Figure \ref{fig:dEdx_ionization} shows the differences in the continuous ionization loss for electrons and positrons when using the appropriate Berger-Seltzer formula compared to the Bethe formula.
 It can be seen that the influence is up to $\SI{20}{\percent}$ for high energies.
@@ -108,7 +108,7 @@ It can be seen that the influence is up to $\SI{20}{\percent}$ for high energies
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_ionization.pdf}
-    \caption{Average energy loss of electrons and positrons in air due to ionization.}
+    \caption{Average energy loss of electrons and positrons in air due to ionization. Note that the Bethe formula is, unlike the Berger-Seltzer formula, identical for electrons and positrons.}
     \label{fig:dEdx_ionization}
 \end{figure}
 %
