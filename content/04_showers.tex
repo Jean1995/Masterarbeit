@@ -6,7 +6,7 @@
 
 Ionization describes the inelastic collision of a particle with atomic electrons, leading to an energy loss of the primary particle.
 For heavy, charged particles the average energy loss due to ionization is given by the Bethe formula.
-PROPOSAL uses a modified Bethe formula, taking into account density correction effects, to describe the ionization losses for muons and tau \cite{Kohne:2013zbq}.
+PROPOSAL uses a modified Bethe formula, taking into account density correction effects, to describe the ionization losses for muons and tau particles \cite{Kohne:2013zbq}.
 However, the Bethe formula can't be applied for electrons and positrons due to their lower mass as well as the indistinguishability of incoming electrons with atomic electrons.
 Therefore, a separate treatment of the ionization losses for electrons and positrons is necessary.
 
@@ -96,7 +96,7 @@ Furthermore, $F^{\pm}(\tau, \Delta)$ differs for electrons and positrons and is 
 
 % sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
 \begin{sloppypar}
-The ionization cross sections for electrons and positrons described above can be used in PROPOSAL by setting the keyword \texttt{ioniz} in the configuration file to \texttt{IonizBergerSeltzerMoller} to use the parametrization for electrons and \texttt{IonizBergerSeltzerBhabha} to use the parametrization for positrons. 
+The ionization cross sections for electrons and positrons described above can be used in PROPOSAL by setting the keyword \texttt{ioniz} in the configuration file to \texttt{IonizBergerSeltzerMoller} to use the parametrization for electrons or \texttt{IonizBergerSeltzerBhabha} to use the parametrization for positrons. 
 \end{sloppypar}
 
 To take into account the atomic excitation levels relevant for small energy transfers, the Berger-Seltzer formula, i.e.\ \eqref{eqn:ioniz_sum}, is used when calculating the continuous ionization losses.
@@ -114,9 +114,9 @@ It can be seen that the influence is up to $\SI{20}{\percent}$ for high energies
 %
 Furthermore, the Berger-Seltzer formula, compared to the Bethe formula which is independent of the particle charge, differentiates between electrons and positrons.
 While the contribution from the atomic excitation levels is, as a good approximation, identical for electrons and positrons, the contribution from high energy transfers differs.
-Here, if the ingoing particle is a electron, it is indistinguishable from the atomic electron after the ionization process.
+Here, if the ingoing particle is an electron, it is indistinguishable from the atomic electron after the ionization process.
 Therefore, the electron with the higher energy after the interaction is by definition the initial particle.
-A positron as a ingoing particle however is always distinguishable from the atomic electron and can therefore be the particle with the lower energy after the interaction.
+A positron as an ingoing particle however is always distinguishable from the atomic electron and can therefore be the particle with the lower energy after the interaction.
 
 \subsection{Bremsstrahlung}
 
