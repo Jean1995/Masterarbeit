@@ -141,7 +141,7 @@ This parametrization is implemented in PROPOSAL to examine the differences betwe
 
 The bremsstrahlung cross section provided by EGS5, which is described in detail by \cite{Hirayama:2005zm}, is split into a high-energy and a low-energy part with a discrete cut at $\SI{50}{\mega\electronvolt}$.
 
-For $E > \SI{50}{\mega\electronvolt}$, the ultra-relativistic differential cross section, comparable to the Complete Screening parametrization in PROPOSAL is given by
+For $E > \SI{50}{\mega\electronvolt}$, the ultra-relativistic differential cross section, comparable to the Complete Screening parametrization in PROPOSAL, is given by
 %
 \begin{equation}
 	\label{eqn:brems_high}
@@ -214,9 +214,13 @@ For $E < \SI{50}{\mega\electronvolt}$, the differential bremsstrahlung cross sec
 	\end{split}	
 \end{equation}
 %
-where a correction factor $A^{\prime}(E,Z)$ has been introduced.
+where a density correction factor $A^{\prime}(E,Z)$ has been introduced.
+This factor $A^{\prime}(E,Z)$ rescales the differential cross section to be in agreement with the empirical average energy losses per distance from \cite{icru37}, the detailed procedure to obtain this correction is described in \cite{pirs}.
+It should be noted that this factor is only a normalization factor and is therefore not affecting the shape of the energy loss distribution itself.
 
 \subsubsection{Implementation in PROPOSAL}
+
+%%% interpolation table for 14 Z values for 115 energies between 1 keV and 10 GeV
 
 %
 \begin{figure}
