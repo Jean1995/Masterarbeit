@@ -10,7 +10,7 @@ PROPOSAL uses a modified Bethe formula, taking into account density correction e
 However, the Bethe formula can't be applied for electrons and positrons due to their lower mass as well as the indistinguishability of incoming electrons with atomic electrons.
 Therefore, a separate treatment of the ionization losses for electrons and positrons is necessary.
 
-\subsubsection{Theoretial description}
+\subsubsection{Theoretical description}
 
 For energy transfers $\nu$ significantly greater than the atomic excitation levels, the atomic electrons can be considered as free and in rest.
 In this case, the ionization process is essentially electron-electron scattering ($e^- + e^- \rightarrow e^- + e^-$), known as M{\o}ller scattering, or positron-electron scattering ($e^+ + e^- \rightarrow e^+ + e^-$), known as Bhabha scattering.
@@ -127,15 +127,94 @@ Bremsstrahlung describes the energy loss of a charged particle in the field of a
 \end{align*}
 %
 Since the process has a $m^{-2}$ mass dependency, bremsstrahlung is the dominant interaction for high energy electrons and positrons.
-It is therefore relevant to provide an accurate description of the bremsstrahlung cross sections.
+It is therefore relevant to provide an accurate description of the bremsstrahlung cross section.
 
 For electrons with high energies, \cite{Kohne:2013zbq} recommends the usage of the Complete Screening parametrization which is already implemented in PROPOSAL.
 This ultra-relativistic cross section, given and described by \cite{RevModPhys.46.815}, uses Coulomb corrections as well as the assumption that the screening of the Coulomb field of the nucleus by the atomic electron cloud is maximal, which is an appropriate approximation for high-energy electrons.
 
 EGS uses an alternative parametrization of the bremsstrahlung interaction, including empirical corrections for low energies.
-This parametrization is implemented in PROPOSAL to examine the differences between the cross sections provided by PROPOSAL and EGS.
+This parametrization is implemented in PROPOSAL to examine the differences between the cross sections provided by PROPOSAL and EGS as well as the influence from the low energy corrections.
 
 \subsubsection{Theoretical description}
+
+
+
+The bremsstrahlung cross section provided by EGS5, which is described in detail by \cite{Hirayama:2005zm}, is split into a high-energy and a low-energy part with a discrete cut at $\SI{50}{\mega\electronvolt}$.
+
+For $E > \SI{50}{\mega\electronvolt}$, the ultra-relativistic differential cross section, comparable to the Complete Screening parametrization in PROPOSAL is given by
+%
+\begin{equation}
+	\label{eqn:brems_high}
+	\begin{split}
+	\frac{\symup{d}\sigma}{\symup{d}v} = &\frac{Z (Z + \xi(Z)) r_e^2 \alpha}{v} \biggl[ (2 - 2 v + v^2) \left( \Phi_1(x) - \frac{4}{3} \ln(Z) - 4 f_c(Z) \right) \\ &- \frac{2}{3} (1 - v) \left( \Phi_2(x) - \frac{4}{3} \ln(Z) - 4 f_c(Z) \right) \biggl]
+	\end{split}
+\end{equation}
+%
+with
+%
+\begin{align}
+	x &= 136 Z^{-\sfrac{1}{3}} \frac{2 \delta}{m_e}, & \delta &= \frac{m_e^2 v}{2 E (1 - v)}.
+\end{align}
+%
+The functions $\Phi_1(x)$, $\Phi_2(x)$ describe the screening effects and are given by
+%
+\begin{align}
+	\Phi_1(x) &= 
+	\begin{cases}
+		20.867 - 3.242 x + 0.625 x^2, & x \leq 1,\\
+		21.12 - 4.184 \ln(x + 0.952), & x > 1,\\
+	\end{cases}\\
+	\Phi_2(x) &= 
+	\begin{cases}
+		20.029 - 1.930 x - 0.086 x^2, & x \leq 1,\\
+		21.12 - 4.184 \ln(x + 0.952), & x > 1,\\
+	\end{cases}
+\end{align}
+%
+which is an analytical approximation of the Thomas-Fermi form factors.
+Furthermore, $f_c(Z)$ describes the Coulomb correction and is approximated in an analytical form by
+%
+\begin{equation}
+	f_c(Z) \approx a^2 \left[ \frac{1}{1 + a^2} + 0.20206 - 0.0369a^2 + 0.0083 a^4 - 0.002 a^6 \right]
+\end{equation}
+%
+with $a = \alpha Z$.
+The parameter 
+%
+\begin{equation}
+	\xi(Z) = \frac{L_\text{rad}^{\prime}(Z)}{L_\text{rad}(Z) - f_c(Z)} 
+\end{equation}
+%
+accounts for atomic electron effects where the radiation logarithms are given by
+\begin{align}
+	L_\text{rad}^{\prime} &=
+	\begin{cases}
+		\ln(1194 Z^{-\sfrac{2}{3}}) & \text{if $Z > 4$}, \\
+		5.924 & \text{if $Z = 4$}, \\
+		5.805 & \text{if $Z = 3$}, \\
+		5.621 & \text{if $Z = 2$}, \\
+		6.144 & \text{if $Z = 1$},
+	\end{cases} \\
+	L_\text{rad} &=
+	\begin{cases}
+		\ln(184.15 Z^{-\sfrac{1}{3}}) & \text{if $Z > 4$}, \\
+		4.710 & \text{if $Z = 4$}, \\
+		4.740 & \text{if $Z = 3$}, \\
+		4.790 & \text{if $Z = 2$}, \\
+		5.310 & \text{if $Z = 1$}.
+	\end{cases}
+\end{align}
+
+For $E < \SI{50}{\mega\electronvolt}$, the differential bremsstrahlung cross section is given by
+%
+\begin{equation}
+	\label{eqn:brems_low}
+	\begin{split}
+	\frac{\symup{d}\sigma}{\symup{d}v} = &\frac{A^{\prime}(E, Z) Z (Z + \xi(Z)) r_e^2 \alpha}{v} \biggl[ (2 - 2 v + v^2) \left( \Phi_1(x) - \frac{4}{3} \ln(Z) \right) \\ &- \frac{2}{3} (1 - v) \left( \Phi_2(x) - \frac{4}{3} \ln(Z) \right) \biggl]
+	\end{split}	
+\end{equation}
+%
+where a correction factor $A^{\prime}(E,Z)$ has been introduced.
 
 \subsubsection{Implementation in PROPOSAL}
 
