@@ -86,6 +86,8 @@ if __name__ == "__main__":
 
     ax = fig.add_subplot(gs[0])
 
+    plt.axvline(x = 50, linestyle='--', color='red', linewidth=1)
+
     labels = [r'Electron Screening', r'Complete Screening', r'Andreev Bezrukov Bugaev']
     colors = ['green', 'blue', 'orange']
 
@@ -115,6 +117,8 @@ if __name__ == "__main__":
 
     ax = fig.add_subplot(gs[1], sharex=ax)
 
+    plt.axvline(x = 50, linestyle='--', color='red', linewidth=1)
+    
     start = 0
     ax.semilogx(
         energy[start:],
