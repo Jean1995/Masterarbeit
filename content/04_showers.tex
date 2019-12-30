@@ -248,6 +248,24 @@ Alternatively, using a differential cross section applicable for all energies wi
 
 \subsection{Electron-positron annihilation}
 
+\subsubsection{Theoretical description}
+
+\begin{figure}
+    \centering
+    \input{content/feynman/feynman_annihilation.tex}
+    \caption{Feynman diagram in leading order for electron-positron annihilation.}
+    \label{fig:feynman_annihilation}
+\end{figure}
+
+\subsubsection{Implementation in PROPOSAL}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/spectrum_annihilation.pdf}
+    \caption{Secondary particle spectrum for $\num{e5}$ positrons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in air. Electron-Positron annihilation is enabled. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cut applied here is $E_\text{cut} = \SI{500}{\mega\electronvolt}$. Note that the annihilation process is not affected by the cut settings.}
+    \label{fig:spectrum_annihilation}
+\end{figure}
+
 \section{Photon propagation in PROPOSAL}
 
 \subsection{Pair production by photons}

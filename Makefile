@@ -30,12 +30,15 @@ build/dEdx_ionization.pdf: Plots/dEdx_ionization.py Plots/matplotlibconfig.py | 
 build/dEdx_brems.pdf: Plots/dEdx_brems.py Plots/matplotlibconfig.py | build 
 	python Plots/dEdx_brems.py	
 
+build/spectrum_annihilation.pdf: Plots/spectrum_annihilation.py Plots/matplotlibconfig.py | build
+	python Plots/spectrum_annihilation.py		
+
 TeXOptions = -lualatex \
 			 -interaction=nonstopmode \
 			 -halt-on-error \
 			 -output-directory=build
                                                                                 
-build/masterthesis.pdf: FORCE build/cont_rand.pdf build/spectrum.pdf build/dEdx.pdf build/secondary_number.pdf build/dEdx_mupair.pdf build/spectrum_mupair.pdf build/mupair_rho.pdf build/dNdx_weak.pdf build/dEdx_ionization.pdf build/dEdx_brems.pdf | build
+build/masterthesis.pdf: FORCE build/cont_rand.pdf build/spectrum.pdf build/dEdx.pdf build/secondary_number.pdf build/dEdx_mupair.pdf build/spectrum_mupair.pdf build/mupair_rho.pdf build/dNdx_weak.pdf build/dEdx_ionization.pdf build/dEdx_brems.pdf build/spectrum_annihilation.pdf| build
 	latexmk $(TeXOptions) masterthesis.tex
 
 preview: FORCE | build
