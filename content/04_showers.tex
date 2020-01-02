@@ -281,8 +281,58 @@ Here, $\gamma$ and $\epsilon$ are defined by
 %
 meaning that $\epsilon$ describes the ratio of the energy transfer to one of the created photons to the available energy, i.e.\ the positron energy and the mass of the atomic electron.
 
+Since annihilation describes a two-body interaction, the kinematics of the final state are fully determined for a given $E$ and $\epsilon$.
+Considering a general two-body interaction 
+%
+\begin{align*}
+	X_1 + X_2 \rightarrow X_3 + X_4
+\end{align*}
+%
+with the corresponding energies $E_i$, masses $m_i$ and absolute momenta $p_i$ of the particles involved, applying the conversation of four-momentum (i.e.\ conversation of energy and conversation of 3-space momentum) leads to the relation \cite{Hirayama:2005zm}
+%
+\begin{equation}
+	\cos(\theta_3) = \frac{m_4^2 - m_1^2 - m_2^2 - m_3^2 + 2 (E_1 + m_2) E_3 - 2 E_1 m_2}{2 p_1 p_3}
+\end{equation}
+%
+for the frame where $X_2$ is in rest with the angle $\theta_3$ between the incident particle $X_1$ and the final particle $X_3$.
+For annihilation, using
+%
+\begin{align*}
+	E_1 &= E, & m_1 &= m_2 = m_e, \\
+	E_2 &= m_e, & m_3 &= m_4 = 0, \\
+	E_3 &= \epsilon (E + m_e),
+\end{align*}
+%
+yields the relation
+%
+\begin{equation}
+	\label{eqn:annihilation_angle}
+	\cos(\theta_3) = \frac{\epsilon (\gamma + 1) - 1}{\epsilon\sqrt{\gamma^2 - 1}}
+\end{equation}
+%
+as well as, using a similar calculation, the relation
+%
+\begin{equation}
+	\cos(\theta_4) = \frac{(1 - \epsilon) (\gamma + 1) - 1}{(1-\epsilon)\sqrt{\gamma^2 - 1}}.
+\end{equation}
+%
+Furthermore, setting $\cos(\theta_3) = \pm \num{1}$ in \ref{eqn:annihilation_angle} yields the kinematic limits for $\epsilon$
+%
+\begin{align}
+	\epsilon_{\text{max/min}} = \frac{1}{2} \pm \frac{1}{2} \sqrt{\frac{\gamma - 1}{\gamma + 1}}.
+\end{align}
+%
 
 \subsubsection{Implementation in PROPOSAL}
+
+% sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
+\begin{sloppypar}
+The annihilation cross section described in the previous section, which is per default disabled in PROPOSAL, can be enabled by setting the keyword \texttt{annihilation} in the configuration file to \texttt{AnnihilationHeitler}.
+\end{sloppypar}
+
+The annihilation process is a catastrophic loss, similar to the weak interaction whose treatment is described in section \ref{sec:weak_implementation}, since the initial positron ceases to exist after the interaction.
+Accordingly, treating this process as continuous would be unphysical.
+Instead, the interaction is always stochastic and the relative energy loss of the initial positron is always $v=1$ for the annihilation process since all energy is transferred to the created photon pair.
 
 \begin{figure}
     \centering
