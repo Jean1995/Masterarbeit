@@ -236,7 +236,7 @@ PROPOSAL uses a two-dimensional interpolation routine to obtain the correction f
 \end{figure}
 
 
-Figure \ref{fig:dEdx_brems} shows a comparison of the average energy loss for electrons loss due to bremsstrahlung when using different differential cross sections.
+Figure \ref{fig:dEdx_brems} shows a comparison of the average energy loss for electrons\footnote{The bremsstrahlung cross section is identical for positrons which is valid regarding lowest order calculations in $\alpha$ \cite{RevModPhys.46.815}.} loss due to bremsstrahlung when using different differential cross sections.
 For very high energies, all parametrizations yield comparable results.
 However, differences exceeding a factor of $\num{1.5}$ can be seen for lower energies, especially in the domain of several \si{\mega\electronvolt}.
 It is particularly noticeable that the results from the Electron Screening parametrization are in better agreement with the Andreev Bezrukov Bugaev parametrization than the Complete Screening parametrization, although the latter has been recommended for (high) electron electrons.
@@ -250,12 +250,37 @@ Alternatively, using a differential cross section applicable for all energies wi
 
 \subsubsection{Theoretical description}
 
+Positron-electron annihilation, only called annihilation in the further course of the chapter, describes the collision of a positron with an atomic electron where both particles annihilate and a pair of photons is created, i.e\ the process
+%
+\begin{align*}
+	e^+ + e^- \rightarrow \gamma + \gamma,
+\end{align*}
+which is therefore only relevant when propagating positrons.
+%
+The feynman diagram describing this process in leading order is shown in figure \ref{fig:feynman_annihilation}.
+%
 \begin{figure}
     \centering
     \input{content/feynman/feynman_annihilation.tex}
     \caption{Feynman diagram in leading order for electron-positron annihilation.}
     \label{fig:feynman_annihilation}
 \end{figure}
+
+Under the assumption that the atomic electron in initially free and and rest, which is a good approximation for positrons with energies high compared to atomic binding energies, the differential annihilation cross section is described by the Heitler formula \cite{heitler1954quantum} given by \cite{Hirayama:2005zm}
+%
+\begin{equation}
+	\frac{\symup{d}\sigma}{\symup{d}\epsilon} = \frac{\pi r_e^2}{\gamma - 1} \frac{1}{\epsilon} \left[ 1 + \frac{2 \gamma}{(\gamma + 1)^2} - \epsilon - \frac{1}{(\gamma + 1)^2} \frac{1}{\epsilon} \right].
+\end{equation}
+%
+
+Here, $\gamma$ and $\epsilon$ are defined by
+%
+\begin{align*}
+	\gamma &= \frac{E}{m}, & \epsilon &= \frac{E_{\gamma, 1}}{E + m_e},
+\end{align*}
+%
+meaning that $\epsilon$ describes the ratio of the energy transfer to one of the created photons to the available energy, i.e.\ the positron energy and the mass of the atomic electron.
+
 
 \subsubsection{Implementation in PROPOSAL}
 
@@ -275,3 +300,4 @@ Alternatively, using a differential cross section applicable for all energies wi
 \subsection{Cross checks}
 
 \subsection{Electromagnetic shower propagation with PROPOSAL}
+
