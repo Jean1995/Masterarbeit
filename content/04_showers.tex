@@ -335,7 +335,7 @@ The annihilation cross section described in the previous section, which is per d
 The annihilation process is a catastrophic loss, similar to the weak interaction whose treatment is described in section \ref{sec:weak_implementation}, since the initial positron ceases to exist after the interaction.
 Accordingly, treating this process as continuous would be unphysical.
 Instead, the annihilation interaction is always stochastic and the relative energy loss of the initial positron is always $v=1$ since all energy is transferred to the created photon pair.
-This requires adjustments to the simulation of the stochastic energy loss in the propagation algorithm in PROPOSAL described in section \ref{sec:algorithm}.
+This requires adjustments to the simulation of the stochastic energy loss in the propagation algorithm of PROPOSAL described in section \ref{sec:algorithm}.
 
 To calculate the total stochastic cross section $\sigma_{\text{stoch}}$ for annihilation, the differential cross section \eqref{eqn:heitler_annihilation} is integrated over the entire kinematic range of $\epsilon$.
 Since $v=1$, the energy transfer doesn't need to be calculated here.
@@ -352,7 +352,7 @@ With the sampled $\epsilon$, the energies of the created photons are set to
 	E_{\gamma,1} &= (E + m) \epsilon, & E_{\gamma,2} &= (E + m) (1 - \epsilon).
 \end{align}
 %
-Furthermore, the photons inherit the propagation direction of the initial positron with an additional deflection of an polar angle $\theta$ according to \eqref{eqn:annihilation_angle_1} and \eqref{eqn:annihilation_angle_2} as well as an azimuth angle $\Phi$ sampled with
+Furthermore, the photons inherit the direction of the initial positron with an additional deflection of a polar angle $\theta$ according to \eqref{eqn:annihilation_angle_1} and \eqref{eqn:annihilation_angle_2} as well as an azimuth angle $\Phi$ sampled with
 %
 \begin{align}
 	\Phi_{\gamma,1} &= 2 \pi \xi, & \Phi_{\gamma,2} &= (2 \pi \xi + \pi) \;\mathrm{mod}\; 2 \pi,
@@ -363,7 +363,7 @@ After an annihilation interaction, PROPOSAL returns the created photons and stop
 
 Figure \ref{fig:spectrum_annihilation} shows a secondary particle spectrum for positrons where annihilation is enabled.
 Since annihilation is always stochastic with $v=1$, the process is not influenced by the energy cut settings, resulting in stochastic losses with $E \cdot v < {E_\text{cut}}$.
-Quantitatively, the annihilation interaction is, as well as the other processes, suppressed compared to the bremsstrahlung interaction.
+Quantitatively, the annihilation interaction is, as well as the other processes, suppressed compared to bremsstrahlung processes.
 However, for energy losses around $\SI{1}{\giga\electronvolt}$, a contribution to the secondary spectrum at a level of a few percent can be observed.
 
 \begin{figure}
