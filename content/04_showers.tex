@@ -250,7 +250,7 @@ Alternatively, using a differential cross section applicable for all energies wi
 
 \subsubsection{Theoretical description}
 
-Positron-electron annihilation, only called annihilation in the further course of the chapter, describes the collision of a positron with an atomic electron where both particles annihilate and a pair of photons is created, i.e\ the process
+Electron-positron annihilation, only called annihilation in the further course of this section, describes the collision of a positron with an atomic electron where both particles annihilate and a pair of photons is created, i.e\ the process
 %
 \begin{align*}
 	e^+ + e^- \rightarrow \gamma + \gamma,
@@ -266,9 +266,10 @@ The feynman diagram describing this process in leading order is shown in figure 
     \label{fig:feynman_annihilation}
 \end{figure}
 
-Under the assumption that the atomic electron in initially free and and rest, which is a good approximation for positrons with energies high compared to atomic binding energies, the differential annihilation cross section is described by the Heitler formula \cite{heitler1954quantum} given by \cite{Hirayama:2005zm}
+Under the assumption that the atomic electron is initially free and and rest, which is a good approximation for positrons with energies high compared to atomic binding energies, the differential annihilation cross section is described by the Heitler formula \cite{heitler1954quantum} given by \cite{Hirayama:2005zm}
 %
 \begin{equation}
+	\label{eqn:heitler_annihilation}
 	\frac{\symup{d}\sigma}{\symup{d}\epsilon} = \frac{\pi r_e^2}{\gamma - 1} \frac{1}{\epsilon} \left[ 1 + \frac{2 \gamma}{(\gamma + 1)^2} - \epsilon - \frac{1}{(\gamma + 1)^2} \frac{1}{\epsilon} \right].
 \end{equation}
 %
@@ -306,17 +307,18 @@ For annihilation, using
 yields the relation
 %
 \begin{equation}
-	\label{eqn:annihilation_angle}
+	\label{eqn:annihilation_angle_1}
 	\cos(\theta_3) = \frac{\epsilon (\gamma + 1) - 1}{\epsilon\sqrt{\gamma^2 - 1}}
 \end{equation}
 %
 as well as, using a similar calculation, the relation
 %
 \begin{equation}
+	\label{eqn:annihilation_angle_2}
 	\cos(\theta_4) = \frac{(1 - \epsilon) (\gamma + 1) - 1}{(1-\epsilon)\sqrt{\gamma^2 - 1}}.
 \end{equation}
 %
-Furthermore, setting $\cos(\theta_3) = \pm \num{1}$ in \ref{eqn:annihilation_angle} yields the kinematic limits for $\epsilon$
+Furthermore, setting $\cos(\theta_3) = \pm \num{1}$ in \ref{eqn:annihilation_angle_1} yields the kinematic limits for $\epsilon$
 %
 \begin{align}
 	\epsilon_{\text{max/min}} = \frac{1}{2} \pm \frac{1}{2} \sqrt{\frac{\gamma - 1}{\gamma + 1}}.
@@ -332,12 +334,42 @@ The annihilation cross section described in the previous section, which is per d
 
 The annihilation process is a catastrophic loss, similar to the weak interaction whose treatment is described in section \ref{sec:weak_implementation}, since the initial positron ceases to exist after the interaction.
 Accordingly, treating this process as continuous would be unphysical.
-Instead, the interaction is always stochastic and the relative energy loss of the initial positron is always $v=1$ for the annihilation process since all energy is transferred to the created photon pair.
+Instead, the annihilation interaction is always stochastic and the relative energy loss of the initial positron is always $v=1$ since all energy is transferred to the created photon pair.
+This requires adjustments to the simulation of the stochastic energy loss in the propagation algorithm in PROPOSAL described in section \ref{sec:algorithm}.
+
+To calculate the total stochastic cross section $\sigma_{\text{stoch}}$ for annihilation, the differential cross section \eqref{eqn:heitler_annihilation} is integrated over the entire kinematic range of $\epsilon$.
+Since $v=1$, the energy transfer doesn't need to be calculated here.
+Instead, $\epsilon$ needs to be sampled by solving the integral equation
+%
+\begin{equation}
+	\frac{1}{\sigma_{\text{stoch}}} \int_{\epsilon_{\text{min}}}^{\epsilon} \frac{\symup{d}\sigma}{\symup{d}\epsilon} \, \symup{d}\epsilon = \xi
+\end{equation}
+%
+for $\epsilon$ with a random number $\xi \in \left[0,1\right)$.
+With the sampled $\epsilon$, the energies of the created photons are set to
+%
+\begin{align}
+	E_{\gamma,1} &= (E + m) \epsilon, & E_{\gamma,2} &= (E + m) (1 - \epsilon).
+\end{align}
+%
+Furthermore, the photons inherit the propagation direction of the initial positron with an additional deflection of an polar angle $\theta$ according to \eqref{eqn:annihilation_angle_1} and \eqref{eqn:annihilation_angle_2} as well as an azimuth angle $\Phi$ sampled with
+%
+\begin{align}
+	\Phi_{\gamma,1} &= 2 \pi \xi, & \Phi_{\gamma,2} &= (2 \pi \xi + \pi) \;\mathrm{mod}\; 2 \pi,
+\end{align}
+%
+where $\xi \in \left[0,1\right)$ is a random number.
+After an annihilation interaction, PROPOSAL returns the created photons and stops the particle propagation.
+
+Figure \ref{fig:spectrum_annihilation} shows a secondary particle spectrum for positrons where annihilation is enabled.
+Since annihilation is always stochastic with $v=1$, the process is not influenced by the energy cut settings, resulting in stochastic losses with $E \cdot v < {E_\text{cut}}$.
+Quantitatively, the annihilation interaction is, as well as the other processes, suppressed compared to the bremsstrahlung interaction.
+However, for energy losses around $\SI{1}{\giga\electronvolt}$, a contribution to the secondary spectrum at a level of a few percent can be observed.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/spectrum_annihilation.pdf}
-    \caption{Secondary particle spectrum for $\num{e5}$ positrons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in air. Electron-Positron annihilation is enabled. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cut applied here is $E_\text{cut} = \SI{500}{\mega\electronvolt}$. Note that the annihilation process is not affected by the cut settings.}
+    \caption{Secondary particle spectrum for $\num{e5}$ positrons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in air. Electron-Positron annihilation is enabled. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cut applied here is $E_\text{cut} = \SI{500}{\mega\electronvolt}$. Note that the annihilation process is not affected by the cut settings since the relative energy transfer $v$ is always $1$.}
     \label{fig:spectrum_annihilation}
 \end{figure}
 
