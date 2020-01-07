@@ -1,1 +1,131 @@
-\chapter{Anhang}
+\chapter{Atomic form factors for pair production}
+\label{sec:atomic_form_factors}
+
+The atomic form factors for electron-positron pair production by photons describe the effects due to the field of atomic electrons.
+These effects are firstly the screening of the nuclear Coulomb field, described by the elastic atomic form factor $G_2^{\text{el}}$, and secondly events where the photon scatters from the electron field screened by the nucleus, described by the inelastic atomic form factor $G_2^{\text{inel}}$.
+The contributions from the atomic form factors are only relevant for electron-positron pair production at small production angles which is the usual use case for high energy photon propagation.
+To obtain the functions $\varphi$ and $\psi$ parameterizing the information from these atomic form factors, integrations of $G_2$ over kinematic variables are necessary.
+
+\section{Hydrogen and Helium}
+
+For $Z=1$, the atomic form factors are known exactly while for $Z=2$, an approximative model leading to a similar analytic expression can be used.
+These form factors can be integrated analytically leading to the expressions \cite{RevModPhys.46.815}
+%
+\begingroup
+\allowdisplaybreaks
+\begin{align}
+	\begin{split}
+		\varphi_1 &= \frac{4}{3} \ln(Z) + 4 \ln\left(\frac{1}{2 \eta \alpha}\right) + \frac{13}{3} - 2 \ln(1 + C^2) \\&\quad- \frac{13}{2} C \arctan(C^{-1}) + \frac{1}{6}\frac{1}{1 - C^{-2}},
+	\end{split}
+	\\[2ex]
+	\begin{split}
+		\varphi_2 &= \frac{4}{3} \ln(Z) + 4 \ln\left(\frac{1}{2 \eta \alpha}\right) + \frac{11}{3} - 2 \ln(1 + C^2) \\&\quad+ 25 C^2 (1 - C \arctan(C^{-1})) - 14 C^2 \ln(1 + C^{-2}),
+	\end{split}
+	\\[2ex]
+	\begin{split}
+		\psi_1 &= \frac{8}{3} \ln(Z) + 4 \ln\left(\frac{1}{2 \eta \alpha}\right) + \frac{23}{3} - 2 \ln (1 + C^2) \\&\quad- 17.5 C \arctan{C^{-1}} + 8 C^2 \ln(1 + C^{-2}) - \frac{1}{6}\frac{1}{1 + C^{-2}},
+	\end{split}
+	\\[2ex]
+	\begin{split}
+		\psi_2 &= \frac{8}{3} \ln(Z) + 4 \ln\left(\frac{1}{2 \eta \alpha}\right) + \frac{21}{3} - 2 \ln (1 + C^2) \\&\quad- 105 C^2 (1 - C \arctan(C^{-1})) + 50 C^2 \ln(1 + C^{-2}) \\&\quad- 24 C^2 \biggl[ - \ln(C^2) \ln(1 + C^{-2}) + \Phi(1 + C^{-2}) - \Phi(1) \biggr],
+	\end{split}
+\end{align}
+\endgroup
+%
+with
+%
+\begin{align*}
+	C &= \frac{\delta}{2 \alpha m_e \eta}, & \delta &= \frac{m_e^2}{2 E_{\gamma} x (1-x)},
+\end{align*}
+%
+where $\eta$ is defined as
+%
+\begin{align*}
+	\eta &= 
+	\begin{cases}
+		1 & \text{if $Z = 1$},\\
+		1.6875 & \text{if $Z = 2$},\\
+	\end{cases}
+\end{align*}
+%
+and $\Phi(x)$ is the dilogarithm function.
+
+\section{Lithium and Beryllium}
+
+For $Z=3$ and $Z=4$, the atomic form factors are only known numerically.
+Instead of referring to these values, a simpler approximation for the form factors $G_2$ is used.
+The parameters of this approximation are chosen in such a way that the results for $G_2$ are exact in the limits of complete screening and no screening.
+Based on that, the functions $\varphi$, $\psi$ are \cite{RevModPhys.46.815}
+%
+\begingroup
+\allowdisplaybreaks
+\begin{align}
+	\label{eqn:phi_1}
+	\begin{split}
+		\varphi_1 &= 2\left(1 + \ln(a^2 Z^{\sfrac{2}{3}} m_e^2)\right) - 2 \ln(1 + b^2) - 4 b \arctan(b^{-1}),
+	\end{split}
+	\\[2ex]
+	\begin{split}
+		\varphi_2 &= 2 \left(\frac{2}{3} + \ln(a^2 Z^{\sfrac{2}{3}} m_e^2 )\right) - 2 \ln(1 + b^2) \\&\quad+ 8 b^2  \biggl[ 1 - b \arctan(b^{-1}) - 0.75 \ln(1 + b^{-2}) \biggr],
+	\end{split}
+	\\[2ex]
+	\begin{split}
+		\psi_1 &= 2\left(1 + \ln(a^{\prime2} Z^{\sfrac{4}{3}} m_e^2)\right) - 2 \ln(1 + b^{\prime2}) - 4 b^{\prime} \arctan(b^{-1}),
+	\end{split}
+	\\[2ex]
+	\label{eqn:psi_2}
+	\begin{split}
+		\psi_2 &= 2a \left(\frac{2}{3} + \ln(a^{\prime2} Z^{\sfrac{4}{3}} m_e^2 )\right) - 2 \ln(1 + b^{\prime2}) \\&\quad+ 8 b^{\prime2}  \biggl[ 1 - b \arctan(b^{\prime-1}) - 0.75 \ln(1 + b^{\prime-2}) \biggr],
+	\end{split}
+\end{align}
+\endgroup
+%
+with
+%
+\begin{align*}
+	a &= 
+	\begin{cases}
+		\frac{100}{m_e} Z^{-\sfrac{1}{3}} & \text{if $Z = 3$},\\
+		\frac{106}{m_e} Z^{-\sfrac{1}{3}} & \text{if $Z = 4$},\\
+	\end{cases}\\
+	a^{\prime} &= 
+	\begin{cases}
+		\frac{418.6}{m_e} Z^{-\sfrac{2}{3}} & \text{if $Z = 3$},\\
+		\frac{571.4}{m_e} Z^{-\sfrac{2}{3}} & \text{if $Z = 4$},\\
+	\end{cases}
+\end{align*}
+and $b = a \delta$, $b^{\prime} = a^{\prime} \delta$.
+%
+
+\section{Heavier elements}
+
+For $Z>4$, the Thomas-Fermi model of the atom is used to evaluate the atomic form factors.
+The parameters from \eqref{eqn:phi_1} to \eqref{eqn:psi_2} were adapted to fit the numerical values obtained from the Thomas-Fermi model, yielding the expressions \cite{RevModPhys.46.815}
+%
+\begingroup
+\allowdisplaybreaks
+\begin{align}
+	\begin{split}
+		\varphi_1(\gamma) &= 20.863 - 2 \ln(1 + (0.55846 \gamma)^2) \\&\quad- 4 \biggl[ 1 - 0.6 \exp(-0.9\gamma) - 0.4 \exp(-1.5 \gamma) \biggr],
+	\end{split}
+	\\[2ex]
+	\begin{split}
+		\varphi_2(\gamma) &= \varphi_1(\gamma) - \frac{2}{3} \frac{1}{1 + 6.5\gamma + 6\gamma^2},
+	\end{split}
+	\\[2ex]
+	\begin{split}
+		\psi_1(\epsilon) &=  28.34 - 2\ln(1 + (3.621 \epsilon)^2) \\&\quad- 4 \biggl[ 1 - 0.7 \exp(- 8 \epsilon) - 0.3 \exp(-29.2\epsilon) \biggr],
+	\end{split}
+	\\[2ex]
+	\begin{split}
+		\psi_2(\epsilon) &= \psi_1(\epsilon) - \frac{2}{3} \frac{1}{1 + 40\epsilon + 400\epsilon^2},
+	\end{split}
+\end{align}
+\endgroup
+%
+with
+%
+\begin{align*}
+	\gamma &= \frac{200 \delta}{m_e Z^{\sfrac{1}{3}}}, & \epsilon &= \frac{200 \delta}{m_e Z^{\sfrac{2}{3}}}.
+\end{align*}
+%

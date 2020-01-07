@@ -19,7 +19,7 @@ The two feynman diagrams contributing in leading order for M{\o}ller scattering 
 \begin{equation}
 	\begin{split}
 	\label{eqn:moller}
-	\left(\frac{\symup{d}\sigma}{\symup{d}v}\right)_{\!\!-} = &\frac{2 \pi r_e^2 Z \gamma}{\beta^2(\gamma - 1)^2} \biggl[ \frac{(\gamma - 1)^2}{\gamma^2} + \frac{1}{\epsilon} \left( \frac{1}{\epsilon} - \frac{2\gamma - 1}{\gamma^2} \right) \\ &+ \frac{1}{1 - \epsilon} \left( \frac{1}{1 - \epsilon} - \frac{2 \gamma - 1}{\gamma^2} \right) \biggr]
+	\left(\frac{\symup{d}\sigma}{\symup{d}v}\right)_{\!\!-} &= \frac{2 \pi r_e^2 Z \gamma}{\beta^2(\gamma - 1)^2} \biggl[ \frac{(\gamma - 1)^2}{\gamma^2} + \frac{1}{\epsilon} \left( \frac{1}{\epsilon} - \frac{2\gamma - 1}{\gamma^2} \right) \\ &\quad+ \frac{1}{1 - \epsilon} \left( \frac{1}{1 - \epsilon} - \frac{2 \gamma - 1}{\gamma^2} \right) \biggr]
 	\end{split}
 \end{equation}
 %
@@ -83,11 +83,11 @@ the mean ionization energy of the medium $I$ and the contribution from the densi
 Furthermore, $F^{\pm}(\tau, \Delta)$ differs for electrons and positrons and is defined by
 \begin{align}
 	\begin{split}
-	F^{+}(\tau, \Delta) = &\ln\left(\tau \Delta \right) - \frac{\beta^2}{\tau} \biggl[ \tau + 2 \Delta - \frac{3 \Delta^2 }{2} \\ &- (\Delta - \frac{\Delta^2}{3}) y^2 - ( \frac{\Delta^2}{2} - \frac{\tau\Delta^3}{3} + \frac{\Delta^4}{4} ) y^3 \biggr],
+	F^{+}(\tau, \Delta) &= \ln\left(\tau \Delta \right) - \frac{\beta^2}{\tau} \biggl[ \tau + 2 \Delta - \frac{3 \Delta^2 }{2} \\ &\quad- (\Delta - \frac{\Delta^2}{3}) y^2 - ( \frac{\Delta^2}{2} - \frac{\tau\Delta^3}{3} + \frac{\Delta^4}{4} ) y^3 \biggr],
 	\end{split}
 	\\[2ex]
 	\begin{split}
-	F^{-}(\tau, \Delta) = &-1 - \beta^2 + \ln\left( (\tau - \Delta) \Delta \right) + \frac{\tau}{\tau - \Delta} \\ &+ \frac{1}{\gamma^2} \left[ \frac{\Delta^2}{2} + (2 \tau + 1) \log\left( 1 - \frac{\Delta}{\tau} \right) \right].
+	F^{-}(\tau, \Delta) &= -1 - \beta^2 + \ln\left( (\tau - \Delta) \Delta \right) + \frac{\tau}{\tau - \Delta} \\ &\quad+ \frac{1}{\gamma^2} \left[ \frac{\Delta^2}{2} + (2 \tau + 1) \log\left( 1 - \frac{\Delta}{\tau} \right) \right].
 	\end{split}
 \end{align}
 
@@ -137,8 +137,6 @@ This parametrization is implemented in PROPOSAL to examine the differences betwe
 
 \subsubsection{Theoretical description}
 
-
-
 The bremsstrahlung cross section provided by EGS5, which is described in detail by \cite{Hirayama:2005zm}, is split into a high-energy and a low-energy part with a discrete cut at $\SI{50}{\mega\electronvolt}$.
 
 For $E > \SI{50}{\mega\electronvolt}$, the ultra-relativistic differential cross section, comparable to the Complete Screening parametrization in PROPOSAL, is given by
@@ -146,7 +144,7 @@ For $E > \SI{50}{\mega\electronvolt}$, the ultra-relativistic differential cross
 \begin{equation}
 	\label{eqn:brems_high}
 	\begin{split}
-	\frac{\symup{d}\sigma}{\symup{d}v} = &\frac{Z (Z + \xi(Z)) r_e^2 \alpha}{v} \biggl[ (2 - 2 v + v^2) \left( \Phi_1(x) - \frac{4}{3} \ln(Z) - 4 f_c(Z) \right) \\ &- \frac{2}{3} (1 - v) \left( \Phi_2(x) - \frac{4}{3} \ln(Z) - 4 f_c(Z) \right) \biggl]
+	\frac{\symup{d}\sigma}{\symup{d}v} &= \frac{Z (Z + \xi(Z)) r_e^2 \alpha}{v} \biggl[ (2 - 2 v + v^2) \left( \Phi_1(x) - \frac{4}{3} \ln(Z) - 4 f_c(Z) \right) \\ &\quad- \frac{2}{3} (1 - v) \left( \Phi_2(x) - \frac{4}{3} \ln(Z) - 4 f_c(Z) \right) \biggl]
 	\end{split}
 \end{equation}
 %
@@ -210,7 +208,7 @@ For $E < \SI{50}{\mega\electronvolt}$, the differential bremsstrahlung cross sec
 \begin{equation}
 	\label{eqn:brems_low}
 	\begin{split}
-	\frac{\symup{d}\sigma}{\symup{d}v} = &\frac{A^{\prime}(E, Z) Z (Z + \xi(Z)) r_e^2 \alpha}{v} \biggl[ (2 - 2 v + v^2) \left( \Phi_1(x) - \frac{4}{3} \ln(Z) \right) \\ &- \frac{2}{3} (1 - v) \left( \Phi_2(x) - \frac{4}{3} \ln(Z) \right) \biggl]
+	\frac{\symup{d}\sigma}{\symup{d}v} &= \frac{A^{\prime}(E, Z) Z (Z + \xi(Z)) r_e^2 \alpha}{v} \biggl[ (2 - 2 v + v^2) \left( \Phi_1(x) - \frac{4}{3} \ln(Z) \right) \\ &\quad- \frac{2}{3} (1 - v) \left( \Phi_2(x) - \frac{4}{3} \ln(Z) \right) \biggl]
 	\end{split}	
 \end{equation}
 %
@@ -376,6 +374,40 @@ However, for energy losses around $\SI{1}{\giga\electronvolt}$, a contribution t
 \section{Photon propagation in PROPOSAL}
 
 \subsection{Pair production by photons}
+
+Photo pair production, called electron-positron pair production in the further course of this subsection (although not to be confused with the creation of an electron-positron pair by an incoming lepton), describes the creation of an electron-positron pair by an ingoing photon in the field of an atomic nucleus.
+A feynman diagram for the process is shown in figure \ref{fig:feynman_photopair}.
+%
+\begin{figure}
+    \centering
+    \input{content/feynman/feynman_photopair.tex}
+    \caption{Feynman diagram in leading order for electron-positron pair production by an ingoing photon near a nucleus. The nucleus is necessary to conserve energy and momentum during the interaction.}
+    \label{fig:feynman_photopair}
+\end{figure}
+%
+Electron-positron pair production is the dominant interaction of photons in matter with energies above several $\si{\mega\electronvolt}$ and is therefore essential for the propagation of high energy photons.
+
+\subsubsection{Theoretical description}
+
+The process of electron-positron pair production is described by quantum electrodynamics and a differential cross section exact to order $\alpha^3$ is provided by \cite{RevModPhys.46.815}.
+However, the evaluation of this expression is too complicated for a practical implementation.
+Based on \cite[][Eq.~3.9]{RevModPhys.46.815}, an approximated expression is given by
+%
+\begin{equation}
+	\begin{split}
+	\frac{\symup{d}\sigma}{\symup{d}x} &= \frac{\alpha r_e^2 x E_{\gamma}}{p} \biggl\{ \left(\frac{4}{3} x^2 - \frac{4}{3} x + 1 \right) \\ &\quad\times \biggl[ Z^2 \left(\varphi_1 - \frac{4}{3} \ln(Z) - 4f(z) \right) + Z \left( \psi_1 - \frac{8}{3} \ln(Z) \right) \biggr]  \\ &\quad- \frac{2}{3} x (1 - x) \biggl[ Z^2 \left(\varphi_1 - \varphi_2\right) + Z \left(\psi_1 - \psi_2\right) \biggr] \biggr\}
+	\end{split}
+\end{equation}
+%
+with $x = \sfrac{E_{-}}{E_{\gamma}}$ where $E_{\gamma}$ is the energy of the initial photon, $E_-$ the energy of the produced electron and $p$ its absolute momentum.
+The function $f(Z)$ describes the Coulomb correction which is given by
+%
+\begin{align}
+	f(z) &= 1.202 z - 1.0369 z^2 + 1.008 \frac{z^3}{1+z}, & z &= \left(\frac{Z}{137}\right)^2.
+\end{align}
+%
+While the approximate differential cross section ignores effects from nuclear form factors, which are only important for large production angles, the atomic form factors are described by the functions $\varphi_1$, $\varphi_2$ (elastic scattering) and $\psi_1$, $\psi_2$ (inelastic scattering).
+The description used for the atomic form factors varies with $Z$, the different expressions for $\varphi$ and $\psi$ are given in Appendix \ref{sec:atomic_form_factors}.
 
 \subsection{Compton scattering}
 

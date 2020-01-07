@@ -1,0 +1,30 @@
+\begin{tikzpicture}
+  \centering
+   % Sizes
+   \pgfmathsetmacro{\len}{0.05cm}
+   \pgfmathsetmacro{\halflen}{\len/4}
+   \pgfmathsetmacro{\vertexsize}{\len/20}
+   \begin{feynman}
+       % vertices
+       \vertex (c) at (0, 0);
+       \vertex (b) at (0, -1.5*\len);
+       \vertex (f) at (-1*\len, -2*\len);
+       \vertex (a) at (+1*\len, -2*\len);
+       \vertex (e) at (-1*\len, 0.5*\len);
+       \vertex (d) at (+1*\len, 0.5*\len);
+  
+       % draw diagram
+       \diagram* {
+         (d) -- [fermion] (c) -- [fermion] (b) -- [fermion] (a),
+         (c) -- [boson] (e),
+         (b) -- [boson] (f),
+       };
+
+       % labels
+       \node[above] at (e) {$\gamma$};
+       \node[below] at (f) {$\gamma_\text{Kern}$};
+
+       \node[above] at (d) {$e^+$};
+       \node[below] at (a) {$e^-$};
+  \end{feynman}
+\end{tikzpicture}
