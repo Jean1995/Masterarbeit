@@ -385,7 +385,7 @@ A feynman diagram for the process is shown in figure \ref{fig:feynman_photopair}
     \label{fig:feynman_photopair}
 \end{figure}
 %
-Electron-positron pair production is the dominant interaction of photons in matter with energies above several $\si{\mega\electronvolt}$ and is therefore essential for the propagation of high energy photons.
+Electron-positron pair production is the dominant interaction of photons in matter for energies above several $\si{\mega\electronvolt}$ and is therefore essential for the propagation of high energy photons.
 
 \subsubsection{Theoretical description}
 
@@ -406,8 +406,35 @@ The function $f(Z)$ describes the Coulomb correction which is given by
 	f(z) &= 1.202 z - 1.0369 z^2 + 1.008 \frac{z^3}{1+z}, & z &= \left(\frac{Z}{137}\right)^2.
 \end{align}
 %
-While the approximate differential cross section ignores effects from nuclear form factors, which are only important for large production angles, the atomic form factors are described by the functions $\varphi_1$, $\varphi_2$ (elastic scattering) and $\psi_1$, $\psi_2$ (inelastic scattering).
-The description used for the atomic form factors varies with $Z$, the different expressions for $\varphi$ and $\psi$ are given in Appendix \ref{sec:atomic_form_factors}.
+While the approximate differential cross section ignores effects from nuclear form factors, which are only important for large production angles, the effects from the atomic form factors are described by the functions $\varphi_1$, $\varphi_2$ (elastic scattering part) and $\psi_1$, $\psi_2$ (inelastic scattering part).
+The description used for the atomic form factors varies with $Z$, the resulting expressions for $\varphi$ and $\psi$ are given in appendix \ref{sec:atomic_form_factors}.
+
+Since the photon must provide the rest masses each of the electron and the positron, the kinematic limits of the process are given by
+%
+\begin{align}
+	E &\geq 2 m_e, & x_{\text{min}} &= \frac{m_e}{E_{\gamma}}, & x_{\text{max}} &= 1 - \frac{m_e}{E_{\gamma}}.
+\end{align}
+%
+
+For high energies, the angles between the photon and the produced leptons are rather small and its directions are dominated by multiple scattering effects rather than the initial production angles.
+Therefore, it is sufficient to treat the calculation of the angular distribution of the electrons and positrons approximately.
+An approximative double differential cross section describing the angular distribution based on \cite[][Eq.~3.5]{RevModPhys.46.815} is given by
+%
+\begin{equation}
+	\label{eqn:angular_distribution}
+	\begin{split}
+	\frac{\symup{d}^2\sigma}{\symup{d}{\theta}\symup{d}{p}} &= \frac{2 \alpha^3 E_{-}^2}{\pi E_{\gamma} m_e^4} \sin(\theta) \biggl[ \left( \frac{2 x (1-x)}{(1 + l)^2} - \frac{12 l x (1-x)}{(1 + l)^4} \right) G_2(\infty) \\ &\quad+ \left( \frac{2 x^2 - 2x + 1}{(1 + l)^2} + \frac{4 l x (1-x)}{(1 + l)^4} \right) \left( X - 2 Z^2 f(z)^2 \right) \biggr]
+	\end{split}
+\end{equation}
+%
+with
+%
+\begin{align*}
+	l &= \frac{E_-^2 \theta^2}{m_e^2}, & G_2(\infty) = Z^2 + Z,
+\end{align*}
+%
+and the angle $\theta$ between the initial photon and the produced electron.
+The function $X$ is a description of the effects from the atomic form factors, varying with $Z$ and defined in appendix \ref{sec:atomic_form_factors}.
 
 \subsection{Compton scattering}
 
