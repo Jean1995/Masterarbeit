@@ -245,7 +245,7 @@ A smoothing of the correction parameter around $\SI{50}{\mega\electronvolt}$ cou
 Alternatively, using a differential cross section applicable for all energies without relying on empirical correction factors would be preferable for PROPOSAL. 
 
 \subsection{Electron-positron annihilation}
-
+\label{sec:annihilation}
 \subsubsection{Theoretical description}
 
 Electron-positron annihilation, only called annihilation in the further course of this section, describes the collision of a positron with an atomic electron where both particles annihilate and a pair of photons is created, i.e\ the process
@@ -333,7 +333,7 @@ The annihilation cross section described in the previous section, which is per d
 The annihilation process is a catastrophic loss, similar to the weak interaction whose treatment is described in section \ref{sec:weak_implementation}, since the initial positron ceases to exist after the interaction.
 Accordingly, treating this process as continuous would be unphysical.
 Instead, the annihilation interaction is always stochastic and the relative energy loss of the initial positron is always $v=1$ since all energy is transferred to the created photon pair.
-This requires adjustments to the simulation of the stochastic energy loss in the propagation algorithm of PROPOSAL described in section \ref{sec:algorithm}.
+This requires adjustments to the simulation of the stochastic energy loss in the propagation algorithm of PROPOSAL which is described in section \ref{sec:algorithm}.
 
 To calculate the total stochastic cross section $\sigma_{\text{stoch}}$ for annihilation, the differential cross section \eqref{eqn:heitler_annihilation} is integrated over the entire kinematic range of $\epsilon$.
 Since $v=1$, the energy transfer doesn't need to be calculated here.
@@ -394,13 +394,14 @@ However, the evaluation of this expression is too complicated for a practical im
 Based on \cite[][Eq.~3.9]{RevModPhys.46.815}, an approximated expression is given by
 %
 \begin{equation}
+	\label{eqn:crosssection_pairproduction}
 	\begin{split}
 	\frac{\symup{d}\sigma}{\symup{d}x} &= \frac{\alpha r_e^2 x E_{\gamma}}{p} \biggl\{ \left(\frac{4}{3} x^2 - \frac{4}{3} x + 1 \right) \\ &\quad\times \biggl[ Z^2 \left(\varphi_1 - \frac{4}{3} \ln(Z) - 4f(z) \right) + Z \left( \psi_1 - \frac{8}{3} \ln(Z) \right) \biggr]  \\ &\quad- \frac{2}{3} x (1 - x) \biggl[ Z^2 \left(\varphi_1 - \varphi_2\right) + Z \left(\psi_1 - \psi_2\right) \biggr] \biggr\}
 	\end{split}
 \end{equation}
 %
 with $x = \sfrac{E_{-}}{E_{\gamma}}$ where $E_{\gamma}$ is the energy of the initial photon, $E_-$ the energy of the produced electron and $p$ its absolute momentum.
-The function $f(Z)$ describes the Coulomb correction which is given by
+The function $f(z)$ describes the Coulomb correction and is defined as
 %
 \begin{align}
 	f(z) &= 1.202 z - 1.0369 z^2 + 1.008 \frac{z^3}{1+z}, & z &= \left(\frac{Z}{137}\right)^2.
@@ -409,21 +410,20 @@ The function $f(Z)$ describes the Coulomb correction which is given by
 While the approximate differential cross section ignores effects from nuclear form factors, which are only important for large production angles, the effects from the atomic form factors are described by the functions $\varphi_1$, $\varphi_2$ (elastic scattering part) and $\psi_1$, $\psi_2$ (inelastic scattering part).
 The description used for the atomic form factors varies with $Z$, the resulting expressions for $\varphi$ and $\psi$ are given in appendix \ref{sec:atomic_form_factors}.
 
-Since the photon must provide the rest masses each of the electron and the positron, the kinematic limits of the process are given by
+Since the photon must provide the rest mass of both the electron and the positron, the kinematic limits of the process are given by
 %
 \begin{align}
 	E &\geq 2 m_e, & x_{\text{min}} &= \frac{m_e}{E_{\gamma}}, & x_{\text{max}} &= 1 - \frac{m_e}{E_{\gamma}}.
 \end{align}
 %
-
-For high energies, the angles between the photon and the produced leptons are rather small and its directions are dominated by multiple scattering effects rather than the initial production angles.
+For high energies, the angles between the photon and the produced leptons are very small and its directions are dominated by multiple scattering effects rather than the initial production angles.
 Therefore, it is sufficient to treat the calculation of the angular distribution of the electrons and positrons approximately.
 An approximative double differential cross section describing the angular distribution based on \cite[][Eq.~3.5]{RevModPhys.46.815} is given by
 %
 \begin{equation}
 	\label{eqn:angular_distribution}
 	\begin{split}
-	\frac{\symup{d}^2\sigma}{\symup{d}{\theta}\symup{d}{p}} &= \frac{2 \alpha^3 E_{-}^2}{\pi E_{\gamma} m_e^4} \sin(\theta) \biggl[ \left( \frac{2 x (1-x)}{(1 + l)^2} - \frac{12 l x (1-x)}{(1 + l)^4} \right) G_2(\infty) \\ &\quad+ \left( \frac{2 x^2 - 2x + 1}{(1 + l)^2} + \frac{4 l x (1-x)}{(1 + l)^4} \right) \left( X - 2 Z^2 f(z)^2 \right) \biggr]
+	\frac{\symup{d}^2\sigma}{\symup{d}{\theta}\symup{d}{p}} &= \frac{2 \alpha^3 E_{-}^2}{\pi E_{\gamma} m_e^4} \sin(\theta) \biggl[ \left( \frac{2 x (1-x)}{(1 + l)^2} - \frac{12 l x (1-x)}{(1 + l)^4} \right) G_2(\infty) \\ &\quad+ \left( \frac{2 x^2 - 2x + 1}{(1 + l)^2} + \frac{4 l x (1-x)}{(1 + l)^4} \right) \left( X - 2 Z^2 f(z) \right) \biggr]
 	\end{split}
 \end{equation}
 %
@@ -434,7 +434,63 @@ with
 \end{align*}
 %
 and the angle $\theta$ between the initial photon and the produced electron.
-The function $X$ is a description of the effects from the atomic form factors, varying with $Z$ and defined in appendix \ref{sec:atomic_form_factors}.
+The function $X$, describing the effects from the atomic form factors, varies with $Z$ and is defined in appendix \ref{sec:atomic_form_factors}.
+
+\subsubsection{Implementation in PROPOSAL}
+
+% sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
+\begin{sloppypar}
+The electron-positron pair production process for photons described in the previous section can be enabled in PROPOSAL by setting the keyword \texttt{photopair} in the configuration file to \texttt{PhotoPairTsai}.
+\end{sloppypar}
+
+Since the initial photon ceases to exist after the interaction and transfers its whole energy to the created electron-positron pair, the process is always stochastic with a relative energy transfer of $v=1$.
+This requires, very similar to the annihilation process, which is the reverse process of pair production (see \ref{sec:annihilation} for a description), adjustments to the propagation algorithm of PROPOSAL.
+
+To obtain the total stochastic cross section $\sigma_{\text{stoch}}$ for electron-positron pair production, the differential cross section \ref{eqn:crosssection_pairproduction} is integrated over the entire kinematic range of $x$.
+While the relative energy transfer $v=1$ is already known, the parameter $x$ describing the asymmetry of the energy transfer needs to be sampled by solving the integral equation
+%
+\begin{equation}
+	\frac{1}{\sigma_{\text{stoch}}} \int_{x_{\text{min}}}^{x} \frac{\symup{d}\sigma}{\symup{d}x} \, \symup{d}x = \xi
+\end{equation}
+%
+for $x$ with a random number $\xi \in \left[0,1\right)$.
+The energy of the electron $E_-$, respectively the energy of the positron $E_+$, is set to
+%
+\begin{align}
+	E_- &= x E_{\gamma}, & E_+ &= (1-x) E_{\gamma}.
+\end{align}
+%
+
+To offer different levels of accuracy in the simulation of the angular distribution, three different options can be used to describe the angles between the initial photon and the created electron and positron.
+Firstly, the double-differential cross section \eqref{eqn:angular_distribution} can be used to sample the polar angle $\theta$ for both the electron and the positron by solving, once for each particle, the integral equation
+%
+\begin{equation}
+	\label{eqn:angular_tsai}
+    \left( \frac{\symup{d}\sigma}{\symup{d}p}(p^{\ast}) \right)^{-1} \int_{0}^{\theta} \frac{\mathrm{d}^2\sigma}{\mathrm{d}\theta \mathrm{d}p}(p^{\ast}) \, \symup{d}\theta = \xi
+\end{equation}
+%
+for $\theta$ where $\xi \in \left[0,1\right)$ is a random number and $p = p^{\ast}$ the fixed absolute momentum of the electron, respectively the positron.
+Alternatively, a simpler method suggested by \cite{Hirayama:2005zm} can be applied where the angle of both particles is set to
+%
+\begin{equation}
+	\label{eqn:angular_egs}
+	\theta = \frac{m_e}{E_{\gamma}}.
+\end{equation}
+%
+For both methods, the azimuth angle $\Phi$ is sampled via
+%
+\begin{align}
+	\Phi_{-} &= 2 \pi \xi, & \Phi_{+} &= (2 \pi \xi + \pi) \;\mathrm{mod}\; 2 \pi,
+\end{align}
+%
+where $\xi \in \left[0,1\right)$ is an additional random number.
+
+% sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
+\begin{sloppypar}
+To use the calculation of the production angles according to \eqref{eqn:angular_tsai}, the keyword \texttt{photoangle} in the configuration file can be set to \texttt{PhotoAngleTsaiIntegral}, to use the method from \eqref{eqn:angular_egs}, the keyword can be set to \texttt{PhotoAngleEGS}.
+Per default, both particle inherit the direction of the initial photon, e.g.\ the production angle is neglected.
+This behavior can be enabled explicitly by setting the keyword to \texttt{PhotoAngleNoDeflection}.
+\end{sloppypar}
 
 \subsection{Compton scattering}
 
