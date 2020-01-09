@@ -488,12 +488,21 @@ where $\xi \in \left[0,1\right)$ is an additional random number.
 % sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
 \begin{sloppypar}
 To use the calculation of the production angles according to \eqref{eqn:angular_tsai}, the keyword \texttt{photoangle} in the configuration file can be set to \texttt{PhotoAngleTsaiIntegral}, to use the method from \eqref{eqn:angular_egs}, the keyword can be set to \texttt{PhotoAngleEGS}.
-Per default, both particle inherit the direction of the initial photon, e.g.\ the production angle is neglected.
+Per default, both particle inherit the direction of the initial photon, i.e.\ the production angle is neglected.
 This behavior can be enabled explicitly by setting the keyword to \texttt{PhotoAngleNoDeflection}.
 \end{sloppypar}
 
 \subsection{Compton scattering}
 
+\subsubsection{Theoretical description}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/compton.pdf}
+    \caption{Plot of the differential cross section in $\cos(\theta)$ for Compton scattering, according the Klein-Nishina formula, for different photon energies. The angular coordinate determines the deflection angle of the initial photon, the radial axis describes the differential cross section for the angle in arbitrary units.}
+    \label{fig:compton}
+\end{figure}
+\todo{Three variants for the plot: 1. Ticklabels behind the grid and plot, 2. Grid infront of the plot but tick labels infront of the plot, 3. Neglect the (arbitrary)  polar axis altogether}
 \subsection{Cross checks}
 
 \subsection{Electromagnetic shower propagation with PROPOSAL}
