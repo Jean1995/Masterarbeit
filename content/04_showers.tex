@@ -290,6 +290,7 @@ Considering a general two-body interaction
 with the corresponding energies $E_i$, masses $m_i$ and absolute momenta $p_i$ of the particles involved, applying the conservation of four-momentum (i.e.\ conservation of energy and conservation of 3-space momentum) leads to the relation \cite{Hirayama:2005zm}
 %
 \begin{equation}
+	\label{eqn:2to2process_angle}
 	\cos(\theta_3) = \frac{m_4^2 - m_1^2 - m_2^2 - m_3^2 + 2 (E_1 + m_2) E_3 - 2 E_1 m_2}{2 p_1 p_3}
 \end{equation}
 %
@@ -494,7 +495,72 @@ This behavior can be enabled explicitly by setting the keyword to \texttt{PhotoA
 
 \subsection{Compton scattering}
 
+Compton scattering describes the scattering of a photon by a charged particle, here an atomic electron, causing a deflection of the initial photon and a reduction of its energy.
+A feynman diagram for the interaction is shown in figure \ref{fig:feynman_compton}.
+For photons with an energy between several $\SI{100}{\kilo\electronvolt}$ and several $\SI{10}{\mega\electronvolt}$, Compton scattering is the dominant interaction process.
+
+\begin{figure}
+    \centering
+    \input{content/feynman/feynman_compton.tex}
+    \caption{Feynman diagram in leading order for Compton scattering. The diagram shown here represents the $s$-channel contribution.}
+    \label{fig:feynman_compton}
+\end{figure}
+
+
 \subsubsection{Theoretical description}
+
+Under the assumption that the binding energy of the atomic electrons can be neglected, which is a good approximations especially for photon energies that are still high enough to be relevant for shower propagation, i.e.\ $E > 2 m_e$, the differential cross section for Compton scattering is given by the Klein-Nishina formula \cite{KleinNishina}.
+Based on the formulation of the Klein-Nishina formula in \cite{Hirayama:2005zm}, the differential cross section is given by
+%
+\begin{equation}
+	\frac{\symup{d}\sigma}{\symup{d}v} = \frac{Z \pi r_e^2 m_e}{E} \left( \frac{C_1}{\varepsilon^2} + \frac{C_2}{\varepsilon} + C_3 + \varepsilon \right)
+\end{equation}
+%
+with
+%
+\begin{align}
+	\varepsilon &= 1 - v, & C_1 &= \frac{m_e^2}{E^2}, \\
+	C_2 &= 1 - 2 C_1 \left( 1 + \frac{E}{m_e} \right) , & C_3 &= C_1 \left( 1 + 2 \frac{E}{m_e} \right).
+\end{align}
+%
+To obtain a relation between $\theta$, the angle between the initial photon and the scattered photon, and the energies involved, using \eqref{eqn:2to2process_angle} with
+%
+\begin{align*}
+	E_1 &= E, & m_1 &= m_3 = 0, \\
+	E_2 &= m_e, & m_2 &= m_4 = m_e, \\
+	E_3 &= (1 - v) E \coloneqq E^{\prime},
+\end{align*}
+%
+according to the kinematic for Compton scattering, yields
+%
+\begin{equation}
+	\label{eqn:angle_compton}
+	\cos(\theta) = 1 - \left( \frac{m_e}{E^{\prime}} - \frac{m}{E} \right).
+\end{equation}
+%
+By solving \eqref{eqn:angle_compton} for $E^{\prime}$, the well-known relation
+%
+\begin{equation}
+	E^{\prime} = \frac{E}{1 + \frac{E}{m_e} (1 - \cos(\theta))}
+\end{equation}
+%
+can be obtained.
+Setting $\cos(\theta) = \pm1$ in \eqref{eqn:angle_compton} yields the kinematic limits
+%
+\begin{align}
+	v_{\text{min}} &= 0, & v_{\text{max}} &= \frac{1}{\frac{m_e}{2E} + 1},
+\end{align}
+%
+for Compton scattering.
+
+\subsubsection{Implementation in PROPOSAL}
+
+% sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
+\begin{sloppypar}
+Compton scattering, as described in the previous section, can be enabled in PROPOSAL by setting the keyword \texttt{compton} in the configuration file to \texttt{ComptonKleinNishina}.
+\end{sloppypar}
+Figure \ref{fig:compton} shows the Klein-Nishina formula for several energies.
+While the differential cross section is evenly distributed for small energies, a peak towards the forward direction can be seen for higher energies.
 
 \begin{figure}
     \centering
@@ -502,7 +568,12 @@ This behavior can be enabled explicitly by setting the keyword to \texttt{PhotoA
     \caption{Plot of the differential cross section in $\cos(\theta)$ for Compton scattering, according the Klein-Nishina formula, for different photon energies. The angular coordinate determines the deflection angle of the initial photon, the radial axis describes the differential cross section for the angle in arbitrary units.}
     \label{fig:compton}
 \end{figure}
-\todo{Three variants for the plot: 1. Ticklabels behind the grid and plot, 2. Grid infront of the plot but tick labels infront of the plot, 3. Neglect the (arbitrary)  polar axis altogether}
+\todo{Three variants for the plot: 1. Ticklabels behind the grid and plot, 2. Grid in front of the plot but tick labels in front of the plot, 3. Neglect the (arbitrary)  polar axis altogether}
+
+To evaluate the integrals \eqref{eqn:fE}, \eqref{eqn:stoch_crosssection} and \eqref{eqn:sample_v} for Compton scattering calculations, the substitution $t = \ln(1 - v)$ is used to avoid occurring numerical problems for $v \to 1$ at high energies.
+
+In a stochastic Compton interaction, the initial photon is deflected by an polar angle according to \eqref{eqn:angle_compton} while the azimuth $\Phi$ is selected randomly in the range $\left[0,2\pi\right)$.
+
 \subsection{Cross checks}
 
 \subsection{Electromagnetic shower propagation with PROPOSAL}
