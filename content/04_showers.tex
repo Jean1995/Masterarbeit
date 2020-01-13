@@ -509,8 +509,8 @@ For photons with an energy between several $\SI{100}{\kilo\electronvolt}$ and se
 
 \subsubsection{Theoretical description}
 
-Under the assumption that the binding energy of the atomic electrons can be neglected, which is a good approximations especially for photon energies that are still high enough to be relevant for shower propagation, i.e.\ $E > 2 m_e$, the differential cross section for Compton scattering is given by the Klein-Nishina formula \cite{KleinNishina}.
-Based on the formulation of the Klein-Nishina formula in \cite{Hirayama:2005zm}, the differential cross section is given by
+Under the assumption that the binding energy of the atomic electrons can be neglected, which is a good approximations especially for photon energies that are high enough to be relevant for shower propagation, i.e.\ $E > 2 m_e$, the differential cross section for Compton scattering is given by the Klein-Nishina formula \cite{KleinNishina}.
+Based on the formulation of the Klein-Nishina formula in \cite{Hirayama:2005zm}, the differential cross section can be written as
 %
 \begin{equation}
 	\frac{\symup{d}\sigma}{\symup{d}v} = \frac{Z \pi r_e^2 m_e}{E} \left( \frac{C_1}{\varepsilon^2} + \frac{C_2}{\varepsilon} + C_3 + \varepsilon \right)
@@ -523,7 +523,7 @@ with
 	C_2 &= 1 - 2 C_1 \left( 1 + \frac{E}{m_e} \right) , & C_3 &= C_1 \left( 1 + 2 \frac{E}{m_e} \right).
 \end{align}
 %
-To obtain a relation between $\theta$, the angle between the initial photon and the scattered photon, and the energies involved, using \eqref{eqn:2to2process_angle} with
+To obtain a relation between $\theta$, the angle between the initial photon and the scattered photon, and the involved energies, using \eqref{eqn:2to2process_angle} with
 %
 \begin{align*}
 	E_1 &= E, & m_1 &= m_3 = 0, \\
@@ -565,14 +565,14 @@ While the differential cross section is evenly distributed for small energies, a
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/compton.pdf}
-    \caption{Plot of the differential cross section in $\cos(\theta)$ for Compton scattering, according the Klein-Nishina formula, for different photon energies. The angular coordinate determines the deflection angle of the initial photon, the radial axis describes the differential cross section for the angle in arbitrary units.}
+    \caption{Plot of the differential cross section in $\cos(\theta)$ for Compton scattering according the Klein-Nishina formula for different photon energies. The angular coordinate determines the deflection angle of the initial photon, the radial axis describes the differential cross section in arbitrary units.}
     \label{fig:compton}
 \end{figure}
 \todo{Three variants for the plot: 1. Ticklabels behind the grid and plot, 2. Grid in front of the plot but tick labels in front of the plot, 3. Neglect the (arbitrary)  polar axis altogether}
 
-To evaluate the integrals \eqref{eqn:fE}, \eqref{eqn:stoch_crosssection} and \eqref{eqn:sample_v} for Compton scattering calculations, the substitution $t = \ln(1 - v)$ is used to avoid occurring numerical problems for $v \to 1$ at high energies.
+To evaluate the integrals \eqref{eqn:fE}, \eqref{eqn:stoch_crosssection} and \eqref{eqn:sample_v} numerically for Compton scattering calculations, the substitution $t = \ln(1 - v)$ is used to avoid occurring numerical problems for $v \to 1$ at high energies.
 
-In a stochastic Compton interaction, the initial photon is deflected by an polar angle according to \eqref{eqn:angle_compton} while the azimuth $\Phi$ is selected randomly in the range $\left[0,2\pi\right)$.
+In a stochastic Compton interaction, the initial photon is deflected by an polar angle $\theta$ according to \eqref{eqn:angle_compton} while the azimuth $\Phi$ is selected randomly in the range $\left[0,2\pi\right)$.
 
 \subsection{Cross checks}
 
