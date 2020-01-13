@@ -374,6 +374,8 @@ However, for energy losses around $\SI{1}{\giga\electronvolt}$, a contribution t
 
 \section{Photon propagation in PROPOSAL}
 
+% Photonuclear interactions dominant for small energies but not taken into accounts here sinve E<<2m_e irrelevant for shower 
+
 \subsection{Pair production by photons}
 
 Photo pair production, called electron-positron pair production in the further course of this subsection (although not to be confused with the creation of an electron-positron pair by an incoming lepton), describes the creation of an electron-positron pair by an ingoing photon in the field of an atomic nucleus.
@@ -574,7 +576,16 @@ To evaluate the integrals \eqref{eqn:fE}, \eqref{eqn:stoch_crosssection} and \eq
 
 In a stochastic Compton interaction, the initial photon is deflected by an polar angle $\theta$ according to \eqref{eqn:angle_compton} while the azimuth $\Phi$ is selected randomly in the range $\left[0,2\pi\right)$.
 
-\subsection{Cross checks}
+The total cross section for Compton scattering, compared to the total cross section for electron-positron pair production by photons, is shown in figure \ref{fig:compton_comparison}.
+As expected, electron-positron pair production is the dominant photon interaction in matter for high energies with a transition to Compton scattering as the dominant process at an energy below about $\SI{20}{\mega\electronvolt}$.
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/compare_compton.pdf}
+    \caption{Total cross section of Compton scattering in comparison to the total cross sections of electron positron pair production for photons in air. The total cross section is obtained by setting $e_\text{cut} \approx 0$.}
+    \label{fig:compton_comparison}
+\end{figure}
+\todo{I am not entirely sure about the units, and probably an overall factor for the numerical values is missing}
 
 \subsection{Electromagnetic shower propagation with PROPOSAL}
 
