@@ -39,12 +39,46 @@ build/compton.pdf: Plots/compton.py Plots/matplotlibconfig.py | build
 build/compare_compton.pdf: Plots/compare_compton.py Plots/matplotlibconfig.py | build
 	python Plots/compare_compton.py	
 
+### shower plots
+
+## 1e5
+
+build/data_1e5_500.txt: shower/shower_prop.py shower/config_electron.json shower/config_positron.json shower/config_photon.json
+	python shower/shower_prop.py 1e5 500 build/data_1e5_500.txt
+
+build/hex_1e5.png: build/data_1e5_500.txt shower/plot_shower_hexbin.py | build
+	python shower/plot_shower_hexbin.py build/data_1e5_500.txt build/hex_1e5.png
+
+build/shower_1e5.png: build/data_1e5_500.txt shower/plot_shower.py | build
+	python shower/plot_shower.py build/data_1e5_500.txt build/shower_1e5.png
+
+build/hist_1e5.pdf: build/data_1e5_500.txt shower/plot_shower_hist.py | build
+	python shower/plot_shower_hist.py build/data_1e5_500.txt 20 build/hist_1e5.pdf
+
+## 1e6
+
+build/data_1e6_500.txt: shower/shower_prop.py shower/config_electron.json shower/config_positron.json shower/config_photon.json
+	python shower/shower_prop.py 1e6 500 build/data_1e6_500.txt
+
+build/hex_1e6.png: build/data_1e6_500.txt shower/plot_shower_hexbin.py | build
+	python shower/plot_shower_hexbin.py build/data_1e6_500.txt build/hex_1e6.png
+
+build/shower_1e6.png: build/data_1e6_500.txt shower/plot_shower.py | build
+	python shower/plot_shower.py build/data_1e6_500.txt build/shower_1e6.png
+
+build/hist_1e6.pdf: build/data_1e6_500.txt shower/plot_shower_hist.py | build
+	python shower/plot_shower_hist.py build/data_1e6_500.txt 20 build/hist_1e6.pdf
+
+
 TeXOptions = -lualatex \
 			 -interaction=nonstopmode \
 			 -halt-on-error \
 			 -output-directory=build
                                                                                 
-build/masterthesis.pdf: FORCE build/cont_rand.pdf build/spectrum.pdf build/dEdx.pdf build/secondary_number.pdf build/dEdx_mupair.pdf build/spectrum_mupair.pdf build/mupair_rho.pdf build/dNdx_weak.pdf build/dEdx_ionization.pdf build/dEdx_brems.pdf build/spectrum_annihilation.pdf build/compton.pdf build/compare_compton.pdf | build
+build/masterthesis.pdf: FORCE build/cont_rand.pdf build/spectrum.pdf build/dEdx.pdf build/secondary_number.pdf build/dEdx_mupair.pdf \
+							build/spectrum_mupair.pdf build/mupair_rho.pdf build/dNdx_weak.pdf build/dEdx_ionization.pdf build/dEdx_brems.pdf \
+							build/spectrum_annihilation.pdf build/compton.pdf build/compare_compton.pdf build/hex_1e5.png build/shower_1e5.png \
+							build/hist_1e5.pdf build/hex_1e6.png build/shower_1e6.png build/hist_1e6.pdf | build
 	latexmk $(TeXOptions) masterthesis.tex
 
 preview: FORCE | build
