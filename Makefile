@@ -1,96 +1,96 @@
 all: build/masterthesis.pdf
 
 build/cont_rand.pdf: Plots/cont_rand.py Plots/matplotlibconfig.py | build 
-	python Plots/cont_rand.py
+	python3 Plots/cont_rand.py
 
 build/spectrum.pdf: Plots/spectrum.py Plots/matplotlibconfig.py | build 
-	python Plots/spectrum.py
+	python3 Plots/spectrum.py
 
 build/dEdx.pdf: Plots/dEdx.py Plots/matplotlibconfig.py | build 
-	python Plots/dEdx.py
+	python3 Plots/dEdx.py
 
 build/secondary_number.pdf: Plots/secondary_number.py Plots/matplotlibconfig.py resources/config_ice.json | build
-	python Plots/secondary_number.py	
+	python3 Plots/secondary_number.py	
 
 build/dEdx_mupair.pdf: Plots/dEdx_mupair.py Plots/matplotlibconfig.py | build
-	python Plots/dEdx_mupair.py	
+	python3 Plots/dEdx_mupair.py	
 
 build/spectrum_mupair.pdf: Plots/spectrum_mupair.py Plots/matplotlibconfig.py | build
-	python Plots/spectrum_mupair.py	
+	python3 Plots/spectrum_mupair.py	
 
 build/mupair_rho.pdf: Plots/mupair_rho.py Plots/matplotlibconfig.py | build
-	python Plots/mupair_rho.py	
+	python3 Plots/mupair_rho.py	
 
 build/dNdx_weak.pdf: Plots/dNdx_weak.py Plots/matplotlibconfig.py | build 
-	python Plots/dNdx_weak.py
+	python3 Plots/dNdx_weak.py
 
 build/dEdx_ionization.pdf: Plots/dEdx_ionization.py Plots/matplotlibconfig.py | build 
-	python Plots/dEdx_ionization.py
+	python3 Plots/dEdx_ionization.py
 
 build/dEdx_brems.pdf: Plots/dEdx_brems.py Plots/matplotlibconfig.py | build 
-	python Plots/dEdx_brems.py	
+	python3 Plots/dEdx_brems.py	
 
 build/spectrum_annihilation.pdf: Plots/spectrum_annihilation.py Plots/matplotlibconfig.py | build
-	python Plots/spectrum_annihilation.py		
+	python3 Plots/spectrum_annihilation.py		
 
 build/compton.pdf: Plots/compton.py Plots/matplotlibconfig.py | build
-	python Plots/compton.py	
+	python3 Plots/compton.py	
 
 build/compare_compton.pdf: Plots/compare_compton.py Plots/matplotlibconfig.py | build
-	python Plots/compare_compton.py	
+	python3 Plots/compare_compton.py	
 
 ### shower plots
 
 ## 1e5
 
 build/data_1e5_500.txt: shower/shower_prop.py shower/config_electron.json shower/config_positron.json shower/config_photon.json
-	python shower/shower_prop.py 1e5 500 build/data_1e5_500.txt
+	python3 shower/shower_prop.py 1e5 500 build/data_1e5_500.txt
 
 build/hex_1e5.png: build/data_1e5_500.txt shower/plot_shower_hexbin.py | build
-	python shower/plot_shower_hexbin.py build/data_1e5_500.txt build/hex_1e5.png
+	python3 shower/plot_shower_hexbin.py build/data_1e5_500.txt build/hex_1e5.png
 
 build/shower_1e5.png: build/data_1e5_500.txt shower/plot_shower.py | build
-	python shower/plot_shower.py build/data_1e5_500.txt build/shower_1e5.png
+	python3 shower/plot_shower.py build/data_1e5_500.txt build/shower_1e5.png
 
 build/hist_1e5.pdf: build/data_1e5_500.txt shower/plot_shower_hist.py | build
-	python shower/plot_shower_hist.py build/data_1e5_500.txt 20 build/hist_1e5.pdf
+	python3 shower/plot_shower_hist.py build/data_1e5_500.txt 20 build/hist_1e5.pdf
 
 build/hex_1e5_xy.png: build/data_1e5_500.txt shower/plot_shower_hexbin_xy.py | build
-	python shower/plot_shower_hexbin_xy.py build/data_1e5_500.txt build/hex_1e5_xy.png
+	python3 shower/plot_shower_hexbin_xy.py build/data_1e5_500.txt build/hex_1e5_xy.png
 
 ## 1e6
 
 build/data_1e6_500.txt: shower/shower_prop.py shower/config_electron.json shower/config_positron.json shower/config_photon.json
-	python shower/shower_prop.py 1e6 500 build/data_1e6_500.txt
+	python3 shower/shower_prop.py 1e6 500 build/data_1e6_500.txt
 
 build/hex_1e6.png: build/data_1e6_500.txt shower/plot_shower_hexbin.py | build
-	python shower/plot_shower_hexbin.py build/data_1e6_500.txt build/hex_1e6.png
+	python3 shower/plot_shower_hexbin.py build/data_1e6_500.txt build/hex_1e6.png
 
 build/shower_1e6.png: build/data_1e6_500.txt shower/plot_shower.py | build
-	python shower/plot_shower.py build/data_1e6_500.txt build/shower_1e6.png
+	python3 shower/plot_shower.py build/data_1e6_500.txt build/shower_1e6.png
 
 build/hist_1e6.pdf: build/data_1e6_500.txt shower/plot_shower_hist.py | build
-	python shower/plot_shower_hist.py build/data_1e6_500.txt 20 build/hist_1e6.pdf
+	python3 shower/plot_shower_hist.py build/data_1e6_500.txt 20 build/hist_1e6.pdf
 
 build/hex_1e6_xy.png: build/data_1e6_500.txt shower/plot_shower_hexbin_xy.py | build
-	python shower/plot_shower_hexbin_xy.py build/data_1e6_500.txt build/hex_1e6_xy.png
+	python3 shower/plot_shower_hexbin_xy.py build/data_1e6_500.txt build/hex_1e6_xy.png
 
 ## 1e7
 
 build/data_1e7_500.txt: shower/shower_prop.py shower/config_electron.json shower/config_positron.json shower/config_photon.json
-	python shower/shower_prop.py 1e7 500 build/data_1e7_500.txt
+	python3 shower/shower_prop.py 1e7 500 build/data_1e7_500.txt
 
 build/hex_1e7.png: build/data_1e7_500.txt shower/plot_shower_hexbin.py | build
-	python shower/plot_shower_hexbin.py build/data_1e7_500.txt build/hex_1e7.png
+	python3 shower/plot_shower_hexbin.py build/data_1e7_500.txt build/hex_1e7.png
 
 build/shower_1e7.png: build/data_1e7_500.txt shower/plot_shower.py | build
-	python shower/plot_shower.py build/data_1e7_500.txt build/shower_1e7.png
+	python3 shower/plot_shower.py build/data_1e7_500.txt build/shower_1e7.png
 
 build/hist_1e7.pdf: build/data_1e7_500.txt shower/plot_shower_hist.py | build
-	python shower/plot_shower_hist.py build/data_1e7_500.txt 20 build/hist_1e7.pdf
+	python3 shower/plot_shower_hist.py build/data_1e7_500.txt 20 build/hist_1e7.pdf
 
 build/hex_1e7_xy.png: build/data_1e7_500.txt shower/plot_shower_hexbin_xy.py | build
-	python shower/plot_shower_hexbin_xy.py build/data_1e7_500.txt build/hex_1e7_xy.png	
+	python3 shower/plot_shower_hexbin_xy.py build/data_1e7_500.txt build/hex_1e7_xy.png	
 
 TeXOptions = -lualatex \
 			 -interaction=nonstopmode \
