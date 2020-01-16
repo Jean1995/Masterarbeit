@@ -62,7 +62,7 @@ plt.grid(True)
 plt.xlabel('Y \ cm')
 plt.ylabel('Z \ cm')
 plt.xlim(-50000, 50000)
-plt.ylim(0, 1000000)
+plt.ylim(200000, 1000000)
 plt.tight_layout()
 
 if(len(sys.argv)==2):

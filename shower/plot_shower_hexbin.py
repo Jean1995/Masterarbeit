@@ -59,7 +59,7 @@ particle_point_path = make_point_path(particle_proj_i, particle_proj_f)
 #plt.rcParams['axes.axisbelow'] = True
 plt.figure(figsize=(5, 10))
 
-plt.hexbin(particle_point_path.T[0], particle_point_path.T[1], gridsize=(400, 2000), cmap='Reds', alpha=1, bins='log', extent=[-10000, 10000, 0, 1000000])
+plt.hexbin(particle_point_path.T[0], particle_point_path.T[1], gridsize=(400, 2000), cmap='Reds', alpha=1, bins='log', extent=[-10000, 10000, 200000, 1000000])
 
 ## custom legend
 
@@ -69,7 +69,7 @@ print("Showing " + str(count) + " Particles.")
 plt.xlabel('Y \ cm')
 plt.ylabel('Z \ cm')
 plt.xlim(-10000, 10000)
-plt.ylim(0, 1000000)
+plt.ylim(200000, 1000000)
 
 cb = plt.colorbar(aspect=30)
 
