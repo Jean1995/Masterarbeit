@@ -59,7 +59,7 @@ particle_point_path = make_point_path(particle_proj_i, particle_proj_f)
 #plt.rcParams['axes.axisbelow'] = True
 plt.figure(figsize=(5, 5))
 
-plt.hexbin(particle_point_path.T[0], particle_point_path.T[1], gridsize=(500, 500), cmap='Reds', alpha=1, bins='log', extent=[-10000, 10000, -10000, 10000])
+plt.hist2d(particle_point_path.T[0], particle_point_path.T[1], bins=(500, 500), cmap='Reds', alpha=1, norm=matplotlib.colors.LogNorm(), range=[[-10000, 10000], [10000, 10000]])
 
 ## custom legend
 

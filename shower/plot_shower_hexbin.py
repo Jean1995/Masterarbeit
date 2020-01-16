@@ -11,7 +11,7 @@ from matplotlibconfig import *
 def make_point_path(start, end):
 	''' Input: Two arrays of vectors corresponding to starting and ending points of tracks
 		Returns: List of points along the tracks '''
-	scale = 2 # point density (lower scale means smaller distance means more points)
+	scale = 10 # point density (lower scale means smaller distance means more points)
 	distances = np.linalg.norm(end-start, axis=-1) # distance between start and end
 	num_points = np.rint(distances / scale).astype(int) # calculate number of points for each bath
 	indices = np.cumsum(num_points) # list of indices
@@ -49,17 +49,15 @@ particle_data_f_proj_1 = np.matmul(np.array(particle_data_f), projection_vec_1)
 particle_data_f_proj_2 = np.matmul(np.array(particle_data_f), projection_vec_2)
 
 
-
 particle_proj_i = np.vstack((particle_data_i_proj_1, particle_data_i_proj_2)).T # starting point list, shape: (number_points, 2)
 particle_proj_f = np.vstack((particle_data_f_proj_1, particle_data_f_proj_2)).T # stopping point list, shape: (number_points, 2)
-
 
 particle_point_path = make_point_path(particle_proj_i, particle_proj_f)
 
 #plt.rcParams['axes.axisbelow'] = True
 plt.figure(figsize=(5, 10))
 
-plt.hexbin(particle_point_path.T[0], particle_point_path.T[1], gridsize=(400, 2000), cmap='Reds', alpha=1, bins='log', extent=[-10000, 10000, 200000, 1000000])
+plt.hist2d(particle_point_path.T[0], particle_point_path.T[1], bins=(400, 2000), cmap='Reds', alpha=1, norm=matplotlib.colors.LogNorm(), range=[[-10000, 10000], [200000, 1000000]])
 
 ## custom legend
 
