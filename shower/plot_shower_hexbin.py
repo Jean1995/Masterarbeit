@@ -11,7 +11,7 @@ from matplotlibconfig import *
 def make_point_path(start, end):
 	''' Input: Two arrays of vectors corresponding to starting and ending points of tracks
 		Returns: List of points along the tracks '''
-	scale = 10 # point density (lower scale means smaller distance means more points)
+	scale = 12 # point density (lower scale means smaller distance means more points)
 	distances = np.linalg.norm(end-start, axis=-1) # distance between start and end
 	num_points = np.rint(distances / scale).astype(int) # calculate number of points for each bath
 	indices = np.cumsum(num_points) # list of indices
@@ -55,19 +55,24 @@ particle_proj_f = np.vstack((particle_data_f_proj_1, particle_data_f_proj_2)).T 
 particle_point_path = make_point_path(particle_proj_i, particle_proj_f)
 
 #plt.rcParams['axes.axisbelow'] = True
-plt.figure(figsize=(5, 10))
+plt.figure(figsize=(2.7, 5))
+plt.rcParams.update(params)
 
-plt.hist2d(particle_point_path.T[0], particle_point_path.T[1], bins=(400, 2000), cmap='Reds', alpha=1, norm=matplotlib.colors.LogNorm(), range=[[-10000, 10000], [200000, 1000000]])
+conversion_y = 100
+conversion_z = 100000 # cm in km
+
+plt.hist2d(particle_point_path.T[0]/conversion_y, particle_point_path.T[1]/conversion_z, bins=(400, 2000), cmap='Reds', alpha=1, norm=matplotlib.colors.LogNorm(), range=[[-10000/conversion_y, 10000/conversion_y], [200000/conversion_z, 1000000/conversion_z]])
 
 ## custom legend
 
 print("Showing " + str(count) + " Particles.")
 
 #plt.grid(True, ls='--') Do we need a grid?
-plt.xlabel('Y \ cm')
-plt.ylabel('Z \ cm')
-plt.xlim(-10000, 10000)
-plt.ylim(200000, 1000000)
+plt.xlabel(r'$y \,/\, \si{\metre}$')
+plt.ylabel(r'$z \,/\, \si{\kilo\metre}$', labelpad=0)
+
+plt.xlim(-10000/conversion_y, 10000/conversion_y)
+plt.ylim(200000/conversion_z, 1000000/conversion_z)
 
 cb = plt.colorbar(aspect=30)
 

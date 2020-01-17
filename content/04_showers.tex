@@ -587,5 +587,50 @@ As expected, electron-positron pair production is the dominant photon interactio
 \end{figure}
 \todo{I am not entirely sure about the units, and probably an overall factor for the numerical values is missing}
 
-\subsection{Electromagnetic shower propagation with PROPOSAL}
+\section{Electromagnetic shower propagation with PROPOSAL}
 
+\begin{algorithm}[H]
+\DontPrintSemicolon
+ particle list = [primary particle]\;
+ \While{particle list not empty}{
+  extract first element of particle list\;
+  propagate extracted particle\;
+  add all produced secondary particles to particle list\;
+ }
+ \caption{Simplified shower propagation algorithm}
+\end{algorithm}
+
+
+\begin{figure}
+      \centering
+      \subcaptionbox{A cat\label{cat}}
+        {\includegraphics[scale=1]{build/hex_1e6.png}}
+        \hfill
+      \subcaptionbox{An elephant\label{elephant}}
+        {\includegraphics[scale=1]{build/hex_1e7.png}}
+      \caption{Two animals}\label{animals}
+\end{figure}
+
+\begin{figure}
+      \centering
+      \subcaptionbox{A cat\label{cat}}
+        {\includegraphics[scale=1]{build/hex_1e6_xy.png}}
+        \hfill
+      \subcaptionbox{An elephant\label{elephant}}
+        {\includegraphics[scale=1]{build/hex_1e7_xy.png}}
+      \caption{Two animals}\label{animals}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/hist_1e6.pdf}
+    \caption{Histogram.}
+    \label{fig:hist_1e6}
+\end{figure}
+
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/hist_1e7.pdf}
+    \caption{Histogram.}
+    \label{fig:hist_1e7}
+\end{figure}

@@ -57,19 +57,22 @@ particle_proj_f = np.vstack((particle_data_f_proj_1, particle_data_f_proj_2)).T 
 particle_point_path = make_point_path(particle_proj_i, particle_proj_f)
 
 #plt.rcParams['axes.axisbelow'] = True
-plt.figure(figsize=(5, 5))
+plt.figure(figsize=(2.7, 2.7))
+plt.rcParams.update(params)
 
-plt.hist2d(particle_point_path.T[0], particle_point_path.T[1], bins=(500, 500), cmap='Reds', alpha=1, norm=matplotlib.colors.LogNorm(), range=[[-10000, 10000], [-10000, 10000]])
+conversion_y = 100
+
+plt.hist2d(particle_point_path.T[0]/conversion_y, particle_point_path.T[1]/conversion_y, bins=(750, 750), cmap='Reds', alpha=1, norm=matplotlib.colors.LogNorm(), range=[[-10000/conversion_y, 10000/conversion_y], [-10000/conversion_y, 10000/conversion_y]])
 
 ## custom legend
 
 print("Showing " + str(count) + " Particles.")
 
 #plt.grid(True, ls='--') Do we need a grid?
-plt.xlabel('X \ cm')
-plt.ylabel('Y \ cm')
-plt.xlim(-10000, 10000)
-plt.ylim(-10000, 10000)
+plt.xlabel(r'$x \,/\, \si{\metre}$')
+plt.ylabel(r'$y \,/\, \si{\metre}$', labelpad=-10)
+plt.xlim(-10000/conversion_y, 10000/conversion_y)
+plt.ylim(-10000/conversion_y, 10000/conversion_y)
 
 cb = plt.colorbar(aspect=30)
 

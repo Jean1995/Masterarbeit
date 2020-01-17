@@ -83,8 +83,8 @@ build/data_1e7_500.txt: shower/shower_prop.py shower/config_electron.json shower
 build/hex_1e7.png: build/data_1e7_500.txt shower/plot_shower_hexbin.py | build
 	python3 shower/plot_shower_hexbin.py build/data_1e7_500.txt build/hex_1e7.png
 
-build/shower_1e7.png: build/data_1e7_500.txt shower/plot_shower.py | build
-	python3 shower/plot_shower.py build/data_1e7_500.txt build/shower_1e7.png
+#build/shower_1e7.png: build/data_1e7_500.txt shower/plot_shower.py | build
+#	python3 shower/plot_shower.py build/data_1e7_500.txt build/shower_1e7.png
 
 build/hist_1e7.pdf: build/data_1e7_500.txt shower/plot_shower_hist.py | build
 	python3 shower/plot_shower_hist.py build/data_1e7_500.txt 20 build/hist_1e7.pdf
@@ -101,7 +101,7 @@ build/masterthesis.pdf: FORCE build/cont_rand.pdf build/spectrum.pdf build/dEdx.
 							build/spectrum_mupair.pdf build/mupair_rho.pdf build/dNdx_weak.pdf build/dEdx_ionization.pdf build/dEdx_brems.pdf \
 							build/spectrum_annihilation.pdf build/compton.pdf build/compare_compton.pdf build/hex_1e5.png build/shower_1e5.png \
 							build/hist_1e5.pdf build/hex_1e5_xy.png build/hex_1e6.png build/shower_1e6.png build/hist_1e6.pdf build/hex_1e6_xy.png \
-							build/hex_1e7.png build/shower_1e7.png build/hist_1e7.pdf build/hex_1e7_xy.png | build
+							build/hex_1e7.png build/hist_1e7.pdf build/hex_1e7_xy.png | build
 	latexmk $(TeXOptions) masterthesis.tex
 
 preview: FORCE | build
