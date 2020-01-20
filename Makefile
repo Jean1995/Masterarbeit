@@ -87,7 +87,7 @@ build/hex_1e7.png: build/data_1e7_500.txt shower/plot_shower_hexbin.py | build
 #	python3 shower/plot_shower.py build/data_1e7_500.txt build/shower_1e7.png
 
 build/hist_1e7.pdf: build/data_1e7_500.txt shower/plot_shower_hist.py | build
-	python3 shower/plot_shower_hist.py build/data_1e7_500.txt 20 build/hist_1e7.pdf
+	python3 shower/plot_shower_hist.py build/data_1e7_500.txt 50 build/hist_1e7.pdf
 
 build/hex_1e7_xy.png: build/data_1e7_500.txt shower/plot_shower_hexbin_xy.py | build
 	python3 shower/plot_shower_hexbin_xy.py build/data_1e7_500.txt build/hex_1e7_xy.png	

@@ -614,36 +614,51 @@ The basic algorithm used for the simulation of an electromagnetic shower is show
 While the general algorithm is implemented using a Python script, the step "propagate extracted particle" is conducted by PROPOSAL. 
 It can be seen that the structure of the algorithm corresponds to a breadth-first search since particles that were first added to the list are also propagated first (\textbf{F}irst \textbf{I}n, \textbf{F}irst \textbf{O}ut principle).
 
+For each stochastic interaction, the position of the stochastic interaction, the type of the particle causing the stochastic interaction, the energy of the initial particle before the stochastic interaction as well as the position of the previous stochastic interaction is saved in the shower data list.
+This information can be used to reconstruct the shower development.
+In the last step, electrons and positrons from pair production by photons, photons from electron-positron annihilation as well as bremsstrahlung photons created by electrons or positrons are taken from the PROPOSAL output and added to the particle list.
+Other particles such as electrons and positrons from pair production by other leptons are neglected in this version of the algorithm.
+
+The atmosphere for the simulated showers is described by homogeneous air with a density of $\rho = \SI{1.205}{\kilo\gram\per\cubic\centi\metre}$ corresponding to the properties of air at sea level.
+Therefore, the variation of the density with altitude is not taken into account.
+The primary particle for the electromagnetic shower is a photon initialized at a height of $z = \SI{10}{\kilo\metre}$ directed towards the ground at $z=\SI{0}{\kilo\metre}$ which is described as standard rock.
+The cut settings for the propagation of all particles are set to $E_{\text{cut}} = \SI{50}{\mega\electronvolt}$ with no $v_{\text{cut}}$.
+
+Figure \ref{fig:hex} and \ref{fig:hex_xy} show the track densities of two electromagnetic showers with different initial photon energies.
+The plots are obtained by connecting the positions of two consecutive stochastic losses of a particle and plotting the resulting tracks in a high-resolution histogram.
+Both the projection onto the $zy$-plane in figure \ref{fig:hex_1e6} and the projection onto the $xy$-plane in figure \ref{fig:hex_1e7} show that the showers consist of a core with a very high particle density that decreases with the distance from the initial shower axis.
+In figure \ref{fig:hist_1e6} and figure \ref{fig:hist_1e7}, the shower profiles for both showers, i.e.\ the number of particles in the $xy$-plane as a function of the distance $z$ from the ground, are shown.
+
 \begin{figure}
       \centering
-      \subcaptionbox{A cat\label{cat}}
+      \subcaptionbox{Shower for an initial photon energy of $\SI{e6}{\mega\electronvolt}$.\label{fig:hex_1e6}}
         {\includegraphics[scale=1]{build/hex_1e6.png}}
         \hfill
-      \subcaptionbox{An elephant\label{elephant}}
+      \subcaptionbox{Shower for an initial photon energy of $\SI{e7}{\mega\electronvolt}$.\label{fig:hex_1e7}}
         {\includegraphics[scale=1]{build/hex_1e7.png}}
-      \caption{Two animals}\label{animals}
+      \caption{Two electromagnetic showers induced by a photon at $z=\SI{10}{\kilo\metre}$. The color bar describes the particle density (electrons, positrons and photons combined) in arbitrary units, still the units are consistent for both plots. Only particle tracks with an energy above $\SI{50}{\mega\electronvolt}$ at the end of the track are shown. The shower has been projected onto the $zy$-plane in the laboratory frame.\label{fig:hex}}
 \end{figure}
 
 \begin{figure}
       \centering
-      \subcaptionbox{A cat\label{cat}}
+      \subcaptionbox{shower for an initial photon energy of $\SI{e6}{\mega\electronvolt}$.\label{fig:hex_1e6_xy}}
         {\includegraphics[scale=1]{build/hex_1e6_xy.png}}
         \hfill
-      \subcaptionbox{An elephant\label{elephant}}
+      \subcaptionbox{Shower for an initial photon energy of $\SI{e7}{\mega\electronvolt}$.\label{fig:hex_1e7_xy}}
         {\includegraphics[scale=1]{build/hex_1e7_xy.png}}
-      \caption{Two animals}\label{animals}
+      \caption{Two electromagnetic showers induced by a photon at $z=\SI{10}{\kilo\metre}$. The color bar describes the particle density (electrons, positrons and photons combined) in arbitrary units, still the units are consistent for both plots. Only particle tracks with an energy above $\SI{50}{\mega\electronvolt}$ at the end of the track are shown. The shower has been projected onto the $xy$-plane in the laboratory frame.\label{fig:hex_xy}}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/hist_1e6.pdf}
-    \caption{Histogram.}
+    \caption{Shower profile of the electromagnetic shower with an initial photon energy of $\SI{e6}{\mega\electronvolt}$.}
     \label{fig:hist_1e6}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/hist_1e7.pdf}
-    \caption{Histogram.}
+    \caption{Shower profile of the electromagnetic shower with an initial photon energy of $\SI{e7}{\mega\electronvolt}$.}
     \label{fig:hist_1e7}
 \end{figure}
