@@ -2,6 +2,8 @@
 
 \section{Electron and positron propagation in PROPOSAL}
 
+\label{sec:electronprop}
+
 \subsection{Ionization}
 
 Ionization describes the inelastic collision of a particle with atomic electrons, leading to an energy loss of the primary particle.
@@ -374,6 +376,8 @@ However, for energy losses around $\SI{1}{\giga\electronvolt}$, a contribution t
 
 \section{Photon propagation in PROPOSAL}
 
+\label{sec:photonprop}
+
 % Photonuclear interactions dominant for small energies but not taken into accounts here sinve E<<2m_e irrelevant for shower 
 
 \subsection{Pair production by photons}
@@ -589,17 +593,26 @@ As expected, electron-positron pair production is the dominant photon interactio
 
 \section{Electromagnetic shower propagation with PROPOSAL}
 
+With the improvement of electron and positron propagation, as described in section \ref{sec:electronprop}, as well as the implementation of photon propagation, as described in section \ref{sec:photonprop}, PROPOSAL can be used to simulate all particles essential for an electromagnetic shower.
+As a proof of concept, the simulation of a simple electromagnetic shower with PROPOSAL as a model for electromagnetic interactions is presented.
+
 \begin{algorithm}[H]
 \DontPrintSemicolon
  particle list = [primary particle]\;
+ shower data = [\:]\;
  \While{particle list not empty}{
   extract first element of particle list\;
+  save information on extracted particle in shower data\;
   propagate extracted particle\;
-  add all produced secondary particles to particle list\;
+  append all produced secondary particles to particle list\;
  }
  \caption{Simplified shower propagation algorithm}
+ \label{alg:shower}
 \end{algorithm}
 
+The basic algorithm used for the simulation of an electromagnetic shower is shown in algorithm \ref{alg:shower}.
+While the general algorithm is implemented using a Python script, the step "propagate extracted particle" is conducted by PROPOSAL. 
+It can be seen that the structure of the algorithm corresponds to a breadth-first search since particles that were first added to the list are also propagated first (\textbf{F}irst \textbf{I}n, \textbf{F}irst \textbf{O}ut principle).
 
 \begin{figure}
       \centering
