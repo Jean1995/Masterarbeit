@@ -38,7 +38,7 @@ plt.figure(figsize=(width, 2.7))
 
 plt.step(bin_borders[:-1], bin_vals, where='post')
 plt.ylabel("Particle number")
-plt.xlabel(r'Distance from ground / $\si{\metre}$')
+plt.xlabel(r'$z \,/\, \si{\metre}$')
 plt.xlim(0, 1000000/conversion_z)
 plt.grid()
 
