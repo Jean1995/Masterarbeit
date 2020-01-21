@@ -1,4 +1,4 @@
-\chapter{Theory}
+\chapter{Large scale Monte Carlo simulation software}
 
 \section{The lepton propagator PROPOSAL}
 
@@ -16,7 +16,6 @@ Examples of applications are the neutrino observatories IceCube and RNO who use 
 
 Energy losses of particles form the basis for the propagation algorithm in PROPOSAL.
 Assuming a particle with an initial energy $E_i$, an energy loss is described by its absolute value
-%
 \begin{equation}
 	\nu = E_i \cdot v
 \end{equation}
@@ -41,18 +40,20 @@ Secondly, numerical problems will occur due to the nature of the bremsstrahlung 
 Since photons are massless, the bremsstrahlung cross sections diverges for $v \to 0$, making inverse sampling over the whole parameter range impossible.
 
 As a solution, PROPOSAL differentiates between continuous and stochastic energy losses.
-The energy cut parameter $v_\text{cut}$ is defined as
+The energy cut parameter $v\prime_\text{cut}$ is defined as
 %
 \begin{equation}
 	\label{eqn:cut}
-	v_\text{cut} = \text{min}\left[\sfrac{e_\text{cut}}{E}, v\prime_\text{cut} \right]
+	v\prime_\text{cut} = \text{min}\left[\sfrac{e_\text{cut}}{E}, v_\text{cut} \right]
 \end{equation}
 %
-with a relative energy cut $v\prime_\text{cut}$ and an absolute energy cut $e_\text{cut}$.
-Energy losses with $v < v_\text{cut}$ are treated as continuous losses, energy losses with $v > v_\text{cut}$ are treated as stochastic losses.
-The definition in \eqref{eqn:cut} ensures that losses above an absolute detector threshold $e_\text{cut}$ are treated as stochastic even if their relative value is below $v_{\text{cut}}$.
+with a relative energy cut $v_\text{cut}$ and an absolute energy cut $e_\text{cut}$.
+Energy losses with $v > v\prime_\text{cut}$ are treated as stochastic losses, meaning that every interaction with an relative energy loss above the cut is treated individually.
+Energy losses with $v < v\prime_\text{cut}$ however are treated as continuous losses, meaning that an averaged energy loss per distance is calculated from all energy losses below the cut and applied to the particles during propagation.
+Both parameters $e_{\text{cut}}$ and $v_{\text{cut}}$ can be set, or disabled, separately.
+By enabling both parameters simultaneously, the definition in \eqref{eqn:cut} ensures that losses above an absolute detector threshold $e_\text{cut}$ are treated as stochastic even if their relative value is below $v_{\text{cut}}$.
 
-The propagation algorithm in PROPOSAL consists of numerous propagation steps where each step consists of continuous losses and a stochastic loss, see section \ref{sec:algorithm} for a detailed description.
+The propagation algorithm in PROPOSAL consists of several, consecutively executed propagation steps where each step consists of continuous losses and a stochastic loss, see section \ref{sec:algorithm} for a detailed description.
 To perform one propagation step, it is therefore necessary to have a mathematical expression to sample the next stochastic loss.
 
 Let $E_i$ be the initial energy of a particle and
@@ -63,7 +64,7 @@ Let $E_i$ be the initial energy of a particle and
 \end{equation}
 %
 a cumulative distribution function describing the probability for a stochastic loss at a particle energy $E \geq E_f$.
-With inverse sampling, this function can be used to sample the energy of the occurrence of the next stochastic loss.
+With inverse sampling, this function can be used to sample the remaining particle energy $E_f$ just before the next stochastic interaction will occur.
 
 To derive an expression for \eqref{eqn:cum}, the distance between the initial particle position $x_i$ and the position of the stochastic loss $x_f$ is discretized into sections of $\Delta x$.
 The probability for a stochastic loss after a distance of $x_f - x_i$, without any stochastic losses in the interval $\left(x_i, x_f\right)$, can be described as
@@ -83,11 +84,11 @@ To transfer the dependency on the location $x$ to a dependency on the energy $E$
 %
 \begin{equation}
 	\label{eqn:fE}
-	f(E) = -\frac{\symup{d}E}{\symup{d}x} = E \frac{N_A}{A} \int_{v_\text{min}}^{v_\text{cut}} v \frac{\symup{d}\sigma}{\symup{d}v} \, \symup{d}v
+	f(E) = -\frac{\symup{d}E}{\symup{d}x} = E \frac{N_A}{A} \int_{v_\text{min}}^{v\prime_\text{cut}} v \frac{\symup{d}\sigma}{\symup{d}v} \, \symup{d}v
 \end{equation}
 %
 is introduced.
-Here, $f(E)$ describes the continuous energy losses between two stochastic losses and is calculated by taking the average energy loss for all interactions below the energy cut $v_\text{cut}$.
+Here, $f(E)$ describes the continuous energy losses between two stochastic losses and is calculated by taking the average energy loss for all interactions below the energy cut $v\prime_\text{cut}$.
 
 Applying \eqref{eqn:fE} on \eqref{eqn:discrete} yields
 %
@@ -134,7 +135,7 @@ By replacing the probability $P$ in \eqref{eqn:cum_final} by a random number $\x
 \end{equation}
 %
 originally derived in \cite{chirkin2004propagating}, is obtained. 
-By sampling $\xi$, \eqref{eqn:energy_integral} can be used to calculate the energy of the occurrence of the next stochastic loss.
+By sampling $\xi$, \eqref{eqn:energy_integral} can be used to calculate the remaining particle energy $E_f$ just before the next stochastic energy loss will occur.
 
 \subsection{Propagation algorithm}
 \label{sec:algorithm}
@@ -145,11 +146,11 @@ This includes information on the energy, position, direction and time of the pro
 On the technical note, the structure of the propagation process in PROPOSAL is determined by the concept of a "chain of responsibility".
 Part of this chain are the \emph{Sector} objects and a \emph{Propagator} object.
 
-Each \emph{Sector} is defined by its geometry, its medium, its energy cut settings and other sector-specific properties.
-The cut settings itself differentiate between various particle positions with respect to a predefined \emph{Detector} geometry.
+Each \emph{Sector} is defined by its geometry (i.e.\ the spatial extent of the \emph{Sector}), its medium, its energy cut settings and other sector-specific properties.
+The cut settings itself differentiate between various particle positions with respect to a predefined \emph{Detector} which is a region with an increased propagation accuracy.
 By having sectors with varying characteristics the user has the possibility to appropriately model the simulation environment.
 
-The \emph{Propagator} object chooses which sector is responsible for the propagation of the particle at its current position.
+The \emph{Propagator} object chooses which \emph{Sector} is responsible for the propagation of the particle at its current position.
 The assigned \emph{Sector} then propagates the particle within its borders and returns the propagated particle back to the \emph{Propagator}.
 This process is repeated either until the propagated distance of the initial particle surpasses a preset maximal propagation distance $d_\text{max}$ or until the initial particle energy falls below a preset threshold energy $e_\text{low}$.
 
@@ -157,16 +158,16 @@ The following steps give a simplified overview of the propagation process within
 
 \subsubsection{Energy of the occurrence of the next interaction}
 
-According to \eqref{eqn:energy_integral}, the energy of the occurrence of the next stochastic energy loss is calculated using a random number $\xi$.
+According to \eqref{eqn:energy_integral}, the remaining particle energy $E_f$ just before the next stochastic loss will occur is sampled using a random number $\xi$.
 If
 %
 \begin{equation}
-	\xi > \exp{\left( \int_{E_i}^{e_\text{low}} \frac{\sigma(E)}{f(E)} \, \symup{d}E \right)}
+	\xi > \exp{\left( \int_{E_i}^{e_\text{low}} \frac{\sigma(E)}{f(E)} \, \symup{d}E \right)},
 \end{equation}
 %
 the sampled energy where the next stochastic loss occurs would fall below the threshold energy $e_\text{low}$, in this case there is no stochastic loss.
 
-Furthermore, based on the lifetime $\tau$ of the initial particle, an energy where the particle decays is sampled.
+If the propagated particle is able to decay, an energy where the particle decays is sampled based on its lifetime $\tau$
 Both energy values are compared and the higher energy value, together with its interaction type (stochastic loss or decay), are used for the next step\footnote{If a decay is the next interaction, the step "Simulation of the stochastic energy loss" is replaced accordingly by a decay method.}.
 
 \subsubsection{Particle displacement}
@@ -202,7 +203,7 @@ A parametrization based on Molière's theory of multiple scattering as well as t
 \subsubsection{Continuous energy losses and continuous randomization}
 
 The energy loss between $E_i$ and $E_f$ is treated continuously according to \eqref{eqn:fE}, meaning that the particle energy is set to $E = E_f$.
-However, this can cause discontinuities in the energy spectrum as shown in figure \ref{fig:cont_rand}
+However, this can cause discontinuities in the energy spectrum as shown in figure \ref{fig:cont_rand}.
 
 \begin{figure}
     \centering
@@ -213,7 +214,7 @@ However, this can cause discontinuities in the energy spectrum as shown in figur
 \footnotetext{Standard rock means a material with $Z = 11$, $A=22$ and a density of $\rho = \SI{2.65}{\gram\per\centi\metre^3}$, see e.g.\ \cite{PhysRevD.98.030001} for a detailed list of material properties.}
 \todo{Check if the standard rock footnote is on the right page}
 For a sufficiently large $v_\text{cut}$, for example $v_\text{cut} = 0.05$ in figure \ref{fig:cont_rand}, a peak in the final muon energy spectrum appears.
-This peaks corresponds to all muons without any stochastic losses within the propagation distance.
+This peak corresponds to all muons without any stochastic losses within the propagation distance.
 These particle all have the same final energy since no random numbers were effectively used to calculate their final energy, meaning that no fluctuations of the continuous losses are taken into account.
 Setting the energy cut to a significantly lower value, for example $v_\text{cut} = \num{e-4}$ in figure \ref{fig:cont_rand}, eliminates the peak, however the runtime for the propagation is increased by at least an order of magnitude.
 
@@ -235,20 +236,20 @@ The total stochastic cross section for the process $i$ is calculated by
 %
 \begin{equation}
 	\label{eqn:stoch_crosssection}
-	\sigma_{\text{stoch},i}(E_f) \propto \int_{v_\text{cut}}^{v_\text{max}} \frac{\symup{d}\sigma_i(E_f)}{\symup{d}v} \, \symup{d}v.
+	\sigma_{\text{stoch},i}(E_f) \propto \int_{v\prime_\text{cut}}^{v_\text{max}} \frac{\symup{d}\sigma_i(E_f)}{\symup{d}v} \, \symup{d}v.
 \end{equation}
 
-Using a random number, the occurring process is calculated where the ratios of the process probabilities are represented by the ratios of the corresponding total stochastic cross sections.
+Using a random number $\xi_1$, the occurring process is calculated where the ratios of the process probabilities are represented by the ratios of the corresponding total stochastic cross sections.
 To calculate the relative size $v$ of the stochastic loss, the integral equation
 %
 \begin{equation}
 	\label{eqn:sample_v}
-	\frac{1}{\sigma_{\text{stoch},i}} \int_{v_\text{cut}}^{v} \frac{\symup{d}\sigma_i}{\symup{d}v} \, \symup{d}v = \xi
+	\frac{1}{\sigma_{\text{stoch},i}} \int_{v\prime_\text{cut}}^{v} \frac{\symup{d}\sigma_i}{\symup{d}v} \, \symup{d}v = \xi_2
 \end{equation}
 %
-is solved for $v$ where $\xi \in \left[0,1\right)$ is a random number and $i$ the selected process.
+is solved for $v$ where $\xi_2 \in \left[0,1\right)$ is a another random number and $i$ the selected process.
 
-The propagation routine is repeated by sampling the energy of the occurrence of the next interaction (i.e.\ the first step described here) until the particle has decayed, has reached the sector border or until its energy has reached the threshold energy $e_\text{low}$.
+The propagation routine is repeated by sampling the remaining particle energy before the next interaction occurs (i.e.\ the first step described here) until the particle has decayed, has reached the sector border or until its energy has reached the threshold energy $e_\text{low}$.
 
 \subsection{Muon propagation with PROPOSAL}
 
@@ -276,17 +277,16 @@ Furthermore, it can clearly be seen that the parametrization
 \end{equation}
 %
 of the average energy loss as a quasi-linear function is valid where $a(E)$ corresponds to energy losses due to ionization and $b(E)$ to energy losses due to $e$ pair production, bremsstrahlung and photonuclear interactions.
-The parameters $a(E), b(E)$ vary only slightly with energy.
+The parameters $a(E), b(E)$ vary only logarithmically with energy.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx.pdf}
-    \caption{Continuous energy losses of muons in ice. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuous.  }
+    \caption{Continuous energy losses of muons in ice. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuously.}
     \label{fig:dEdx}
 \end{figure}
 
-In figure \ref{fig:spectrum} and \ref{fig:secondary_number} the stochastic losses for muons propagated in ice are shown, the energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$ and $v_\text{cut} = \num{0.05}$ which corresponds to the energy cuts used in the analysis of the IceCube experiment.
-In both figures, the muons are propagated until they decay.
+In figure \ref{fig:spectrum} and \ref{fig:secondary_number} the stochastic losses for muons propagated in ice are shown, the energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$ and $v_\text{cut} = \num{0.05}$ while the muons are propagated until they decay.
 
 The histogram in figure \ref{fig:spectrum} shows the energies of all secondary particles sorted by interaction type for $\num{e5}$ muons propagated with an initial energy of $\SI{e8}{\mega\electronvolt}$.
 Between about $\SI{e3}{\mega\electronvolt}$ and $\SI{e6}{\mega\electronvolt}$ the energy losses are dominated by $e$ pair production, this dominance could for example be used to probe the $e$ pair production cross section in this energy range.
@@ -298,7 +298,7 @@ These losses are dominated by ionization losses since ionization is the relevant
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/spectrum.pdf}
-    \caption{Secondary particle spectrum for $\num{e5}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
+    \caption{Secondary particle energy spectrum for $\num{e5}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
     \label{fig:spectrum}
 \end{figure}
 
@@ -343,3 +343,4 @@ Although the energy loss contribution of pair production is comparable to bremss
 \end{table}
 
 
+\section{The shower simulation program CORSIKA}

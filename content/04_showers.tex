@@ -362,7 +362,7 @@ Furthermore, the photons inherit the direction of the initial positron with an a
 where $\xi \in \left[0,1\right)$ is a random number.
 After an annihilation interaction, PROPOSAL returns the created photons and stops the particle propagation.
 
-Figure \ref{fig:spectrum_annihilation} shows a secondary particle spectrum for positrons where annihilation is enabled.
+Figure \ref{fig:spectrum_annihilation} shows an energy spectrum of secondary particles produced by positrons where annihilation is enabled.
 Since annihilation is always stochastic with $v=1$, the process is not influenced by the energy cut settings, resulting in stochastic losses with $E \cdot v < {E_\text{cut}}$.
 Quantitatively, the annihilation interaction is, as well as the other processes, suppressed compared to bremsstrahlung processes.
 However, for energy losses around $\SI{1}{\giga\electronvolt}$, a contribution to the secondary spectrum at a level of a few percent can be observed.
@@ -370,7 +370,7 @@ However, for energy losses around $\SI{1}{\giga\electronvolt}$, a contribution t
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/spectrum_annihilation.pdf}
-    \caption{Secondary particle spectrum for $\num{e5}$ positrons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in air. Electron-Positron annihilation is enabled. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cut applied here is $E_\text{cut} = \SI{500}{\mega\electronvolt}$. Note that the annihilation process is not affected by the cut settings since the relative energy transfer $v$ is always $1$.}
+    \caption{Secondary particle energy spectrum for $\num{e5}$ positrons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in air. Electron-Positron annihilation is enabled. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cut applied here is $E_\text{cut} = \SI{500}{\mega\electronvolt}$. Note that the annihilation process is not affected by the cut settings since the relative energy transfer $v$ is always $1$.}
     \label{fig:spectrum_annihilation}
 \end{figure}
 
