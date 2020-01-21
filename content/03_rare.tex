@@ -42,7 +42,7 @@ where $X$ is given by
 \end{equation}
 with 
 \begin{equation}
-    U(E, v, \rho) = \frac{\frac{0.65 m_{\mu}}{m_e} A^{-0.27} B Z^{-\sfrac{1}{3}}}{1 + \frac{2 \sqrt{e} \mu^2 B Z^{-\sfrac{1}{3}} (1 + \xi) (1 + Y) }{m_e E v (1 - \rho^2)} }
+    U(E, v, \rho) = \frac{\frac{0.65 m_{\mu}}{m_e} A^{-0.27} B Z^{-\sfrac{1}{3}}}{1 + \frac{2 \sqrt{e} m_{\mu}^2 B Z^{-\sfrac{1}{3}} (1 + \xi) (1 + Y) }{m_e E v (1 - \rho^2)} }
 \end{equation}
 and with 
 \begin{align}
@@ -56,10 +56,10 @@ Furthermore, \eqref{eqn:mupair} is chosen to have a discrepancy compared to the 
 The kinematic limits of the process for $v$ and $\rho$ are
 %
 \begin{align}
-    v_\text{min} &= \frac{2 m_{\mu}}{E}, & v_\text{max} &= 1 - \frac{m}{E}, & \left| \rho \right| \leq \rho_{\text{max}} &= 1 - \frac{2 m_{\mu}}{v E},
+    v_\text{min} &= \frac{2 m_{\mu}}{E}, & v_\text{max} &= 1 - \frac{m_{\mu}}{E}, & \left| \rho \right| \leq \rho_{\text{max}} &= 1 - \frac{2 m_{\mu}}{v E},
 \end{align}
 %
-for an initial particle with mass $m$ and are easy to retrace by demanding the condition that all particles involved have to fulfill $E > m_{\text{rest}}$ at all times.
+are easy to retrace by demanding the condition that all particles involved have to fulfill $E > m_{\text{rest}}$ at all times.
 
 \subsection{Implementation in PROPOSAL}
 \label{sec:mupair_implementation}
@@ -106,7 +106,7 @@ This observation shows that the process is negligible for the energy loss for th
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_mupair.pdf}
-    \caption{Comparison of the average continuous energy losses of muons in ice due to electron-positron pair production and muon pair production. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuous.}
+    \caption{Comparison of the average continuous energy losses of muons in ice due to electron-positron pair production and muon pair production. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuously.}
     \label{fig:dEdx_mupair}
 \end{figure}
 
@@ -132,7 +132,7 @@ The origin of such a bundle can be muon pair production, in this case the bundle
 
 Due to resolution effects, the IceCube detector is unable to identify the muons in a bundle as individual muon signatures.
 However, the signature of a single muon traversing the detector is different from a muon bundle originating from muon pair production with the same sum of energy.
-The signature of a high-energetic muon in IceCube is often characterized by a single high-energetic stochastic energy loss creating a spherical signature.
+The signature of a high-energetic muon in IceCube is often characterized by a dominating high-energetic stochastic energy loss creating a spherical signature.
 In a muon bundle, each muon with only a fraction of the total energy produces smaller stochastic losses.
 Since the stochastic losses of the individual muons in the bundle are independent of each other, the resulting signature is homogeneous and the energy loss per distance of a bundle is more consistent compared to the energy loss per distance of a single muon with the same total energy. \todo{Include an event signature of a high-energetic muon and a muon bundle event? See Tomasz dissertation as a comparison.}
 
@@ -187,16 +187,17 @@ Since the kinematics of both processes are identical, the differential cross sec
 %
 Due to averaging over all possible initial states and summing over all possible final states when evaluating feynman diagrams, the prefactor $\sfrac{1}{2}$ must be taken into account since the muon can both be left-handed and right-handed while neutrinos are only observed in a left-handed state (and antineutrinos in a right-handed state).
 
-Data on the differential cross section for the conversion of a neutrino to a charged lepton, i.e.\ the process \eqref{eqn:weak_neutrino}, are available from \cite{Cooper_Sarkar_2011}.
+Tabulated numerical values for the differential cross section describing the conversion of a neutrino to a charged lepton, i.e.\ the process \eqref{eqn:weak_neutrino}, are available from \cite{Cooper_Sarkar_2011}.
 By using crossing symmetry, these data can directly be used to describe the conversion of a charged lepton to a neutrino, i.e.\ \eqref{eqn:weak_lepton}, which is the process of interest in PROPOSAL.
 
 The cross sections for interactions of leptons with hadrons can be derived under the use of parton distribution functions which describe the probability to find a specific parton (quark or gluon) with a given fraction $x$ of the nucleon's momentum when the momentum transfer is given by $Q^2$.
-To make predictions for the (anti)neutrino charged current cross sections, \cite{Cooper_Sarkar_2011} performs next-to-leading order calculations and uses the HERAPDF1.5 data set which provides the parton distribution functions based on deep-inelastic scattering measurements performed from 2003 to 2007 at the HERA experiment \cite{am2010proton}.
+To make predictions for the (anti)neutrino charged current cross sections, the authors of \cite{Cooper_Sarkar_2011} performed next-to-leading order calculations and used the HERAPDF1.5 data set which provides the parton distribution functions based on deep-inelastic scattering measurements performed from 2003 to 2007 at the HERA experiment \cite{am2010proton}.
 
 The values for $\sfrac{\symup{d}\sigma}{\symup{d}v}$ are provided as two-dimensional tables in $E$ and $v$ with $\num{100}$ entries in $E$ and, for each energy, $\num{110}$ entires in $v$.  
 Here, $v$ describes the fraction of the initial lepton energy $E$ lost to the nucleon.
 Tables are available for an ingoing neutrino or an ingoing antineutrino and for a proton or a neutron as a nucleon involved in the interaction.
-The ranges are $\SI{10}{\giga\electronvolt} \leq E \leq \SI{e12}{\giga\electronvolt}$ and $v_\text{min} < v < 1$ with logarithmic steps in between where the lower limit of $v$ has been set to
+The ranges of the tabulated values are $\SI{10}{\giga\electronvolt} \leq E \leq \SI{e12}{\giga\electronvolt}$ and $v_\text{min} < v < 1$ in equal, logarithmic intervals.
+The lower limit of $v$ has been set to
 %
 \begin{align}
     v_\text{min} &= \frac{Q^2_{\text{min}}}{s}, & s &= 2 E m + m^2, & Q^2_{\text{min}} &= \SI{1}{\giga\electronvolt^2}
@@ -222,8 +223,8 @@ where the subscript refers to the nucleon involved in the interaction ($p$ for p
 PROPOSAL then uses a two-dimensional interpolation routine to obtain a continuous differential cross section from the discrete tables values.
 
 In contrast to previously described processes, the weak interaction is a catastrophic loss meaning that the initial particle ceases to exist since it is converted to a different type of particle during the interaction.
-Treating a process with this signature continuously as described in section \ref{sec:energy_loss_calculation} would therefore be unphysical.
-Instead, all interactions with catastrophic losses are treated stochastically by setting $v_{\text{min}} = v_{\text{cut}}$ in \eqref{eqn:fE}, \eqref{eqn:stoch_crosssection} and \eqref{eqn:sample_v}.
+Treating a process with this signature continuously as described in section \ref{sec:energy_loss_calculation} would therefore be unphysical, meaning that there is no contribution to the continuous loss in \eqref{eqn:fE} from these interactions.
+Additionally, all interactions with catastrophic losses are treated stochastically by neglecting the energy cut in \eqref{eqn:stoch_crosssection} and \eqref{eqn:sample_v}, instead the lower integral limit is set to $v_{\text{min}}$.
 Afterwards, PROPOSAL returns the produced neutrino as well as the energy transfer to the nucleon and stops the particle propagation.
 
 \begin{figure}
@@ -234,7 +235,7 @@ Afterwards, PROPOSAL returns the produced neutrino as well as the energy transfe
 \end{figure}
 
 Figure \ref{fig:dNdx_weak} shows the weak interaction cross section of muons in ice compared to the total stochastic cross section of default processes.
-It is important to note for this comparison that, while $v_{\text{min}} = v_{\text{cut}}$ is used for the weak interaction, a regular energy cut of $e_\text{cut} = \SI{500}{\mega\electronvolt}$ and $v_\text{cut} = 0.05$ is still used for the other parametrizations.
+It is important to note for this comparison that, while the energy cut is neglected for the weak interaction, a regular energy cut of $e_\text{cut} = \SI{500}{\mega\electronvolt}$ and $v_\text{cut} = 0.05$ is still used for the other parametrizations.
 Still, it becomes obvious that the weak interaction is a strongly suppressed process compared to all other interactions.
 
 \subsection{Significant detector signatures}
