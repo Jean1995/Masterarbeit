@@ -153,19 +153,28 @@ def propagate_muons():
 
     prop = pp.Propagator(mu_def, [sector_def], detector, interpolation_def)
 
+    # for rho sampling
+    param_defs_mupair = [mu_def, sector_def.medium, sector_def.cut_settings, 1.0, True, interpolation_def]
+    param_mupair = pp.parametrization.mupairproduction.KelnerKokoulinPetrukhinInterpolant(*param_defs_mupair)
+
     statistics_log = 3
     statistics = int(10**statistics_log)
     propagation_length = 1e20 # cm
     E_log = 8.0
     pp.RandomGenerator.get().set_seed(1234)
 
+    ### PRIMARY MUON PROPAGATION ###
+
     muon_energies = np.ones(statistics)*10**E_log
     epair_secondary_energy = []
     brems_secondary_energy = []
     ioniz_secondary_energy = []
     photo_secondary_energy = []
-    mpair_secondary_energy = []
 
+    mpair_secondary_energy = []
+    mpair_primary_energy = []
+
+    print("Propagate primary muons...")
     progress = ProgressBar(statistics, pacman=True)
     progress.start()
 
@@ -192,18 +201,18 @@ def propagate_muons():
                 photo_secondary_energy.append(sec_energy)
             elif sec.id == pp.particle.Data.MuPair:
                 mpair_secondary_energy.append(sec_energy)
-
+                mpair_primary_energy.append(sec.parent_particle_energy)
     #statistics:
     num_all = len(brems_secondary_energy) + len(epair_secondary_energy) + len(photo_secondary_energy) + len(ioniz_secondary_energy) + len(mpair_secondary_energy)
     ene_all = sum(brems_secondary_energy) + sum(epair_secondary_energy) + sum(photo_secondary_energy) + sum(ioniz_secondary_energy) + sum(mpair_secondary_energy)
 
-    print("Anzahl:")
+    print("Number:")
     print("Brems: ", len(brems_secondary_energy), len(brems_secondary_energy)/num_all)
     print("Epair: ", len(epair_secondary_energy), len(epair_secondary_energy)/num_all)
     print("photo: ", len(photo_secondary_energy), len(photo_secondary_energy)/num_all)
     print("Ioniz: ", len(ioniz_secondary_energy), len(ioniz_secondary_energy)/num_all)
     print("MPair: ", len(mpair_secondary_energy), len(mpair_secondary_energy)/num_all)
-    print("Energie:")
+    print("Energies:")
 
     print("Brems ", sum(brems_secondary_energy), sum(brems_secondary_energy)/ene_all)
     print("Epair: ", sum(epair_secondary_energy), sum(epair_secondary_energy)/ene_all)
@@ -235,6 +244,7 @@ def propagate_muons():
                 mpair_secondary_energy)
             )
         ],
+        color = ['C0', 'C1', 'C2', 'C3', 'C4', 'C5'],
         histtype='step',
         log=True,
         bins=x_space,
@@ -252,8 +262,133 @@ def propagate_muons():
     plt.grid(grid_conf)
     fig_all.tight_layout()
     fig_all.savefig("build/spectrum_mupair.pdf",bbox_inches='tight')
+    plt.clf()
+
+    epair_old = epair_secondary_energy
+    brems_old = brems_secondary_energy
+    ioniz_old = ioniz_secondary_energy
+    photo_old = photo_secondary_energy
+    mpair_old = mpair_secondary_energy
+
+    ### SECONDARY MUON PROPAGATION ###
+    secondary_muon_energy = []
+
+    for E, nu in zip(mpair_primary_energy, mpair_secondary_energy):
+        rho = param_mupair.Calculaterho(E, nu/E, np.random.rand(), np.random.rand())
+        secondary_muon_energy.append( 0.5 * nu * (1. + rho) )
+        secondary_muon_energy.append( 0.5 * nu * (1. - rho) )
 
 
+    epair_secondary_energy = []
+    brems_secondary_energy = []
+    ioniz_secondary_energy = []
+    photo_secondary_energy = []
+    mpair_secondary_energy = []
+
+    print("Propagate secondary muons...")
+    progress = ProgressBar(len(secondary_muon_energy), pacman=True)
+    progress.start()
+
+    for mu_energy in secondary_muon_energy:
+        progress.update()
+
+        prop.particle.position = pp.Vector3D(0, 0, 0)
+        prop.particle.direction = pp.Vector3D(0, 0, -1)
+        prop.particle.propagated_distance = 0
+        prop.particle.energy = mu_energy
+
+        secondarys = prop.propagate(propagation_length)
+
+        for sec in secondarys:
+            sec_energy = sec.energy
+
+            if sec.id == pp.particle.Data.Epair:
+                epair_secondary_energy.append(sec_energy)
+            elif sec.id == pp.particle.Data.Brems:
+                brems_secondary_energy.append(sec_energy)
+            elif sec.id == pp.particle.Data.DeltaE:
+                ioniz_secondary_energy.append(sec_energy)
+            elif sec.id == pp.particle.Data.NuclInt:
+                photo_secondary_energy.append(sec_energy)
+            elif sec.id == pp.particle.Data.MuPair:
+                mpair_secondary_energy.append(sec_energy)
+
+    print("Number:")
+    print("Brems: ", len(brems_secondary_energy), len(brems_secondary_energy)/num_all)
+    print("Epair: ", len(epair_secondary_energy), len(epair_secondary_energy)/num_all)
+    print("photo: ", len(photo_secondary_energy), len(photo_secondary_energy)/num_all)
+    print("Ioniz: ", len(ioniz_secondary_energy), len(ioniz_secondary_energy)/num_all)
+    print("MPair: ", len(mpair_secondary_energy), len(mpair_secondary_energy)/num_all)
+    print("Energies:")
+
+    print("Brems ", sum(brems_secondary_energy), sum(brems_secondary_energy)/ene_all)
+    print("Epair: ", sum(epair_secondary_energy), sum(epair_secondary_energy)/ene_all)
+    print("photo: ", sum(photo_secondary_energy), sum(photo_secondary_energy)/ene_all)
+    print("Ioniz: ", sum(ioniz_secondary_energy), sum(ioniz_secondary_energy)/ene_all)
+    print("MPair: ", sum(mpair_secondary_energy), sum(mpair_secondary_energy)/ene_all)
+
+
+    plt.rcParams.update(params)
+
+    fig_all = plt.figure(
+        figsize=(width, 4)
+    )
+
+    x_space = np.logspace(min(np.log10(np.concatenate((ioniz_secondary_energy,brems_secondary_energy,photo_secondary_energy,epair_secondary_energy,mpair_secondary_energy)))),
+                          max(np.log10(np.concatenate((ioniz_secondary_energy,brems_secondary_energy,photo_secondary_energy,epair_secondary_energy,mpair_secondary_energy)))),
+                          50)
+
+    ax_all = fig_all.add_subplot(111)
+    ax_all.hist(
+        [
+            ioniz_secondary_energy,
+            photo_secondary_energy,
+            brems_secondary_energy,
+            epair_secondary_energy,
+            mpair_secondary_energy
+        ],
+        histtype='step',
+        color = ['C0', 'C1', 'C2', 'C3', 'C4'],
+        log=True,
+        bins=x_space,
+        label=['Ionization', 'Photonuclear', 'Bremsstrahlung', r'$e$ pair production', r'$\mu$ pair production'],
+        zorder = 3,
+        linestyle = 'dashed',
+    )
+
+    ax_all.hist(
+        [
+            ioniz_secondary_energy + ioniz_old,
+            photo_secondary_energy + photo_old,
+            brems_secondary_energy + brems_old,
+            epair_secondary_energy + epair_old,
+            mpair_secondary_energy + mpair_old,
+            np.concatenate((
+                ioniz_secondary_energy + ioniz_old,
+                brems_secondary_energy + brems_old,
+                photo_secondary_energy + photo_old,
+                epair_secondary_energy + epair_old,
+                mpair_secondary_energy + mpair_old)
+            )
+        ],
+        color = ['C0', 'C1', 'C2', 'C3', 'C4', 'C5'],
+        histtype='step',
+        log=True,
+        bins=x_space,
+        zorder = 4,
+    )    
+
+    plt.xscale('log')
+    #minor_locator = AutoMinorLocator()
+    #ax_all.xaxis.set_minor_locator(minor_locator)
+    ax_all.legend(loc='best')
+    ax_all.set_xlabel(r'$ E \cdot v \,/\, \mathrm{MeV} $')
+    ax_all.set_ylabel(r'Frequency')
+    #plt.xlim(left=2.5)
+    plt.grid(grid_conf)
+    fig_all.tight_layout()
+    fig_all.savefig("build/spectrum_mupair_secondary.pdf",bbox_inches='tight')
+    plt.clf()
 
 if __name__ == "__main__":
     propagate_muons()
