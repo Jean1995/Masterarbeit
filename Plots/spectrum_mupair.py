@@ -133,7 +133,7 @@ def propagate_muons():
     mu_def = pp.particle.MuMinusDef.get()
     geometry = pp.geometry.Sphere(pp.Vector3D(), 1.e20, 0.0)
     ecut = 500
-    vcut = 5e-2
+    vcut = -1
 
     sector_def = pp.SectorDefinition()
     sector_def.cut_settings = pp.EnergyCutSettings(ecut, vcut)
@@ -143,15 +143,19 @@ def propagate_muons():
     sector_def.crosssection_defs.brems_def.lpm_effect = True
     sector_def.crosssection_defs.epair_def.lpm_effect = True
 
-    sector_def.crosssection_defs.mupair_def.parametrization = pp.parametrization.mupairproduction.MupairParametrization.KelnerKokoulinPetrukhin
-    sector_def.crosssection_defs.mupair_def.particle_output = False
-
     detector = geometry
 
     interpolation_def = pp.InterpolationDef()
     interpolation_def.path_to_tables = "tables/"
 
+    #initialize propagator without mupairproduction
+    prop_nomupair = pp.Propagator(mu_def, [sector_def], detector, interpolation_def)
+
+    #initialize propagator with mupairproduction
+    sector_def.crosssection_defs.mupair_def.parametrization = pp.parametrization.mupairproduction.MupairParametrization.KelnerKokoulinPetrukhin
+    sector_def.crosssection_defs.mupair_def.particle_output = False
     prop = pp.Propagator(mu_def, [sector_def], detector, interpolation_def)
+
 
     # for rho sampling
     param_defs_mupair = [mu_def, sector_def.medium, sector_def.cut_settings, 1.0, True, interpolation_def]
@@ -328,17 +332,57 @@ def propagate_muons():
     print("MPair: ", sum(mpair_secondary_energy), sum(mpair_secondary_energy)/ene_all)
 
 
+    ### PROPAGATION WITHOUT MUPAIRPRODUCTION
+
+    muon_energies = np.ones(statistics)*10**E_log
+    epair_secondary_energy_nomupair = []
+    brems_secondary_energy_nomupair = []
+    ioniz_secondary_energy_nomupair = []
+    photo_secondary_energy_nomupair = []
+
+    print("Propagate muons without MuPairProduction...")
+    progress = ProgressBar(statistics, pacman=True)
+    progress.start()
+
+    for mu_energy in muon_energies:
+        progress.update()
+
+        prop_nomupair.particle.position = pp.Vector3D(0, 0, 0)
+        prop_nomupair.particle.direction = pp.Vector3D(0, 0, -1)
+        prop_nomupair.particle.propagated_distance = 0
+        prop_nomupair.particle.energy = mu_energy
+
+        secondarys = prop_nomupair.propagate(propagation_length)
+
+        for sec in secondarys:
+            sec_energy = sec.energy
+
+            if sec.id == pp.particle.Data.Epair:
+                epair_secondary_energy_nomupair.append(sec_energy)
+            elif sec.id == pp.particle.Data.Brems:
+                brems_secondary_energy_nomupair.append(sec_energy)
+            elif sec.id == pp.particle.Data.DeltaE:
+                ioniz_secondary_energy_nomupair.append(sec_energy)
+            elif sec.id == pp.particle.Data.NuclInt:
+                photo_secondary_energy_nomupair.append(sec_energy)
+            elif sec.id == pp.particle.Data.MuPair:
+                print("Something went wrong")
+
+
+    # Comparison plot
+
     plt.rcParams.update(params)
 
     fig_all = plt.figure(
         figsize=(width, 4)
     )
 
-    x_space = np.logspace(min(np.log10(np.concatenate((ioniz_secondary_energy,brems_secondary_energy,photo_secondary_energy,epair_secondary_energy,mpair_secondary_energy)))),
-                          max(np.log10(np.concatenate((ioniz_secondary_energy,brems_secondary_energy,photo_secondary_energy,epair_secondary_energy,mpair_secondary_energy)))),
-                          50)
+    gs = matplotlib.gridspec.GridSpec(2, 1, height_ratios=[4, 1], hspace=0.05)
 
-    ax_all = fig_all.add_subplot(111)
+
+    x_space = np.logspace(min(np.log10(np.concatenate((ioniz_secondary_energy_nomupair,photo_secondary_energy_nomupair,brems_secondary_energy_nomupair,epair_secondary_energy_nomupair)))), E_log, 100)
+    
+    ax_all = fig_all.add_subplot(gs[0])
     ax_all.hist(
         [
             ioniz_secondary_energy,
@@ -351,32 +395,104 @@ def propagate_muons():
         color = ['C0', 'C1', 'C2', 'C3', 'C4'],
         log=True,
         bins=x_space,
-        label=['Ionization', 'Photonuclear', 'Bremsstrahlung', r'$e$ pair production', r'$\mu$ pair production'],
         zorder = 3,
         linestyle = 'dashed',
     )
 
     ax_all.hist(
         [
-            ioniz_secondary_energy + ioniz_old,
-            photo_secondary_energy + photo_old,
-            brems_secondary_energy + brems_old,
-            epair_secondary_energy + epair_old,
-            mpair_secondary_energy + mpair_old,
+            ioniz_secondary_energy_nomupair,
+            photo_secondary_energy_nomupair,
+            brems_secondary_energy_nomupair,
+            epair_secondary_energy_nomupair,
             np.concatenate((
-                ioniz_secondary_energy + ioniz_old,
-                brems_secondary_energy + brems_old,
-                photo_secondary_energy + photo_old,
-                epair_secondary_energy + epair_old,
-                mpair_secondary_energy + mpair_old)
+                ioniz_secondary_energy_nomupair,
+                brems_secondary_energy_nomupair,
+                photo_secondary_energy_nomupair,
+                epair_secondary_energy_nomupair)
+            )
+        ],
+        color = ['C0', 'C1', 'C2', 'C3','C5'],
+        label=['Ionization', 'Photonuclear', 'Bremsstrahlung', r'$e$ pair production', 'Sum'],
+        histtype='step',
+        log=True,
+        bins=x_space,
+        zorder = 4,
+    )    
+
+    plt.xscale('log')
+    #minor_locator = AutoMinorLocator()
+    #ax_all.xaxis.set_minor_locator(minor_locator)
+    ax_all.legend(loc='best')
+    ax_all.set_ylabel(r'Frequency')
+    #plt.xlim(left=2.5)
+    plt.grid(grid_conf)
+    plt.setp(ax_all.get_xticklabels(), visible=False)
+    plt.tick_params(
+        axis='x',          # changes apply to the x-axis
+        which='both',      # both major and minor ticks are affected
+        bottom=False,      # ticks along the bottom edge are off
+        top=False,         # ticks along the top edge are off
+        labelbottom=False
+    ) # labels along the bottom edge are off
+
+    ax_all = fig_all.add_subplot(gs[1], sharex=ax_all)
+
+    hist_1, bin_edges_1 = np.histogram(np.concatenate((ioniz_secondary_energy_nomupair,brems_secondary_energy_nomupair,photo_secondary_energy_nomupair,epair_secondary_energy_nomupair)),
+                                        bins = x_space)
+
+    hist_2, bin_edges_2 = np.histogram(np.concatenate((epair_old, ioniz_old, brems_old, photo_old, ioniz_secondary_energy,photo_secondary_energy,brems_secondary_energy,epair_secondary_energy,mpair_secondary_energy)),
+                                        bins = x_space)    
+
+    print(np.shape(x_space))
+
+    print(np.shape(hist_1))
+
+    ax_all.step(x_space[1:], hist_1/hist_2, where='pre', color='C5')
+    #ax_all.bar(x_space[:-1], hist_1/hist_2, width=np.diff(x_space), align='edge', fill=False)
+
+    ax_all.set_xlabel(r'$ E \cdot v \,/\, \mathrm{MeV} $')
+    plt.grid(grid_conf)
+    ax_all.axhline(y=1, linewidth=0.5, zorder=0)
+
+    fig_all.tight_layout()
+    fig_all.savefig("build/spectrum_mupair_secondary_comparison.pdf",bbox_inches='tight')
+    plt.clf()
+
+
+    # Plot particles from secondary spectrum
+
+    plt.rcParams.update(params)
+
+    fig_all = plt.figure(
+        figsize=(width, 4)
+    )
+
+    x_space = np.logspace(min(np.log10(np.concatenate((ioniz_secondary_energy,brems_secondary_energy,photo_secondary_energy,epair_secondary_energy,mpair_secondary_energy)))), E_log, 100)
+
+    ax_all = fig_all.add_subplot(111)
+    ax_all.hist(
+        [
+            ioniz_secondary_energy,
+            photo_secondary_energy,
+            brems_secondary_energy,
+            epair_secondary_energy,
+            mpair_secondary_energy,
+            np.concatenate((
+                ioniz_secondary_energy,
+                brems_secondary_energy,
+                photo_secondary_energy,
+                epair_secondary_energy,
+                mpair_secondary_energy)
             )
         ],
         color = ['C0', 'C1', 'C2', 'C3', 'C4', 'C5'],
         histtype='step',
         log=True,
         bins=x_space,
-        zorder = 4,
-    )    
+        label=['Ionization', 'Photonuclear', 'Bremsstrahlung', r'$e$ pair production', r'$\mu$ pair production', 'Sum'],
+        zorder = 3
+    )
 
     plt.xscale('log')
     #minor_locator = AutoMinorLocator()
@@ -389,6 +505,7 @@ def propagate_muons():
     fig_all.tight_layout()
     fig_all.savefig("build/spectrum_mupair_secondary.pdf",bbox_inches='tight')
     plt.clf()
+
 
 if __name__ == "__main__":
     propagate_muons()

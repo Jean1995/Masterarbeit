@@ -15,7 +15,7 @@ build/secondary_number.pdf: Plots/secondary_number.py Plots/matplotlibconfig.py 
 build/dEdx_mupair.pdf: Plots/dEdx_mupair.py Plots/matplotlibconfig.py | build
 	python3 Plots/dEdx_mupair.py	
 
-build/spectrum_mupair.pdf: Plots/spectrum_mupair.py Plots/matplotlibconfig.py | build
+build/spectrum_mupair.pdf build/spectrum_mupair_secondary_comparison.pdf build/spectrum_mupair_secondary.pdf: Plots/spectrum_mupair.py Plots/matplotlibconfig.py | build
 	python3 Plots/spectrum_mupair.py	
 
 build/mupair_rho.pdf: Plots/mupair_rho.py Plots/matplotlibconfig.py | build
@@ -98,7 +98,8 @@ TeXOptions = -lualatex \
 			 -output-directory=build
                                                                                 
 build/masterthesis.pdf: FORCE build/cont_rand.pdf build/spectrum.pdf build/dEdx.pdf build/secondary_number.pdf build/dEdx_mupair.pdf \
-							build/spectrum_mupair.pdf build/mupair_rho.pdf build/dNdx_weak.pdf build/dEdx_ionization.pdf build/dEdx_brems.pdf \
+							build/spectrum_mupair.pdf build/spectrum_mupair_secondary_comparison.pdf build/spectrum_mupair_secondary.pdf \
+						    build/mupair_rho.pdf build/dNdx_weak.pdf build/dEdx_ionization.pdf build/dEdx_brems.pdf \
 							build/spectrum_annihilation.pdf build/compton.pdf build/compare_compton.pdf build/hex_1e5.png build/shower_1e5.png \
 							build/hist_1e5.pdf build/hex_1e5_xy.png build/hex_1e6.png build/shower_1e6.png build/hist_1e6.pdf build/hex_1e6_xy.png \
 							build/hex_1e7.png build/hist_1e7.pdf build/hex_1e7_xy.png | build
