@@ -21,6 +21,14 @@ import math
 
 import matplotlibconfig as conf
 
+def sigma_decay(E, rho):
+    c = 2.99792458e10 #speed of light in cm / s
+    tau = 2.1969811e-6 # muon life time
+    m = 105.6583745 # muon mass in MeV
+    gamma = (E - m)/m
+    beta = np.sqrt(1 - 1 / gamma**2)
+    return 1 / (gamma * beta * tau * c * rho)
+
 if __name__ == "__main__":
 
     mu = pp.particle.MuMinusDef.get()
@@ -129,6 +137,8 @@ if __name__ == "__main__":
             linestyle='-',
             label=_label
         )
+
+    plt.loglog(energy, energy * sigma_decay(energy, medium.mass_density), linestyle='-', label='Decay')    
 
     plt.xlabel(r'$E \,/\, \mathrm{MeV} $')
     plt.ylabel(r'$\left\langle\frac{\mathrm{d}E}{\mathrm{d}X}\right\rangle \,\left/\, \left( \rm{MeV} \cdot \rm{g}^{-1} \rm{cm}^2 \right) \right. $')
