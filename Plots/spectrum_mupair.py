@@ -248,11 +248,11 @@ def propagate_muons():
                 mpair_secondary_energy)
             )
         ],
-        color = ['C0', 'C1', 'C2', 'C3', 'C4', 'C5'],
         histtype='step',
         log=True,
         bins=x_space,
         label=['Ionization', 'Photonuclear', 'Bremsstrahlung', r'$e$ pair production', r'$\mu$ pair production', 'Sum'],
+        color = ['C3', 'C2', 'C1', 'C0', 'C4', 'C7'],
         zorder = 3
     )
 
@@ -392,7 +392,7 @@ def propagate_muons():
             mpair_secondary_energy
         ],
         histtype='step',
-        color = ['C0', 'C1', 'C2', 'C3', 'C4'],
+        color = ['C3', 'C2', 'C1', 'C0', 'C4'],
         log=True,
         bins=x_space,
         zorder = 3,
@@ -412,7 +412,7 @@ def propagate_muons():
                 epair_secondary_energy_nomupair)
             )
         ],
-        color = ['C0', 'C1', 'C2', 'C3','C5'],
+        color = ['C3', 'C2', 'C1', 'C0','C7'],
         label=['Ionization', 'Photonuclear', 'Bremsstrahlung', r'$e$ pair production', 'Sum'],
         histtype='step',
         log=True,
@@ -448,12 +448,12 @@ def propagate_muons():
 
     print(np.shape(hist_1))
 
-    ax_all.step(x_space[1:], hist_1/hist_2, where='pre', color='C5')
+    ax_all.step(x_space[1:], hist_1/hist_2, where='pre', color='C4')
     #ax_all.bar(x_space[:-1], hist_1/hist_2, width=np.diff(x_space), align='edge', fill=False)
 
     ax_all.set_xlabel(r'$ E \cdot v \,/\, \mathrm{MeV} $')
     plt.grid(grid_conf)
-    ax_all.axhline(y=1, linewidth=0.5, zorder=0)
+    ax_all.axhline(y=1, linewidth=0.5, zorder=0, C = 'C7')
 
     fig_all.tight_layout()
     fig_all.savefig("build/spectrum_mupair_secondary_comparison.pdf",bbox_inches='tight')
@@ -486,11 +486,11 @@ def propagate_muons():
                 mpair_secondary_energy)
             )
         ],
-        color = ['C0', 'C1', 'C2', 'C3', 'C4', 'C5'],
         histtype='step',
         log=True,
         bins=x_space,
         label=['Ionization', 'Photonuclear', 'Bremsstrahlung', r'$e$ pair production', r'$\mu$ pair production', 'Sum'],
+        color = ['C3', 'C2', 'C1', 'C0', 'C4', 'C7'],
         zorder = 3
     )
 

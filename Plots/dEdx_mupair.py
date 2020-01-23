@@ -105,13 +105,15 @@ if __name__ == "__main__":
     ax = fig.add_subplot(gs[0])
 
     labels = [r'$e$ pair production', r'$\mu$ pair production']
+    colors = ['C0', 'C4']
 
-    for dEdx, param, _label in zip(dEdx_photo, params, labels):
+    for dEdx, param, _label, color in zip(dEdx_photo, params, labels, colors):
         ax.loglog(
             energy,
             dEdx,
             linestyle='-',
-            label=_label
+            label=_label,
+            c = color
         )
 
     ax.set_ylabel(r'$\left\langle\frac{\mathrm{d}E}{\mathrm{d}X}\right\rangle \,\left/\, \left( \rm{MeV} \cdot \rm{g}^{-1} \rm{cm}^2 \right) \right. $')

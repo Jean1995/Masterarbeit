@@ -21,14 +21,23 @@ import math
 
 import matplotlibconfig as conf
 
+
+def sigma_decay(E, rho):
+    c = 2.99792458e10 #speed of light in cm / s
+    tau = 2.1969811e-6 # muon life time
+    m = 105.6583745 # muon mass in MeV
+    gamma = (E - m)/m
+    beta = np.sqrt(1 - 1 / gamma**2)
+    return 1 / (gamma * beta * tau * c * rho)
+
 if __name__ == "__main__":
 
     mu = pp.particle.MuMinusDef.get()
     medium = pp.medium.Ice(1.0)  # With densitiy correction
-    cuts = pp.EnergyCutSettings(500, 5e-2)  # ecut, vcut
+    cuts = pp.EnergyCutSettings(-1, -1)  # ecut, vcut
 
-    dNdx_photo = []
-    energy = np.logspace(3, 12, 1000)
+    dEdx_photo = []
+    energy = np.logspace(5, 12, 2000)
 
     interpolation_def = pp.InterpolationDef()
 
@@ -66,11 +75,18 @@ if __name__ == "__main__":
             pp.parametrization.photonuclear.ShadowButkevichMikhailov()
         ]
 
+    param_defs_mupair = [
+            mu,
+            medium,
+            cuts,
+            1.0,
+            False,
+        ]
+
     param_defs_weak = [
             mu,
             medium,
-            1.0
-        ]    
+            1.0]    
 
     params = [
         parametrization.pairproduction.KelnerKokoulinPetrukhin(
@@ -85,10 +101,18 @@ if __name__ == "__main__":
         parametrization.ionization.BetheBlochRossi(
             *param_defs_ionization
         ),
-        parametrization.weakinteraction.CooperSarkarMertsch(
-            *param_defs_weak
+        parametrization.mupairproduction.KelnerKokoulinPetrukhin(
+            *param_defs_mupair
         )
     ]
+
+    param_weak = parametrization.weakinteraction.CooperSarkarMertsch(*param_defs_weak)
+    cross_weak = pp.crosssection.WeakIntegral(param_weak)
+
+    def dEdx_weak(E):
+        ''' calculate dEdx value for WeakInteraction '''
+        return E * np.vectorize(cross_weak.calculate_dNdx)(E)
+
 
     # =========================================================
     # 	Create x sections out of their parametrizations
@@ -112,46 +136,50 @@ if __name__ == "__main__":
         params[3]
     ))  
 
-    crosssections.append(pp.crosssection.WeakIntegral(
+    crosssections.append(pp.crosssection.MupairIntegral(
         params[4]
-    ))  
+    ))
 
     # =========================================================
     # 	Calculate DE/dx at the given energies
     # =========================================================
 
     for cross in crosssections:
-        dNdx = []
+        dEdx = []
         for E in energy:
-            dNdx.append(cross.calculate_dNdx(E))
+            dEdx.append(cross.calculate_dEdx(E))
 
-        dNdx_photo.append(dNdx)
+        dEdx_photo.append(dEdx)
 
     # =========================================================
     # 	Plot
     # =========================================================
 
     plt.rcParams.update(conf.params)
-    plt.figure(figsize=(conf.width,3))
+    plt.figure(figsize=(conf.width,3.5))
 
-    labels = [r'$e$ pair production', 'Bremsstrahlung', 'Photonuclear', 'Ionization', 'Weak interaction']
-    colors = ['C0', 'C1', 'C2', 'C3', 'C4', 'C6']
+    labels = [r'$e$ pair production', 'Bremsstrahlung', 'Photonuclear', 'Ionization', r'$\mu$ pair production']
+    colors = ['C0', 'C1', 'C2', 'C3', 'C4']
 
-    for dNdx, param, _label, color in zip(dNdx_photo, params, labels, colors):
+    for dEdx, param, _label, color in zip(dEdx_photo, params, labels, colors):
         plt.loglog(
             energy,
-            dNdx,
+            dEdx,
             linestyle='-',
             label=_label,
             c = color
         )
 
+    plt.loglog(energy, energy * sigma_decay(energy, medium.mass_density), linestyle='-', label='Decay', c = 'C5')    
+
+    plt.loglog(energy, dEdx_weak(energy), linestyle='-', label='Weak interaction', c = 'C6')
+
     plt.xlabel(r'$E \,/\, \mathrm{MeV} $')
-    plt.ylabel(r'$ \sigma_{\text{tot}}(E)  \,\left/\, \left( \rm{cm}^2 \rm{g}^{-1} \right) \right. $')
+    plt.ylabel(r'$\left\langle\frac{\mathrm{d}E}{\mathrm{d}X}\right\rangle \,\left/\, \left( \rm{MeV} \cdot \rm{g}^{-1} \rm{cm}^2 \right) \right. $')
     plt.grid(conf.grid_conf)
     plt.legend(loc='best')
 
-    plt.xlim(1e4, 1e12)
+    plt.xlim(1e5, 1e12)
 
     plt.tight_layout()
-    plt.savefig('build/dNdx_weak.pdf',bbox_inches='tight')
+    plt.savefig('build/dEdx_weak.pdf',bbox_inches='tight')

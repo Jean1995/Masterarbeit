@@ -256,6 +256,7 @@ def propagate_muons():
         log=True,
         bins=x_space,
         label=['Ionization', 'Photonuclear', 'Bremsstrahlung', r'$e$ pair production', 'Annihilation', 'Sum'],
+        color = ['C3', 'C2', 'C1', 'C0', 'C8', 'C7'],
         zorder = 3
     )
 

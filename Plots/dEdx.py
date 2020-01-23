@@ -129,16 +129,18 @@ if __name__ == "__main__":
     plt.figure(figsize=(conf.width,3.2))
 
     labels = [r'$e$ pair production', 'Bremsstrahlung', 'Photonuclear', 'Ionization']
+    colors = ['C0', 'C1', 'C2', 'C3']
 
-    for dEdx, param, _label in zip(dEdx_photo, params, labels):
+    for dEdx, param, _label, color in zip(dEdx_photo, params, labels, colors):
         plt.loglog(
             energy,
             dEdx,
             linestyle='-',
-            label=_label
+            label=_label,
+            c = color
         )
 
-    plt.loglog(energy, energy * sigma_decay(energy, medium.mass_density), linestyle='-', label='Decay')    
+    plt.loglog(energy, energy * sigma_decay(energy, medium.mass_density), linestyle='-', label='Decay', c='C5')    
 
     plt.xlabel(r'$E \,/\, \mathrm{MeV} $')
     plt.ylabel(r'$\left\langle\frac{\mathrm{d}E}{\mathrm{d}X}\right\rangle \,\left/\, \left( \rm{MeV} \cdot \rm{g}^{-1} \rm{cm}^2 \right) \right. $')
