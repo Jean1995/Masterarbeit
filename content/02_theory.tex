@@ -344,3 +344,38 @@ Although the energy loss contribution of pair production is comparable to bremss
 
 
 \section{The shower simulation program CORSIKA}
+
+CORSIKA (\textbf{CO}smic \textbf{R}ay \textbf{SI}mulations for \textbf{KA}scade) is a software to simulate extensive air showers induced by high-energy particles in the atmosphere.
+The software was originally developed to perform simulations for the extensive air showers experiment KASCADE with the first version of CORSIKA being released in October 1989 \cite{userguide}.
+Today, CORSIKA is used as a general purpose tool for all experiments in need of shower simulation data.
+At this time (February 2020), the most recent version is CORSIKA 7.7100 which has been released in October 2019.
+
+\subsection{Description of CORSIKA}
+
+CORSIKA 7 consists of routines written in the programming language FORTRAN77.
+It simulates interactions of electrons, positrons, photons, muons, hadrons and nuclei necessary for shower simulations with energies of up to $\SI{e20}{\mega\electronvolt}$.
+
+As described in the CORSIKA userguide \cite{userguide}, the basic software structure is based on four main parts.
+The first three parts are responsible for the description of particle-specific physical interactions:
+Firstly, the transport of electrons, positrons and photons, i.e.\ the electromagnetic shower component, can either be described by an adapted version of the EGS4 package, a Monte Carlo software described in more detail in section \ref{sec:egs4}, or analytically using NKG formulas.
+The description of the hadronic interactions of the shower is divided into a low-energy and a high-energy part.
+The former can either be described by FLUKA, by GHEISHA or by UrQMD while the latter can be described by several models including QGSJET, SIBYLL or EPOS LHC.
+Links to further descriptions of the individual models are provided by the CORSIKA userguide \cite{userguide}.
+The last part of the basic structure of CORSIKA is a general program frame that is responsible for general tasks including particle tracking, particle decays or organizing dynamic particle data in a stack.
+
+The general process of shower propagation in CORSIKA can be described as follows:
+At first, CORSIKA samples an initial particle, inducing the air shower, from a pre-defined distribution.
+This particle is propagated where the treatment of the interactions depends on the interaction models chosen by the user.
+Further effects during the propagation step, for example deflection by a magnetic field, are applied here as well.
+Created secondary particles are saved temporarily in a stack.
+After the current particle interacted, the next particle is read from the stack and propagated as well until its energy falls below a certain threshold and the particle is removed from the simulation.
+Output data with information on all secondary particles on a pre-selected observation level, including particle types, locations, directions and arrival times are generated continuously during the simulation process and can afterwards be further processed by the user.
+As soon as the particle stack is empty, the simulation continues by sampling another primary particle initiating the next air shower.
+
+Additional modules, changing the program sequence or adding new physical properties, can be loaded in CORSIKA at compilation time.
+For example, these extensions can add the simulation of Cherenkov radiation or neutrinos, enable parallel computation of the shower simulation or adapt the simulation output to conform with the requirements of specific experiments.  
+
+\subsection{Development of CORSIKA 8}
+
+\subsection{The EGS4 computer code system}
+\label{sec:egs4}
