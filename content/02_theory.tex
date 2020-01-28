@@ -346,11 +346,11 @@ Although the energy loss contribution of pair production is comparable to bremss
 \section{The shower simulation program CORSIKA}
 
 CORSIKA (\textbf{CO}smic \textbf{R}ay \textbf{SI}mulations for \textbf{KA}scade) is a software to simulate extensive air showers induced by high-energy particles in the atmosphere.
-The software was originally developed to perform simulations for the extensive air showers experiment KASCADE with the first version of CORSIKA being released in October 1989 \cite{userguide}.
+The software was originally developed to perform simulations for the extensive air shower experiment KASCADE with the first version of CORSIKA being released in October 1989 \cite{userguide}.
 Today, CORSIKA is used as a general purpose tool for all experiments in need of shower simulation data.
 At this time (February 2020), the most recent version is CORSIKA 7.7100 which has been released in October 2019.
 
-\subsection{Description of CORSIKA}
+\subsection{Description of CORSIKA 7}
 
 CORSIKA 7 consists of routines written in the programming language FORTRAN77.
 It simulates interactions of electrons, positrons, photons, muons, hadrons and nuclei necessary for shower simulations with energies of up to $\SI{e20}{\mega\electronvolt}$.
@@ -372,7 +372,7 @@ After the current particle interacted, the next particle is read from the stack 
 Output data with information on all secondary particles on a pre-selected observation level, including particle types, locations, directions and arrival times are generated continuously during the simulation process and can afterwards be further processed by the user.
 As soon as the particle stack is empty, the simulation continues by sampling another primary particle initiating the next air shower.
 
-Additional modules, changing the program sequence or adding new physical properties, can be loaded in CORSIKA at compilation time.
+Additional modules changing the program sequence or adding new physical properties can be loaded in CORSIKA at compilation time.
 For example, these extensions can add the simulation of Cherenkov radiation or neutrinos, enable parallel computation of the shower simulation or adapt the simulation output to conform with the requirements of specific experiments.  
 
 \subsection{Development of CORSIKA 8}
@@ -380,14 +380,14 @@ For example, these extensions can add the simulation of Cherenkov radiation or n
 Although originally developed only to provide simulations for the KASCADE experiment, CORSIKA evolved into a widely used program for air shower simulations.
 While updates for the interaction models are regularly released, new extensions for CORSIKA are rarely developed.
 One reason for the lack of new features is the complicated code structure that has originally been written without considering the possibility of new extensions.
-Instead, these extensions need to be developed to conform specifically with the existing complex code structure.
+Instead, these extensions need to be developed to conform specifically with the existing code structure.
 Furthermore, CORSIKA is written in FORTRAN77 which, on the one hand, poses technical restrictions in developing new code, and on the other hand lacks a large user group compared to modern programming languages such as \CC or Python.
 
 To overcome these existing obstacles, a new version of CORSIKA is being developed.
 With a code structure written from scratch in the programming language \CC, CORSIKA 8 intends to provide a new shower simulation software with focus on flexibility and extensibility oriented towards the present use case of CORSIKA.
 
 A description of the current status of the development of CORSIKA 8 is given by \cite{corsika8}.
-Furthermore, four building blocks, describing the very general code structure, are described.
+Furthermore, four building blocks, describing the very general code structure, are presented.
 These blocks are the particle stack, storing and giving access to all particle properties, the process sequence, describing all physical interactions, the transport code, responsible for the general propagation process as well as the environment that can be composed modularly by the user.
 One main feature of the CORSIKA 8 code is to provide the possibility to easily alter or replace functionalities of these building blocks.
 This allows CORSIKA 8 to be used not only as a simulation program for air showers but also as a framework for other simulation purposes.
