@@ -396,3 +396,34 @@ This allows CORSIKA 8 to be used not only as a simulation program for air shower
 \subsection{The EGS4 computer code system}
 \label{sec:egs4}
 
+EGS4 (\textbf{E}lectron \textbf{G}amma \textbf{S}hower) is a standalone software package providing full Monte Carlo simulations of electromagnetic showers.
+The first version of EGS, developed at the Stanford Linear Acceleration Center, has been published in 1978 with EGS4 being released in 1985.
+EGS4 is capable of simulating the transport of electrons, positrons and photons in arbitrary geometries to obtain information on all secondary particles of an electromagnetic shower.
+Particles with energies beginning at the $\si{\tera\electronvolt}$ range down to energies of only several $\si{\kilo\electronvolt}$ can be treated by EGS.
+A detailed description of EGS4 is given by \cite{egs4}, a summary of the most important features of EGS4 and the changes made for its usage by CORSIKA is given as follows.
+
+EGS4 is able to simulate the transport of particles in arbitrary media.
+This is made possible by the data preparation code PEGS4 which, based on cross section tables for atomic numbers between 1 and 100, creates the data necessary for the propagation in the requested medium which are then used by EGS4.
+After the tables for a specific medium have been created, EGS4 can be initialized either by receiving a monoenergetic particle to initiate an electromagnetic shower or by sampling an initial particle from a pre-defined distribution function.
+During propagation of electrons and positrons, the original version of EGS4 takes into account bremsstrahlung effects, collision losses, M{\o}ller or Bhabha scattering, multiple scattering as well as annihilation (for positrons) while for photons, electron-positron pair production, Compton scattering as well as photonuclear interactions are considered.
+
+For photon propagation, all interactions are sampled individually with the photon traversing in a straight line with constant energy between two separate interactions.
+When propagating charged leptons, EGS4 distinguishes between continuous and discrete interactions similar to the particle propagation in PROPOSAL as described in section \ref{sec:energy_loss_calculation}.
+For every propagated particle, all produced secondary particles are stored and propagated as well, creating a full electromagnetic shower.
+
+\subsection{Usage of EGS4 in CORSIKA}
+
+Up to version seven, CORSIKA used EGS4 as an option to simulate the electromagnetic components of an atmospheric air shower.
+To conform with additional requirements imposed by CORSIKA, several changes were made to the original EGS4 code which are described in detail in \cite{corsika_physics}.
+
+Due to their importance for the muonic shower components, muon pair production by photons as well as the interaction of photons with protons and neutrons in the atmosphere were added.
+To be able to describe interactions up to highest energies correctly, existing cross section data have been extended up to $\SI{e20}{\electronvolt}$.
+Furthermore, the LPM effect, affecting bremsstrahlung and pair production at highest energies which is relevant for showers induced by high energy photons, has been integrated as well.
+
+Since CORSIKA describes showers in a medium with an exponential density profile, the barometric density dependence of air influencing mean free path lengths as well as the density correction of ionization losses are relevant and have therefore been implemented in EGS4.
+
+While EGS4 is able to treat the deflection of charged leptons in magnetic fields, approximations only valid for small deflection angles are used.
+To comply with this requirement, the propagation step size is limited in cases where the deflection due to the earth's magnetic field would be too large.
+
+To optimize computing times, the maximum step size between two interactions of electrons or positrons is increased whenever possible.
+Furthermore, thinning measures are taken by removing particles from propagation if their probability to produce relevant secondary particles falls below a certain threshold, preventing the calculation of irrelevant low-energy subshowers.
