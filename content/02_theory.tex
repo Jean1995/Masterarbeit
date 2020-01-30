@@ -353,26 +353,26 @@ At this time (February 2020), the most recent version is CORSIKA 7.7100 which ha
 \subsection{Description of CORSIKA 7}
 
 CORSIKA 7 consists of routines written in the programming language FORTRAN77.
-It simulates interactions of electrons, positrons, photons, muons, hadrons and nuclei necessary for shower simulations with energies of up to $\SI{e20}{\mega\electronvolt}$.
+It simulates interactions of electrons, positrons, photons, muons, hadrons and nuclei necessary for shower simulations with energies of up to $\SI{e20}{\electronvolt}$.
 
 As described in the CORSIKA user guide \cite{userguide}, the basic software structure is based on four main parts.
 The first three parts are responsible for the description of particle-specific physical interactions:
-Firstly, the transport of electrons, positrons and photons, i.e.\ the electromagnetic shower component, can either be described by an adapted version of the EGS4 package, a Monte Carlo software described in more detail in section \ref{sec:egs4}, or analytically using NKG formulas.
+Firstly, the transport of electrons, positrons and photons, i.e.\ the electromagnetic shower components, can either be described by an adapted version of the EGS4 package, a Monte Carlo software described in more detail in section \ref{sec:egs4}, or analytically using NKG formulas.
 The description of the hadronic interactions of the shower is divided into a low-energy and a high-energy part.
 The former can either be described by FLUKA, by GHEISHA or by UrQMD while the latter can be described by several models including QGSJET, SIBYLL or EPOS LHC.
 Links to further descriptions of the individual models are provided by the CORSIKA user guide \cite{userguide}.
-The last part of the basic structure of CORSIKA is a general program frame that is responsible for general tasks including particle tracking, particle decays or organizing dynamic particle data in a stack.
+The last part of the basic structure of CORSIKA is a general program frame that is responsible for general tasks including particle tracking, particle decays or organizing dynamic particle data in a stack data structure.
 
 The general process of shower propagation in CORSIKA can be described as follows:
 At first, CORSIKA samples an initial particle, inducing the air shower, from a pre-defined distribution.
 This particle is propagated where the treatment of the interactions depends on the interaction models chosen by the user.
 Further effects during the propagation step, for example deflection by a magnetic field, are applied here as well.
-Created secondary particles are saved temporarily in a stack.
+Created secondary particles are saved temporarily on a stack.
 After the current particle interacted, the next particle is read from the stack and propagated as well until its energy falls below a certain threshold and the particle is removed from the simulation.
 Output data with information on all secondary particles on a pre-selected observation level, including particle types, locations, directions and arrival times are generated continuously during the simulation process and can afterwards be further processed by the user.
 As soon as the particle stack is empty, the simulation continues by sampling another primary particle initiating the next air shower.
 
-Additional modules changing the program sequence or adding new physical properties can be loaded in CORSIKA at compilation time.
+Additional modules changing the program sequence or adding new physical properties can be loaded into CORSIKA at compilation time.
 For example, these extensions can add the simulation of Cherenkov radiation or neutrinos, enable parallel computation of the shower simulation or adapt the simulation output to conform with the requirements of specific experiments.  
 
 \subsection{Development of CORSIKA 8}
@@ -381,7 +381,7 @@ Although originally developed only to provide simulations for the KASCADE experi
 While updates for the interaction models are regularly released, new extensions for CORSIKA are rarely developed.
 One reason for the lack of new features is the complicated code structure that has originally been written without considering the possibility of new extensions.
 Instead, these extensions need to be developed to conform specifically with the existing code structure.
-Furthermore, CORSIKA is written in FORTRAN77 which, on the one hand, poses technical restrictions in developing new code, and on the other hand lacks a large user group compared to modern programming languages such as \CC or Python.
+Furthermore, CORSIKA is written in FORTRAN77 which, on the one hand, poses technical restrictions when developing new code, and on the other hand lacks a large user group compared to modern programming languages such as \CC or Python.
 
 To overcome these existing obstacles, a new version of CORSIKA is being developed.
 With a code structure written from scratch in the programming language \CC, CORSIKA 8 intends to provide a new shower simulation software with focus on flexibility and extensibility oriented towards the present use case of CORSIKA.
@@ -405,11 +405,11 @@ A detailed description of EGS4 is given by \cite{egs4}, a summary of the most im
 EGS4 is able to simulate the transport of particles in arbitrary media.
 This is made possible by the data preparation code PEGS4 which, based on cross section tables for atomic numbers between 1 and 100, creates the data necessary for the propagation in the requested medium which are then used by EGS4.
 After the tables for a specific medium have been created, EGS4 can be initialized either by receiving a monoenergetic particle to initiate an electromagnetic shower or by sampling an initial particle from a pre-defined distribution function.
-During propagation of electrons and positrons, the original version of EGS4 takes into account bremsstrahlung effects, collision losses, M{\o}ller or Bhabha scattering, multiple scattering as well as annihilation (for positrons) while for photons, electron-positron pair production, Compton scattering as well as photonuclear interactions are considered.
+During the propagation of electrons and positrons, the original version of EGS4 takes into account bremsstrahlung effects, collision losses, M{\o}ller or Bhabha scattering, multiple scattering as well as annihilation (for positrons) while for photons, electron-positron pair production, Compton scattering as well as photonuclear interactions are considered.
 
 For photon propagation, all interactions are sampled individually with the photon traversing in a straight line with constant energy between two separate interactions.
 When propagating charged leptons, EGS4 distinguishes between continuous and discrete interactions similar to the particle propagation in PROPOSAL as described in section \ref{sec:energy_loss_calculation}.
-For every propagated particle, all produced secondary particles are stored and propagated as well, creating a full electromagnetic shower.
+For every propagated particle, all produced secondary particles are stored and propagated as well, thus creating a full electromagnetic shower.
 
 \subsection{Usage of EGS4 in CORSIKA}
 
@@ -422,8 +422,8 @@ Furthermore, the LPM effect, affecting bremsstrahlung and pair production at hig
 
 Since CORSIKA describes showers in a medium with an exponential density profile, the barometric density dependence of air influencing mean free path lengths as well as the density correction of ionization losses are relevant and have therefore been implemented in EGS4.
 
-While EGS4 is able to treat the deflection of charged leptons in magnetic fields, approximations only valid for small deflection angles are used.
+While EGS4 is natively able to treat the deflection of charged leptons in magnetic fields, approximations only valid for small deflection angles are used.
 To comply with this requirement, the propagation step size is limited in cases where the deflection due to the earth's magnetic field would be too large.
 
 To optimize computing times, the maximum step size between two interactions of electrons or positrons is increased whenever possible.
-Furthermore, thinning measures are taken by removing particles from propagation if their probability to produce relevant secondary particles falls below a certain threshold, preventing the calculation of irrelevant low-energy subshowers.
+Furthermore, thinning measures are taken by removing particles from propagation if their probability to produce relevant secondary particles falls below a given threshold, preventing the calculation of irrelevant low-energy subshowers.
