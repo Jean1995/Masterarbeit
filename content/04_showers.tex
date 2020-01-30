@@ -1,10 +1,27 @@
 \chapter{Propagation of electromagnetic showers}
 
+As described in section \ref{sec:corsika}, CORSIKA 7 uses the software package EGS4 to simulate the electromagnetic components of extensive air showers.
+However, the development of the original EGS code ended with the release of EGS4, although other working groups continued working on the given code foundation \cite{Hirayama:2005zm} \cite{Kawrakow2016TheEC}.
+
+For the currently developed new version CORSIKA 8, up-to-date models to describe the electromagnetic shower components are needed.
+As an actively maintained propagation program written in a modern programming language, PROPOSAL represents a possible choice for this purpose.
+As a requirement, PROPOSAL needs to be able to propagate electrons, positrons and photons.
+
+In the following section, the measures taken to improve the propagation of electrons and positrons as well as the measures taken to realize the propagation of photons are described.
+Furthermore, as a proof of concept, the simulation of photon-induced electromagnetic showers with PROPOSAL using the newly integrated cross sections are presented.
+
 \section{Electron and positron propagation in PROPOSAL}
+
+Although most processes relevant for electron and positron propagation are already implemented in PROPOSAL, the included cross sections are optimized for muon and tau propagation, requiring some parametrizations to be adapted.
+
+The provided parametrization of ionization doesn't provide correct results when applied to electrons and positrons, a correct parametrization is therefore implemented as described in section \ref{sec:ionization}.
+Since bremsstrahlung effects are dominant for electrons and positrons, an optimized parametrization, as described in section \ref{sec:brems}, is added to PROPOSAL.
+For positrons, annihilation with atomic electrons is a new interaction that is not described by other processes, the treatment of electron-positron annihilation in PROPOSAL is presented in section \ref{sec:annihilation}.
 
 \label{sec:electronprop}
 
 \subsection{Ionization}
+\label{sec:ionization}
 
 Ionization describes the inelastic collision of a particle with atomic electrons, leading to an energy loss of the primary particle.
 For heavy, charged particles the average energy loss due to ionization is given by the Bethe formula.
@@ -121,6 +138,7 @@ Therefore, the electron with the higher energy after the interaction is by defin
 A positron as an ingoing particle however is always distinguishable from the atomic electron and can therefore be the particle with the lower energy after the interaction.
 
 \subsection{Bremsstrahlung}
+\label{sec:brems}
 
 Bremsstrahlung describes the energy loss of a charged particle in the field of an atomic nucleus $Z$ where a photon is emitted, i.e.\
 %
@@ -377,6 +395,11 @@ However, for energy losses around $\SI{1}{\giga\electronvolt}$, a contribution t
 \section{Photon propagation in PROPOSAL}
 
 \label{sec:photonprop}
+
+Since photons are massless and uncharged, their interactions differ strongly from interactions of electrons, muons and tauons.
+Possible photon interactions are the production of electron-positron pairs, Compton scattering and the photoelectric effect.
+While the implementation of the first two processes is described in the following section, the photoelectric effect is neglected since its relevance is limited to energies $E \ll 2 m_e$.
+However, photons with energies below $2 m_e$ are irrelevant for the further development of an electromagnetic shower due to their inability to produce secondary particles.
 
 % Photonuclear interactions dominant for small energies but not taken into accounts here sinve E<<2m_e irrelevant for shower 
 
