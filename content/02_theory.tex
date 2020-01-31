@@ -1,15 +1,15 @@
 \chapter{Large scale Monte Carlo simulation software}
 
 Modern physical experiments often produce extremely large quantities of data.
-In order to obtain physical results, these datasets need to be evaluated where using computational methods of multivariate analysis is often inevitable due to the complexity and multiplicity of the data.
+In order to obtain physical results, these datasets need to be evaluated where using computational methods of multivariate analyses is often inevitable due to the complexity and multiplicity of the data.
 
 One important task that needs to be performed is the signal-background separation to reject events that are irrelevant for the conducted analysis.
 Examples are the gamma-hadron separation in high-energy gamma ray astronomy \cite{Ohm_2009} or the separation of atmospheric muons from neutrino-induced muons in the IceCube Neutrino Observatory \cite{Ahrens_2004}. \todo{Are there better papers to cite here?}
-Signatures from signal and background events are separated by classifiers, deciding whether an event is labeled as signal or background, for example by a random forest.
+Signatures from signal and background events are separated by classifiers, deciding whether an event is labeled as signal or background, for example by random forests.
 To be able to use a classifier on a given dataset, the models needs to be trained first using data from Monte Carlo simulations where it is known whether the generated signature belongs to a signal or a background event.
 When generating Monte Carlo simulations, both a high quality and quantity of simulation data are important and need to be taken into account when writing a simulation program.
 
-Two example of Monte Carlo simulation softwares, the lepton propagator PROPOSAL and the air shower simulation program CORSIKA, are presented in the following section.
+Two examples of Monte Carlo simulation softwares, the lepton propagator PROPOSAL and the air shower simulation program CORSIKA, are presented in the following section.
 A common characteristic of both programs is that particles traversing large distances need to be simulated both correctly and efficiently.
 
 \section{The lepton propagator PROPOSAL}

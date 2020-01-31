@@ -1,5 +1,12 @@
 \chapter{Integration of rare processes}
 
+When propagating particles, PROPOSAL considers ionization, bremsstrahlung, electron-positron pair production and photonuclear interactions.
+These four processes were originally chosen due to their quantitatively relevant contribution to the energy loss of muons, see figure \ref{fig:dEdx}.
+However, the polymorphic code structure of PROPOSAL allows for the simple implementation of additional interactions.
+
+The following section describes the implementation of two rare processes, the production of muon pairs and the weak interaction of charged leptons, in PROPOSAL.
+While the contribution to the average energy loss is insignificant for both interactions, they are able to produce qualitatively significant detector signatures for certain analyses as described individually in section \ref{sec:signatures} and \ref{sec:weak_signature}. 
+
 \section{Muon pair production}
 
 The process of muon pair production is a rare process with a negligible contribution to the overall energy loss of a propagated particle.
