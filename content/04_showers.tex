@@ -10,6 +10,8 @@ As a requirement, PROPOSAL needs to be able to propagate electrons, positrons an
 In the following section, the measures taken to improve the propagation of electrons and positrons as well as the measures taken to realize the propagation of photons are described.
 Furthermore, as a proof of concept, the simulation of photon-induced electromagnetic showers with PROPOSAL using the newly integrated cross sections are presented.
 
+Definitions and numerical values of variables are, unless otherwise specified, listed, if necessary with their corresponding numerical values, in appendix \ref{sec:constants}.
+
 \section{Electron and positron propagation in PROPOSAL}
 
 Although most processes relevant for electron and positron propagation are already implemented in PROPOSAL, the included cross sections are optimized for muon and tau propagation, requiring some parametrizations to be adapted.
@@ -243,7 +245,7 @@ It should be noted that this factor is only a normalization factor and is theref
 To use the bremsstrahlung cross section described above in PROPOSAL, the keyword \texttt{brems} in the configuration file can be set to \texttt{BremsElectronScreening}.
 \end{sloppypar}
 
-The values for $A^{\prime}(E,Z)$ are provided as a two-dimensional table in $\ln(Z)$ and $E$ with $\num{14}$ entries in $\ln(Z)$ and, for each $\ln(Z)$, $\num{115}$ entires in $E$.  
+The values for $A^{\prime}(E,Z)$ are provided as a two-dimensional table in $\ln(Z)$ and $E$ with $\num{14}$ entries in $\ln(Z)$ and, for each $\ln(Z)$, $\num{115}$ entries in $E$.  
 PROPOSAL uses a two-dimensional interpolation routine to obtain the correction factor for an arbitrary $Z$, $E$ from the discrete tables values.
 
 \begin{figure}
@@ -562,7 +564,7 @@ according to the kinematic for Compton scattering, yields
 %
 \begin{equation}
 	\label{eqn:angle_compton}
-	\cos(\theta) = 1 - \left( \frac{m_e}{E^{\prime}} - \frac{m}{E} \right).
+	\cos(\theta) = 1 - \left( \frac{m_e}{E^{\prime}} - \frac{m_e}{E} \right).
 \end{equation}
 %
 By solving \eqref{eqn:angle_compton} for $E^{\prime}$, the well-known relation
