@@ -5,15 +5,16 @@ While it has been shown that their contribution to the overall energy loss of mu
 The current status of PROPOSAL offers an appropriate framework for this task.
 
 With the implementation of the Berger-Seltzer formula as a correct parametrization of electron ionization losses as well as the implementation of an optimized bremsstrahlung parametrization, the description of electron propagation in PROPOSAL has been improved.
-To be able to provide all interactions necessary to accurately describe the propagation of positrons, annihilation has been added as an additional process.
+To be able to provide all interactions necessary to accurately describe the propagation of positrons as well, annihilation has been added as an additional process.
 Furthermore, the propagation of photons with PROPOSAL is now possible due to the implementation of electron-positron pair production and Compton scattering as new, photon-specific processes.
-This portrays a significant extension of the function of PROPOSAL since before, PROPOSAL exclusively supported the propagation of charged leptons.
+This extension portrays a new application possibility of PROPOSAL since before, PROPOSAL exclusively supported the propagation of charged leptons.
 
 Since electron, positron and photon interactions are now described accurately, PROPOSAL can be used as a software to propagate all particles of an electromagnetic shower.
-As a proof of concept, a simple routine, using the particle propagation of PROPOSAL, has been written to simulate electromagnetic showers.
+As a proof of concept, a simple Python routine, using the particle propagation of PROPOSAL, has been written to simulate electromagnetic showers.
 Based on this work, it is possible to implement PROPOSAL as an electromagnetic model used by CORSIKA 8, enabling the simulation of a full atmospheric air shower.
 However, it is necessary to enable particle propagation in inhomogeneous media with PROPOSAL, describing the atmospheric density profile, which is part of an ongoing thesis.
-Further improvements for photon propagation can be made as well, for example by implementing the creation of muon pairs by photons, which is important for muonic shower components \cite{corsika_physics}. 
+Further improvements for photon propagation can be made as well, for example by implementing the creation of muon pairs by photons, which is important for muonic air shower components \cite{corsika_physics}. 
 
 To validate the results of this work, cross checks with other works are necessary.
-One possible cross check, possible after the implementation of PROPOSAL in CORSIKA, is a comparison with the EmCa (\textbf{E}lectro\textbf{m}agnetic-\textbf{Ca}scades) simulation package \cite{meighenberger2019emca} which provides an alternative approach to describe the electromagnetic components of extensive air showers in CORSIKA 8.
+One important cross check, possible after the implementation of PROPOSAL in CORSIKA has been completed, is a comparison with the EmCa (\textbf{E}lectro\textbf{m}agnetic\-\textbf{Ca}scades) simulation package \cite{meighenberger2019emca} which provides an alternative approach to describe electromagnetic air showers.
+Comparing the characteristics of full extensive air showers simulated with CORSIKA 8, for example longitudinal shower profiles, using either PROPOSAL, EmCa or other electromagnetic models such as EGS4 can give indications about the accuracy of PROPOSAL or provide hints where further improvements can be made.
