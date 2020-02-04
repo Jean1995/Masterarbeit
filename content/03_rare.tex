@@ -11,8 +11,8 @@ Definitions and numerical values of variables are, unless otherwise specified, l
 
 \section{Muon pair production}
 
-The process of muon pair production is a rare process with a negligible contribution to the overall energy loss of a propagated particle.
-Although quantitatively negligible, the created signatures may be qualitatively relevant for neutrino observatories such as IceCube or underground detectors examining muons, see section \ref{sec:signatures} for a description of these signatures.
+The process of muon pair production is a rare process with a negligible contribution to the average energy loss of a propagated particle.
+However, the created signatures may be qualitatively relevant for neutrino observatories such as IceCube or underground detectors examining muons, see section \ref{sec:signatures} for a description of these signatures.
 
 \subsection{Theoretical description}
 
@@ -20,12 +20,12 @@ Muon pair production describes the creation of a muon-antimuon pair by a particl
 \begin{align*}
     \mu^- + Z \rightarrow \mu^- + \mu^+ + \mu^- + Z.
 \end{align*}
-A feynman diagram in leading order for the process is shown in figure \ref{fig:feynman_mupair}.
+A Feynman diagram in leading order for the process is shown in figure \ref{fig:feynman_mupair}.
 
 \begin{figure}
 	\centering
 	\input{content/feynman/feynman_mupair.tex}
-    \caption{One possible feynman diagram describing the creation of a muon pair by an ingoing muon.}
+    \caption{One possible Feynman diagram describing the creation of a muon pair by an ingoing muon.}
     \label{fig:feynman_mupair}
 \end{figure}
 
@@ -109,7 +109,7 @@ A comparison of the average energy loss in ice due to electron-positron pair pro
 Both functions behave similarly as they both grow linearly with $E$, still the contribution from muon pair production is by about three orders of magnitudes lower for higher energies and even lower for small energies.
 This observation shows that the process is negligible for the energy loss for the muon which is especially a result of the difference between the muon mass and the electron mass since 
 \begin{align*}
-	\frac{\sigma_{\mu \text{pair}}}{\sigma_{e \text{pair}}} \propto \frac{r_{\mu}^2}{r_e^2} \propto \frac{m_e^2}{m_{\mu}^2} \propto \num{2e-5}.
+	\frac{\sigma_{\mu \text{pair}}}{\sigma_{e \text{pair}}} \propto \frac{r_{\mu}^2}{r_e^2} = \frac{m_e^2}{m_{\mu}^2} \approx \num{2e-5}.
 \end{align*}
 The average energy loss due to muon pair production compared to the energy loss due to other interactions in PROPOSAL is shown in figure \ref{fig:dEdx_weak}.
 
@@ -121,7 +121,7 @@ The average energy loss due to muon pair production compared to the energy loss 
 \end{figure}
 
 Figure \ref{fig:spectrum_mupair} shows a secondary particle spectrum where muon pair production is enabled.
-The contribution for muon pair production tends to be distributed homogeneously but is, as expected, quantitatively negligible for all secondary energies.
+The contribution from muon pair production tends to be distributed among all secondary energies but is, as expected, suppressed compared to contributions from other interactions.
 Figure \ref{fig:spectrum_mupair_secondary} illustrates the contribution to the secondary particle spectrum if the muons produced by muon pair production are further propagated.
 Here, it can be seen that the influence of muon pair production on the shape of the secondary particle spectrum appears to be negligible. 
 
@@ -153,7 +153,7 @@ Due to resolution effects, the IceCube detector is unable to identify the muons 
 However, the signature of a single muon traversing the detector is different from a muon bundle originating from muon pair production with the same sum of energy.
 The signature of a high-energetic muon in IceCube is often characterized by a dominating high-energetic stochastic energy loss creating a spherical signature.
 In a muon bundle, each muon with only a fraction of the total energy produces smaller stochastic losses.
-Since the stochastic losses of the individual muons in the bundle are independent of each other, the resulting signature is homogeneous and the energy loss per distance of a bundle is more consistent compared to the energy loss per distance of a single muon with the same total energy. \todo{Include an event signature of a high-energetic muon and a muon bundle event? See Tomasz dissertation as a comparison.}
+Since the stochastic losses of the individual muons in the bundle are independent of each other, the resulting signature is homogeneous and the energy loss per distance of a bundle is more uniform compared to the energy loss per distance of a single muon with the same total energy. \todo{Include an event signature of a high-energetic muon and a muon bundle event? See Tomasz dissertation as a comparison.}
 
 \subsubsection{Background for muons bundles in extensive air showers}
 
@@ -204,7 +204,7 @@ Since the kinematics of both processes are identical, the differential cross sec
     \symup{d}\sigma\left( l + N \rightarrow \nu_l + X \right) = \frac{1}{2} \symup{d}\sigma\left( \overline{\nu}_l + N \rightarrow \overline{l} + X \right).
 \end{equation}
 %
-Due to averaging over all possible initial states and summing over all possible final states when evaluating feynman diagrams, the prefactor $\sfrac{1}{2}$ must be taken into account since the muon can both be left-handed and right-handed while neutrinos are only observed in a left-handed state (and antineutrinos in a right-handed state).
+Due to averaging over all possible initial states and summing over all possible final states when evaluating Feynman diagrams, the prefactor $\sfrac{1}{2}$ must be taken into account since the muon can both be left-handed and right-handed while neutrinos are only observed in a left-handed state (and antineutrinos in a right-handed state).
 
 Tabulated numerical values for the differential cross section describing the conversion of a neutrino to a charged lepton, i.e.\ the process \eqref{eqn:weak_neutrino}, are available from \cite{Cooper_Sarkar_2011}.
 By using crossing symmetry, these data can directly be used to describe the conversion of a charged lepton to a neutrino, i.e.\ \eqref{eqn:weak_lepton}, which is the process of interest in PROPOSAL.
@@ -254,7 +254,7 @@ Afterwards, PROPOSAL returns the produced neutrino as well as the energy transfe
 \end{figure}
 
 Figure \ref{fig:dEdx_weak} shows the average energy loss due to weak interactions compared to the average energy loss due to other processes.
-For high energies, the average energy loss due to weak interaction is suppressed by three orders of magnitude compared to other default processes in PROPOSAL with an even higher suppression for lower energies, its quantitative contribution is therefore entirely negligible.
+For high energies, the average energy loss due to weak interaction is suppressed by three orders of magnitude compared to other default processes in PROPOSAL with an even higher suppression for lower energies, its quantitative contribution to the average energy loss is therefore entirely negligible.
 
 \subsection{Significant detector signatures}
 \label{sec:weak_signature}
