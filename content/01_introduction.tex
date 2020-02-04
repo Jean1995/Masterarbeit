@@ -2,12 +2,24 @@
 
 The field of astroparticle physics deals with the study of highly energetic charged particles, gamma-rays or neutrinos of extraterrestrial origin.
 Information obtained from analyzing these messenger particles can provide insights into astrophysical sources, answer cosmological questions or improve the understanding of elementary particle physics.
-One important experimental facility is the IceCube Neutrino Observatory, a large scale particle detector located at the geographical South Pole with to objective to search for high energy neutrinos.
+One important experimental facility is the IceCube Neutrino Observatory, a large scale particle detector located at the geographical South Pole with the objective to search for high energy neutrinos.
 
 To be able to analyze obtained experimental data, softwares providing adequate Monte Carlo simulations, i.e.\ simulations with both sufficient quantity and quality, are required. 
-The lepton propagator PROPOSAL, the main focus of this work, is a Monte Carlo simulation software describing all interactions of highly energetic leptons in media.
-
+The lepton propagator PROPOSAL, the main focus of this work, is a Monte Carlo simulation library describing all interactions of highly energetic leptons in media.
 In this work, extensions regarding two different aspects of PROPOSAL are presented.
+
 The first extension deals with the description of rare processes, namely the production of muon pairs and the conversion of a charged lepton to a neutrino under exchange of a W boson.
-Both processes are, although highly suppressed and therefore negligible for the average energy loss of muons, producing significant detector signatures.
+Both processes are, although highly suppressed and therefore negligible for the average energy loss of muons, producing significant detector signatures, for example in the IceCube detector.
 To provide a framework for analyses regarding these signatures, both interactions are implemented as optional, additional processes in PROPOSAL.
+
+While PROPOSAL has originally been optimized for muon and tau propagation, the modular code structure can be used to propagate particles of any type.
+As a second extension of PROPOSAL, both photon propagation and a more precise description of electron and positron propagation are realized by implementing new processes as well as by adding new, optimized parametrizations of existing processes.
+Being able to accurately propagate electrons, positrons and photons, PROPOSAL can be used to propagate all particles in an electromagnetic shower.
+This provides a framework for the air shower simulation program CORSIKA to simulate a full air shower using PROPOSAL as an electromagnetic model in its upcoming eight version that is currently in development.
+
+This thesis is structured as follows.
+A general description of the large scale Monte Carlo simulation frameworks PROPOSAL and CORSIKA is given in section \ref{sec:theory}.
+The implementation of the rare processes muon pair production and the weak interaction of charged leptons in PROPOSAL is described in section \ref{sec:rare}.
+An overview of analyses where these processes may portray a significant contribution is given as well.
+Section \ref{sec:shower} explains the implementation of a correct description of electron, positron and photon propagation in PROPOSAL.
+Furthermore, as a proof of concept for an implementation of PROPOSAL as an electromagnetic model in CORSIKA 8, the simulation of simple electromagnetic showers using PROPOSAL is presented.   

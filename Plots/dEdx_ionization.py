@@ -151,3 +151,4 @@ if __name__ == "__main__":
     plt.tight_layout()
     fig.savefig('build/dEdx_ionization.pdf',bbox_inches='tight')
     plt.show()
+
