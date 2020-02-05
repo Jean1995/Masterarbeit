@@ -111,6 +111,7 @@ if __name__ == "__main__":
     ax.set_ylabel(r'$\left\langle\frac{\mathrm{d}E}{\mathrm{d}X}\right\rangle \,\left/\, \left( \rm{MeV} \cdot \rm{g}^{-1} \rm{cm}^2 \right) \right. $')
     ax.xaxis.grid(conf.grid_conf)
     ax.yaxis.grid(conf.grid_conf)
+    #ax.set_yscale('log')
     ax.legend(loc='best')
     plt.setp(ax.get_xticklabels(), visible=False)
     plt.tick_params(

@@ -126,12 +126,12 @@ To take into account the atomic excitation levels relevant for small energy tran
 When sampling the stochastic losses the differential cross section for M{\o}ller scattering \eqref{eqn:moller}, respectively the differential cross section for Bhabha scattering \eqref{eqn:bhabha}, is used directly since the contributions from small energy transfers are negligible here.
 
 Figure \ref{fig:dEdx_ionization} shows the differences in the continuous ionization loss for electrons and positrons when using the appropriate Berger-Seltzer formula compared to the Bethe formula.
-It can be seen that the influence is up to $\SI{20}{\percent}$ for high energies.
+It can be seen that the influence is up to $\SI{5}{\percent}$ for small energies.
 %
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_ionization.pdf}
-    \caption{Average energy loss of electrons and positrons in air due to ionization. Note that the Bethe formula is, unlike the Berger-Seltzer formula, identical for electrons and positrons.}
+    \caption{Average energy loss of electrons and positrons in air due to ionization. Note that the Bethe formula is, unlike the Berger-Seltzer formula, identical for electrons and positrons. For an easier comparison, inelastic bremsstrahlung effects \cite{Kohne:2013zbq}, normally considered as ionization losses in PROPOSAL, are disabled for the Bethe formula.}
     \label{fig:dEdx_ionization}
 \end{figure}
 %
@@ -261,7 +261,7 @@ PROPOSAL uses a two-dimensional interpolation routine to obtain the correction f
 Figure \ref{fig:dEdx_brems} shows a comparison of the average energy loss for electrons\footnote{The bremsstrahlung cross section is identical for positrons which is valid regarding lowest order calculations in $\alpha$ \cite{RevModPhys.46.815}.} loss due to bremsstrahlung when using different differential cross sections.
 For very high energies, all parametrizations yield comparable results.
 However, differences exceeding a factor of $\num{1.5}$ can be seen for lower energies, especially in the domain of several \si{\mega\electronvolt}.
-It is particularly noticeable that the results from the Electron Screening parametrization are in better agreement with the Andreev Bezrukov Bugaev parametrization than the Complete Screening parametrization, although the latter has been recommended for (high) electron electrons.
+It is particularly noticeable that the results from the Electron Screening parametrization are in better agreement with the Andreev Bezrukov Bugaev parametrization than the Complete Screening parametrization, although the latter has been recommended for (high energy) electrons.
 
 Furthermore, a discontinuity at $\SI{50}{\mega\electronvolt}$ when using the Electron Screening parametrization is notable.
 This behavior results from the fact that the correction factor $A^{\prime}(E,Z)$ is set to $1$ for $E > \SI{50}{\mega\electronvolt}$ although this approximation is invalid according to the empirical data which imply that $A^{\prime}(E,Z) \neq 1$ for energies above the cut.
@@ -617,6 +617,7 @@ As expected, electron-positron pair production is the dominant photon interactio
 \todo{I am not entirely sure about the units, and probably an overall factor for the numerical values is missing}
 
 \section{Electromagnetic shower propagation with PROPOSAL}
+\label{sec:proposal_showers}
 
 With the improvement of electron and positron propagation, as described in section \ref{sec:electronprop}, as well as the implementation of photon propagation, as described in section \ref{sec:photonprop}, PROPOSAL can be used to simulate all particles essential for an electromagnetic shower.
 As a proof of concept, the simulation of a simple electromagnetic shower with PROPOSAL as a model for electromagnetic interactions is presented.
