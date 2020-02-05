@@ -42,6 +42,21 @@ plt.xlabel(r'$z \,/\, \si{\metre}$')
 plt.xlim(0, 1000000/conversion_z)
 plt.grid()
 
+# expectation from heitler model
+## for air from http://www-ekp.physik.uni-karlsruhe.de/~jwagner/WS0809/Vorlesung/TP-WS08-6.pdf
+E_c = 84 # MeV
+X_0 = 36.62 # g / cm^2
+rho = 1.205 * 1e-3 # g/cm^3
+X = X_0 / rho
+
+if(len(sys.argv)>4):
+	if(sys.argv[4] != 0):
+		print(sys.argv[4])
+		X_max = X * (np.log(float(sys.argv[4])) - np.log(E_c)) / np.log(2)
+		print(X_max)
+		plt.axvline(x = (1000000 - X_max)/conversion_z, label='Maximimum shower size (Heitler)', color='k', linestyle='dashed', linewidth=1)
+		plt.legend(loc = 'best')
+
 if(len(sys.argv)<=3):
 	plt.show()
 else:
