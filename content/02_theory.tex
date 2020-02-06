@@ -12,7 +12,7 @@ To be able to use a classifier on a given dataset, the models needs to be traine
 When generating Monte Carlo simulations, both a high quality and quantity of simulation data are important and need to be taken into account when writing a simulation program.
 
 Two examples of Monte Carlo simulation softwares, the lepton propagator PROPOSAL and the air shower simulation program CORSIKA, are presented in the following section.
-A common characteristic of both programs is that particles traversing large distances need to be simulated both correctly and efficiently.
+A common characteristic of both programs is that particles traversing large distances need to be simulated both correctly and efficiently, requiring a trade-off between accuracy and computation time.
 
 \section{The lepton propagator PROPOSAL}
 
@@ -23,7 +23,7 @@ To allow for a more universal use of the program, PROPOSAL can be used in Python
 More modern programming concepts such as polymorphism and a modular code structure were introduced in a recent update of PROPOSAL \cite{dunsch_2018_proposal_improvements}.
 
 The current version of the code is publicly available on GitHub\footnote{\url{https://github.com/tudo-astroparticlephysics/PROPOSAL}} and can be used under the terms of a modified LGPL license.
-Examples of applications are the neutrino observatories IceCube and RNO who use PROPOSAL as a part of their simulation chain.
+Examples of applications are the neutrino observatories IceCube and RNO who use PROPOSAL as a part of their simulation chain \cite{Khokhlov:2019pgh}.
 
 \subsection{Calculation of energy losses}
 \label{sec:energy_loss_calculation}
@@ -35,15 +35,18 @@ Assuming a particle with an initial energy $E_i$, an energy loss is described by
 \end{equation}
 %
 where $v$ describes the relative energy loss of the particle and $E_f = E_i - \nu$ the final particle energy.
-Processes causing energy losses and implemented in PROPOSAL are
+Processes causing energy losses and implemented are
 %
 \begin{itemize}
-	\item bremsstrahlung,
-	\item ionization,
-	\item photonuclear interactions and
-	\item pair production of an electron-positron pair.
+	\item bremsstrahlung \cite{brems_default},
+	\item ionization \cite{Rossi:99081, PhysRevD.98.030001},
+	\item photonuclear interactions \cite{abramowicz1997allm, butkevich2001crosssection} and
+	\item pair production of an electron-positron pair \cite{osti_4563918, epair_correction},
 \end{itemize}
 %
+with references to descriptions of the default parametrizations used in PROPOSAL.
+Alternative parametrizations, for example recently improved bremsstrahlung and pair production cross sections provided by \cite{Soedingrekso:2019qlr}, are available as well.
+
 Quantitatively, the interaction probability for a process is described by its cross section $\sigma$.
 To describe the process with respect to a specific variable in the final state, the cross section can be written in a differential form, for example $\sfrac{\symup{d}\sigma}{\symup{d}v}$.
 
@@ -280,7 +283,7 @@ The propagation routine is repeated by sampling the remaining particle energy be
 \CatchFileDef{\ionizsum}{build/numbers/ioniz_esum.tex}{}
 
 At the end of the propagation process, PROPOSAL returns the properties of the produced secondary particles as well as the final properties of the initial particle or, if it did decay during propagation, its decay products.
-In this section the characteristic energy losses of muons are described, where ice is used exemplarily as a medium for all plots. The parametrizations for the interactions are always the default options in PROPOSAL, furthermore the Landau-Pomeranchuk-Migdal (LPM) effect for bremsstrahlung and pair production has been enabled, see \cite{Kohne:2013zbq} for a detailed description of the LPM effect.
+In this section the characteristic energy losses of muons are described, where ice is used exemplarily as a medium for all plots. The parametrizations for the interactions are always the default options in PROPOSAL, see the listing in section \ref{sec:energy_loss_calculation}, furthermore the Landau-Pomeranchuk-Migdal (LPM) effect for bremsstrahlung and pair production has been enabled, see \cite{Kohne:2013zbq} for a detailed description of the LPM effect.
 
 In figure \ref{fig:dEdx} the continuous energy losses of muons in ice, calculated according to \eqref{eqn:fE}, are shown.
 For this plot the energy cut has been set to $v_\text{cut} = v_\text{max}$, therefore the values shown correspond to the complete average energy losses of muons in ice. 
