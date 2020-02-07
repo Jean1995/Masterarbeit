@@ -64,7 +64,7 @@ The approximative expression \eqref{eqn:mupair} takes into account the finitenes
 A more precise formula for the differential cross section is given in \cite{Kelner2000} as well, however it includes multidimensional integrals that are hard to evaluate and is therefore not suited to be used here.
 Furthermore, \eqref{eqn:mupair} is chosen to have a discrepancy compared to the precise formula of below $\SI{10}{\percent}$ for all $E > \SI{e4}{\mega\electronvolt}$, the discrepancy of the derived total cross section is even below $\SI{3}{\percent}$ for $E > \SI{3e4}{\mega\electronvolt}$.
 
-The kinematic limits of the process for $v$ and $\rho$ are
+The kinematic limits of the process for $v$ and $\rho$
 %
 \begin{align}
     v_\text{min} &= \frac{2 m_{\mu}}{E}, & v_\text{max} &= 1 - \frac{m_{\mu}}{E}, & \left| \rho \right| \leq \rho_{\text{max}} &= 1 - \frac{2 m_{\mu}}{v E},
@@ -118,7 +118,7 @@ The average energy loss due to muon pair production compared to the energy loss 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_mupair.pdf}
-    \caption{Comparison of the average continuous energy losses of muons in ice due to electron-positron pair production and muon pair production. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuously.}
+    \caption{Comparison of the average continuous energy losses of muons in ice due to electron-positron pair production \cite{epair_correction, osti_4563918} and muon pair production. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuously.}
     \label{fig:dEdx_mupair}
 \end{figure}
 
@@ -155,7 +155,7 @@ Due to resolution effects, the IceCube detector is unable to identify the muons 
 However, the signature of a single muon traversing the detector is different from a muon bundle originating from muon pair production with the same sum of energy.
 The signature of a high-energetic muon in IceCube is often characterized by a dominating high-energetic stochastic energy loss creating a spherical signature.
 In a muon bundle, each muon with only a fraction of the total energy produces smaller stochastic losses.
-Since the stochastic losses of the individual muons in the bundle are independent of each other, the resulting signature is homogeneous and the energy loss per distance of a bundle is more uniform compared to the energy loss per distance of a single muon with the same total energy. \todo{Include an event signature of a high-energetic muon and a muon bundle event? See Tomasz dissertation as a comparison.}
+Since the stochastic losses of the individual muons in the bundle are independent of each other, the resulting signature is homogeneous and the energy loss per distance of a bundle is more uniform compared to the energy loss per distance of a single muon with the same total energy \cite{charmante_myonen}.
 
 \subsubsection{Background for muons bundles in extensive air showers}
 
@@ -191,7 +191,7 @@ This specific process is related to the interaction of an anti-neutrino under ex
     \overline{\nu}_l + N \rightarrow \overline{l} + X,
 \end{equation}
 %
-via crossing symmetry\footnote{The argument of crossing symmetry is identical when switching all particles with their corresponding antiparticles, i.e.\ the process $\overline{l} + N \rightarrow \overline{\nu}_l + X$ is connected to $\nu_l + N \rightarrow l + X$.} as depicted in figure \ref{fig:feynman_weak}.
+via crossing symmetry\footnote{The argument of crossing symmetry is identical when switching all particles with their corresponding antiparticles, i.e.\ the process $\overline{l} + N \rightarrow \overline{\nu}_l + X$ is connected to $\nu_l + N \rightarrow l + X$.} as depicted in figure \ref{fig:feynman_weak} \cite{Griffiths:111880}.
 %
 \begin{figure}
     \centering
@@ -206,7 +206,7 @@ Since the kinematics of both processes are identical, the differential cross sec
     \symup{d}\sigma\left( l + N \rightarrow \nu_l + X \right) = \frac{1}{2} \symup{d}\sigma\left( \overline{\nu}_l + N \rightarrow \overline{l} + X \right).
 \end{equation}
 %
-Due to averaging over all possible initial states and summing over all possible final states when evaluating Feynman diagrams, the prefactor $\sfrac{1}{2}$ must be taken into account since the muon can both be left-handed and right-handed while neutrinos are only observed in a left-handed state (and antineutrinos in a right-handed state).
+Due to averaging over all possible initial states and summing over all possible final states when evaluating Feynman diagrams, the prefactor $\sfrac{1}{2}$ must be taken into account since the muon can both be left-handed and right-handed while neutrinos are only observed in a left-handed state (and antineutrinos in a right-handed state) \cite{Sandrock:2018hpj}.
 
 Tabulated numerical values for the differential cross section describing the conversion of a neutrino to a charged lepton, i.e.\ the process \eqref{eqn:weak_neutrino}, are available from \cite{Cooper_Sarkar_2011}.
 By using crossing symmetry, these data can directly be used to describe the conversion of a charged lepton to a neutrino, i.e.\ \eqref{eqn:weak_lepton}, which is the process of interest in PROPOSAL.
@@ -225,7 +225,7 @@ The lower limit of $v$ has been set to
 \end{align}
 %
 with the mass of the involved nucleon $m$ and the center-of-mass energy $\sqrt{s}$.
-For values where $Q^2 < Q_\text{min}^2$, the underlying theory of quantum chromodynamics can not be treated perturbatively anymore, meaning that the predictions for the cross sections are not reliable in this kinematic range. 
+For values where $Q^2 < Q_\text{min}^2$, the underlying theory of quantum chromodynamics can not be treated perturbatively anymore, meaning that the predictions for the cross sections are not reliable in this kinematic range \cite{Cooper_Sarkar_2011}. 
 
 \subsection{Implementation in PROPOSAL}
 \label{sec:weak_implementation}
@@ -251,7 +251,7 @@ Afterwards, PROPOSAL returns the produced neutrino as well as the energy transfe
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_weak.pdf}
-    \caption{Comparison of the average energy loss of muons in ice for weak interaction in comparison to other interactions. Note that losses due to weak interactions are always stochastic, the average energy loss is calculated by taking into account that the muon looses all its energy during a weak interaction event.}
+    \caption{Comparison of the average energy loss of muons in ice for weak interaction in comparison to other interactions. Note that losses due to weak interactions are always stochastic, the average energy loss is calculated by taking into account that the muon loses all its energy during a weak interaction event.}
     \label{fig:dEdx_weak}
 \end{figure}
 
@@ -262,7 +262,7 @@ For high energies, the average energy loss due to weak interaction is suppressed
 \label{sec:weak_signature}
 
 As described in the previous section, the weak interaction process is highly suppressed and therefore negligible in its contribution to the energy loss of a charged lepton.
-However, under certain conditions, the detector signature of the process could be significant for searches of tau neutrinos, for example in the IceCube neutrino observatory.
+However, under certain conditions, the detector signature of the process could be significant for searches of tau neutrinos, for example in the IceCube neutrino observatory \cite{Sandrock:2018hpj}.
 
 \begin{figure}
     \centering
@@ -284,9 +284,10 @@ However, under certain conditions, the detector signature of the process could b
 \end{figure}
 
 One possible signature hinting at a tau neutrino event called the "lollipop" signature is illustrated in figure \ref{fig:lollipop_signature}.
-Here, a tau neutrino moving towards the detector interacts via a charged current before it reaches the detector and is being converted to a tau lepton.
+Here, a tau neutrino moving towards the detector interacts via a charged current before it reaches the detector and is being converted to a tau lepton \cite{Cowen_2007}.
 The tau lepton then enters the detector, leaving behind an observable track of Cherenkov light emerging from the tau itself and the created secondary particles.
-Due to its short lifetime, the created tau can only reach the detector if its energy is high enough, the average tau decay length scales with energy as \SI{5}{\cm\per\tera\electronvolt} \cite{Aartsen_2016} meaning the tau energy has to be $E_{\tau} \gtrapprox \SI{100}{\tera\electronvolt}$.
+%Due to its short lifetime, the created tau can only reach the detector if its energy is high enough, the average tau decay length scales with energy as \SI{5}{\cm\per\tera\electronvolt} \cite{Aartsen_2016} meaning the tau energy has to be $E_{\tau} \gtrapprox \SI{100}{\tera\electronvolt}$.
+Due to its short lifetime, the created tau can only reach the detector if its energy is high enough since the average tau decay length scales with energy as \SI{5}{\cm\per\tera\electronvolt} \cite{Aartsen_2016}.
 If the tau decays to a hadron inside the detector, a hadronic cascade is generated at the end of the track, giving the signature its characteristic name. 
 
 This tau neutrino signature can be imitated by the event shown in figure \ref{fig:weak_signature}.

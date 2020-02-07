@@ -3,7 +3,7 @@
 \label{sec:shower}
 
 As described in section \ref{sec:corsika}, CORSIKA 7 uses the software package EGS4 to simulate the electromagnetic components of extensive air showers.
-However, the development of the original EGS code ended with the release of EGS4, although other groups continued working on the given code foundation \cite{Hirayama:2005zm} \cite{Kawrakow2016TheEC}.
+However, the development of the original EGS code ended with the release of EGS4, although other groups continued working on the given code foundation \cite{Hirayama:2005zm, Kawrakow2016TheEC}.
 
 For the currently developed new version CORSIKA 8, up-to-date models to describe the electromagnetic shower components are needed.
 As an actively maintained propagation program written in a modern programming language, PROPOSAL represents a possible choice for this purpose.
@@ -18,7 +18,7 @@ Definitions and numerical values of variables are, unless otherwise specified, l
 
 Although most processes relevant for electron and positron propagation are already implemented in PROPOSAL, the included cross sections are optimized for muon and tau propagation, requiring some parametrizations to be adapted.
 
-The provided parametrization of ionization doesn't provide correct results when applied to electrons and positrons, a correct parametrization is therefore implemented as described in section \ref{sec:ionization}.
+The currently used parametrization of ionization doesn't provide correct results when applied to electrons and positrons, a correct parametrization is therefore implemented as described in section \ref{sec:ionization}.
 Since bremsstrahlung effects are dominant for electrons and positrons, an optimized parametrization, as described in section \ref{sec:brems}, is added to PROPOSAL.
 For positrons, annihilation with atomic electrons is a new interaction that is not described by other processes, the treatment of electron-positron annihilation in PROPOSAL is presented in section \ref{sec:annihilation}.
 
@@ -29,8 +29,8 @@ For positrons, annihilation with atomic electrons is a new interaction that is n
 
 Ionization describes the inelastic collision of a particle with atomic electrons, leading to an energy loss of the primary particle.
 For heavy, charged particles the average energy loss due to ionization is given by the Bethe formula.
-PROPOSAL uses a modified Bethe formula, taking into account density correction effects, to describe the ionization losses for muons and tau particles \cite{Kohne:2013zbq}.
-However, the Bethe formula can't be applied for electrons and positrons due to their lower mass as well as the indistinguishability of incoming electrons with atomic electrons.
+PROPOSAL uses a modified Bethe formula, taking into account density correction effects, to describe the ionization losses for muons and tau particles \cite{Kohne:2013zbq, Rossi:99081, PhysRevD.98.030001}.
+However, the Bethe formula can't be applied for electrons and positrons due to their lower mass as well as the indistinguishability of incoming electrons with atomic electrons \cite{10027956359}.
 Therefore, a separate treatment of the ionization losses for electrons and positrons is necessary.
 
 \subsubsection{Theoretical description}
@@ -136,7 +136,7 @@ It can be seen that the influence is up to $\SI{5}{\percent}$ for small energies
 \end{figure}
 %
 Furthermore, the Berger-Seltzer formula, compared to the Bethe formula which is independent of the particle charge, differentiates between electrons and positrons.
-While the contribution from the atomic excitation levels is, as a good approximation, identical for electrons and positrons, the contribution from high energy transfers differs.
+While the contribution from the atomic excitation levels is, as a good approximation, identical for electrons and positrons \cite{PhysRev.93.38}, the contribution from high energy transfers differs.
 Here, if the ingoing particle is an electron, it is indistinguishable from the atomic electron after the ionization process.
 Therefore, the electron with the higher energy after the interaction is by definition the initial particle.
 A positron as an ingoing particle however is always distinguishable from the atomic electron and can therefore be the particle with the lower energy after the interaction.
@@ -156,7 +156,7 @@ It is therefore relevant to provide an accurate description of the bremsstrahlun
 For electrons with high energies, \cite{Kohne:2013zbq} recommends the usage of the Complete Screening parametrization which has already been implemented in PROPOSAL.
 This ultra-relativistic cross section, given and described by \cite{RevModPhys.46.815}, uses Coulomb corrections as well as the assumption that the screening of the Coulomb field of the nucleus by the atomic electron cloud is maximal, which is an appropriate approximation for high-energy electrons.
 
-EGS uses an alternative parametrization of the bremsstrahlung interaction, including empirical corrections for low energies.
+EGS uses an alternative parametrization of the bremsstrahlung interaction, including empirical corrections for low energies \cite{Hirayama:2005zm}.
 This parametrization is implemented in PROPOSAL to examine the differences between the cross sections provided by PROPOSAL and EGS as well as the influence from the low energy corrections.
 
 \subsubsection{Theoretical description}
