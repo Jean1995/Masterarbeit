@@ -53,6 +53,7 @@ if __name__ == "__main__":
 
     params = [
 		pp.parametrization.ionization.BetheBlochRossi(*param_defs_electron),
+        pp.parametrization.ionization.BetheBlochRossiLO(*param_defs_electron),
 		pp.parametrization.ionization.BergerSeltzerMoller(*param_defs_electron),
 		pp.parametrization.ionization.BergerSeltzerBhabha(*param_defs_positron)
     ]
@@ -73,6 +74,10 @@ if __name__ == "__main__":
 
     crosssections.append(pp.crosssection.IonizIntegral(
         params[2]
+    ))
+
+    crosssections.append(pp.crosssection.IonizIntegral(
+        params[3]
     ))
 
     # =========================================================
@@ -96,8 +101,8 @@ if __name__ == "__main__":
 
     ax = fig.add_subplot(gs[0])
 
-    labels = [r'Bethe', r'Berger-Seltzer (M{\o}ller)', r'Berger-Seltzer (Bhabha)']
-    colors = ['green', 'blue', 'orange']
+    labels = [r'Bethe with NLO correction', r'Bethe without NLO correction', r'Berger-Seltzer (M{\o}ller)', r'Berger-Seltzer (Bhabha)']
+    colors = ['green', 'red', 'blue', 'orange']
 
     for dEdx, param, _label, _color in zip(dEdx_list, params, labels, colors):
         ax.semilogx(
@@ -129,18 +134,18 @@ if __name__ == "__main__":
     start = 0
     ax.semilogx(
         energy[start:],
-        np.array(dEdx_list)[1][start:] / np.array(dEdx_list[0][start:]),
+        np.array(dEdx_list)[2][start:] / np.array(dEdx_list[1][start:]),
         linestyle='-',
         label=r'Berger-Seltzer (M{\o}ller) / Bethe',
-        color = colors[1]
+        color = colors[2]
     )
 
     ax.semilogx(
         energy[start:],
-        np.array(dEdx_list)[2][start:] / np.array(dEdx_list[0][start:]),
+        np.array(dEdx_list)[3][start:] / np.array(dEdx_list[1][start:]),
         linestyle='-',
         label=r'Berger-Seltzer (Bhabha) / Bethe',
-        color = colors[2]
+        color = colors[3]
     )
 
     ax.xaxis.grid(conf.grid_conf)

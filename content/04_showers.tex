@@ -131,11 +131,11 @@ It can be seen that the influence is up to $\SI{5}{\percent}$ for small energies
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_ionization.pdf}
-    \caption{Average energy loss of electrons and positrons in air due to ionization. Note that the Bethe formula is, unlike the Berger-Seltzer formula, identical for electrons and positrons. For an easier comparison, inelastic bremsstrahlung effects \cite{Kohne:2013zbq}, normally considered as ionization losses in PROPOSAL, are disabled for the Bethe formula.}
+    \caption{Average energy loss of electrons and positrons in air due to ionization. Note that the Bethe formula is, unlike the Berger-Seltzer formula, identical for electrons and positrons. The default Bethe parametrization used in PROPOSAL includes NLO inelastic bremsstrahlung corrections \cite{Kohne:2013zbq}. For an easier comparison to the Berger-Seltzer formula (which does not consider NLO corrections), the Bethe formula without NLO corrections has been calculated as well. In the lower half of the figure, this version of the Bethe formula is compared to the Berger-Seltzer formula.}
     \label{fig:dEdx_ionization}
 \end{figure}
 %
-Furthermore, the Berger-Seltzer formula, compared to the Bethe formula which is independent of the particle charge, differentiates between electrons and positrons.
+Furthermore, the Berger-Seltzer formula, compared to the Bethe formula which is independent of the particle charge, takes differences between ionization energy losses of electrons and positrons into account.
 While the contribution from the atomic excitation levels is, as a good approximation, identical for electrons and positrons \cite{PhysRev.93.38}, the contribution from high energy transfers differs.
 Here, if the ingoing particle is an electron, it is indistinguishable from the atomic electron after the ionization process.
 Therefore, the electron with the higher energy after the interaction is by definition the initial particle.
@@ -207,7 +207,7 @@ The parameter
 	\xi(Z) = \frac{L_\text{rad}^{\prime}(Z)}{L_\text{rad}(Z) - f_c(Z)} 
 \end{equation}
 %
-accounts for atomic electron effects where the radiation logarithms are given by
+with the radiation logarithms
 \begin{align}
 	L_\text{rad}^{\prime} &=
 	\begin{cases}
@@ -226,6 +226,7 @@ accounts for atomic electron effects where the radiation logarithms are given by
 		5.310 & \text{if $Z = 1$}.
 	\end{cases}
 \end{align}
+accounts for atomic electron effects.
 
 For $E < \SI{50}{\mega\electronvolt}$, the differential bremsstrahlung cross section is given by
 %
@@ -652,7 +653,7 @@ The cut settings for the propagation of all particles are set to $e_{\text{cut}}
 
 Figure \ref{fig:hex} and \ref{fig:hex_xy} show the track densities of two electromagnetic showers with different initial photon energies.
 The plots are obtained by connecting the positions of two consecutive stochastic losses of a particle and plotting the resulting tracks in a high-resolution histogram.
-Both the projection onto the $zy$-plane in figure \ref{fig:hex_1e6} and the projection onto the $xy$-plane in figure \ref{fig:hex_1e7} show that the showers consist of a core with a very high particle density that decreases with distance from the initial shower axis.
+Both the projection onto the $zy$-plane in figure \ref{fig:hex} and the projection onto the $xy$-plane in figure \ref{fig:hex_xy} show that the showers consist of a core with a very high particle density that decreases with distance from the initial shower axis.
 In figure \ref{fig:hist_1e6} and figure \ref{fig:hist_1e7}, the shower profiles for both showers, i.e.\ the number of particles in the $xy$-plane as a function of the distance $z$ from the ground, are shown.
 
 \begin{figure}
