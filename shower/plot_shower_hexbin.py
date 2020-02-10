@@ -8,10 +8,11 @@ from matplotlib.lines import Line2D
 
 from matplotlibconfig import *
 
+scale = 12 # point density (lower scale means smaller distance means more points)
+
 def make_point_path(start, end):
 	''' Input: Two arrays of vectors corresponding to starting and ending points of tracks
 		Returns: List of points along the tracks '''
-	scale = 12 # point density (lower scale means smaller distance means more points)
 	distances = np.linalg.norm(end-start, axis=-1) # distance between start and end
 	num_points = np.rint(distances / scale).astype(int) # calculate number of points for each bath
 	indices = np.cumsum(num_points) # list of indices
@@ -61,7 +62,14 @@ plt.rcParams.update(params)
 conversion_y = 100
 conversion_z = 100000 # cm in km
 
-plt.hist2d(particle_point_path.T[0]/conversion_y, particle_point_path.T[1]/conversion_z, bins=(400, 2000), cmap='Reds', alpha=1, norm=matplotlib.colors.LogNorm(), range=[[-10000/conversion_y, 10000/conversion_y], [200000/conversion_z, 1000000/conversion_z]])
+y_min = 200000
+y_max = 1000000
+
+num_bins_y = 2000
+
+scale_factor = (y_max - y_min) / (num_bins_y * scale) # L / (num_bins * scale) where L is y_max-y_min and num_bins number of bins in y
+
+plt.hist2d(particle_point_path.T[0]/conversion_y, particle_point_path.T[1]/conversion_z, bins=(400, num_bins_y), weights = np.ones(len(particle_point_path)) / scale_factor, cmap='Reds', alpha=1, norm=matplotlib.colors.LogNorm(), range=[[-10000/conversion_y, 10000/conversion_y], [200000/conversion_z, 1000000/conversion_z]])
 
 ## custom legend
 
