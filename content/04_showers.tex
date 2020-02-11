@@ -519,6 +519,16 @@ For both methods, the azimuth angle $\Phi$ is sampled via
 %
 where $\xi \in \left[0,1\right)$ is an additional random number.
 
+Figure \ref{fig:angles} shows a comparison of the two available sampling methods.
+For high energies as well as for analyses where the exact distribution of $\theta$ is irrelevant, the simple expression according to \eqref{eqn:angular_egs} provides a good description of the production angle.
+%
+\begin{figure}
+    \centering
+    \includegraphics[scale=1]{build/photopair_angles.pdf}
+    \caption{Distribution of pair production angles in air with an initial particle energy of $E_{\gamma} = \SI{e2}{\electronvolt}$. EGS shows the expression of the production angle according to \eqref{eqn:angular_egs}, Tsai the distribution for the production angle according to \eqref{eqn:angular_tsai} where $\left<\theta\right>$ denotes the mean of this distribution. For this plot, $x=0.85$ has been used. Note that the distribution of Tsai is affected by the choice of $x$, however, the expression according to EGS is independent of $x$. }
+    \label{fig:angles}
+\end{figure}
+
 % sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
 \begin{sloppypar}
 To use the calculation of the production angles according to \eqref{eqn:angular_tsai}, the keyword \texttt{photoangle} in the configuration file can be set to \texttt{PhotoAngleTsaiIntegral}, to use the method from \eqref{eqn:angular_egs}, the keyword can be set to \texttt{PhotoAngleEGS}.
@@ -630,8 +640,8 @@ As a proof of concept, the simulation of a simple electromagnetic shower with PR
  shower data = [\:]\;
  \While{particle list not empty}{
   extract first element from particle list\;
-  save information on extracted particle in shower data\;
   propagate extracted particle\;
+  save information on particle track in shower data\;
   append all produced secondary particles to particle list\;
  }
  \caption{Simplified shower propagation algorithm.}

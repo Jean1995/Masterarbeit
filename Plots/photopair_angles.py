@@ -27,7 +27,7 @@ plt.axvline(result[0], label=r'$\left< \theta \right>$ for Tsai', linestyle = 'd
 
 # for egs4 expression
 
-plt.axvline(x = m_e / E, label = 'EGS4 approximation', linestyle = 'dashed', color='red')
+plt.axvline(x = m_e / E, label = 'EGS approximation', linestyle = 'dashed', color='red')
 
 plt.xlabel(r'$\theta \,/\, \si{\radian} $')
 plt.ylabel(r'Probability')
