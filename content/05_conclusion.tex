@@ -1,5 +1,7 @@
 \chapter{Conclusion and outlook} 
 
+\section{Conclusion}
+
 In this thesis, two rare processes, the production of muon pairs and the weak interaction of charged leptons, have been implemented as new interactions in PROPOSAL.
 While it has been shown that their contribution to the overall energy loss of muons is negligible, it is necessary to conduct further, explicit analyses to investigate the significance of their produced signatures.
 The current status of PROPOSAL offers an appropriate framework for this task.
@@ -13,8 +15,26 @@ Since electron, positron and photon interactions are now described accurately, P
 As a proof of concept, a simple Python routine, using the particle propagation of PROPOSAL, has been written to simulate electromagnetic showers.
 Based on this work, it is possible to implement PROPOSAL as an electromagnetic model used by CORSIKA 8, enabling the simulation of a full atmospheric air shower.
 However, it is necessary to enable particle propagation in inhomogeneous media with PROPOSAL, describing the atmospheric density profile, which is part of an ongoing thesis.
-Further improvements for photon propagation can be made as well, for example by implementing the creation of muon pairs by photons, which is important for muonic air shower components \cite{corsika_physics}, or the deflection of charged particles in the Earth's magnetic field.
 
 To validate the results of this work, cross checks with other works are necessary.
 One important cross check, possible after the implementation of PROPOSAL in CORSIKA has been completed, is a comparison with the EmCa (\textbf{E}lectro\textbf{m}agnetic\-\textbf{Ca}scades) simulation package \cite{meighenberger2019emca} which provides an alternative approach to describe electromagnetic air showers.
-Comparing the characteristics of full extensive air showers simulated with CORSIKA 8, for example longitudinal shower profiles, using either PROPOSAL, EmCa or other electromagnetic models such as EGS4 can give indications about the accuracy of PROPOSAL or provide hints where further improvements can be made.
+Comparing the characteristics of full extensive air showers simulated with CORSIKA 8, for example longitudinal shower profiles, using either PROPOSAL, EmCa or other electromagnetic models such as EGS or Geant4 can give indications about the accuracy of PROPOSAL or provide hints where further improvements can be made.
+
+\section{Outlook}
+
+The aim of this thesis has been the implementation of all processes essential for the propagation of particles in an electromagnetic shower.
+Therefore, further improvements may be made in future works to provide a more detailed simulation of the shower development.
+Examples are the implementation of the creation of muon pair by photons, which is important for muonic air shower components \cite{corsika_physics} or the deflection of charged particles in the Earth's magnetic field.
+Furthermore, the deflection of the initial particle in stochastic interactions has only been implemented for Compton scattering.
+However, the deflection in other processes such as stochastic bremsstrahlung interactions may be of importance for the lateral shower distribution.
+These deflection effects can, if corresponding theoretical descriptions are available, easily be implemented in PROPOSAL.
+
+As mentioned in section \ref{sec:ionization}, the implemented Berger-Seltzer formula does, unlike the ionization formula used for muon and tau leptons, not include higher-order corrections.
+Especially for light media such as air and ice, these corrections from bremsstrahlung at atomic electrons may induce relevant effects.
+To evaluate these effects numerically, theoretical calculations may be made in a future work. 
+
+In a past work, the possibility to optimize the runtime of PROPOSAL by using graphics processing units (GPUs) has been investigated \cite{tomasz}.
+Additionally, the parallelized creation and propagation of Cherenkov photons on GPUs in CORSIKA is currently under development \cite{baack}.
+To avoid time consuming information transfer between the GPU and other hardware components, it would desirable to simulate both the electromagnetic shower component and Cherenkov photons on GPUs.
+Therefore, both CORSIKA and PROPOSAL may benefit from continuing the work started in \cite{tomasz}.
+
