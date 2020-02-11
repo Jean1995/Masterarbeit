@@ -45,6 +45,9 @@ build/compton.pdf: Plots/compton.py Plots/matplotlibconfig.py | build
 build/compare_compton.pdf: Plots/compare_compton.py Plots/matplotlibconfig.py | build
 	python3 Plots/compare_compton.py	
 
+build/photopair_angles.pdf: Plots/photopair_angles.py Plots/matplotlibconfig.py | build
+	python3 Plots/photopair_angles.py	
+
 ### shower plots
 
 ## 1e5
@@ -108,7 +111,7 @@ build/masterthesis.pdf: FORCE build/cont_rand.pdf build/spectrum.pdf build/dEdx.
 						    build/mupair_rho.pdf build/dNdx_weak.pdf build/dEdx_weak.pdf build/dEdx_ionization.pdf build/dEdx_brems.pdf \
 							build/spectrum_annihilation.pdf build/dEdx_annihilation.pdf build/compton.pdf build/compare_compton.pdf build/hex_1e5.png \
 							build/hist_1e5.pdf build/hex_1e5_xy.png build/hex_1e6.png build/shower_1e6.png build/hist_1e6.pdf build/hex_1e6_xy.png \
-							build/shower_1e5.png build/hex_1e7.png build/hist_1e7.pdf build/hex_1e7_xy.png | build
+							build/shower_1e5.png build/hex_1e7.png build/hist_1e7.pdf build/hex_1e7_xy.png build/photopair_angles.pdf | build
 	latexmk $(TeXOptions) masterthesis.tex
 
 preview: FORCE | build
