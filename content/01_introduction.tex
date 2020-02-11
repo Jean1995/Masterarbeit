@@ -6,20 +6,20 @@ One important experimental facility is the IceCube Neutrino Observatory, a large
 
 To be able to analyze obtained experimental data, softwares providing adequate Monte Carlo simulations, i.e.\ simulations with both sufficient quantity and quality, are required. 
 The lepton propagator PROPOSAL, the main focus of this work, is a Monte Carlo simulation library describing all interactions of highly energetic leptons in media.
-One use case of PROPOSAL is the description of energy losses of muon and tau leptons in ice for the simulation chain of IceCube.
+The main application of PROPOSAL is the simulation of energy losses of muon and tau leptons in ice within the simulation chain of IceCube, however, PROPOSAL is publicly available and may be used as a standalone library.
 In this work, extensions with emphasis on two different aspects of PROPOSAL are presented.
 
 The first focus lays on the description of rare processes, namely the production of muon pairs and the conversion of a charged lepton to a neutrino under exchange of a W boson.
 Both processes are, although highly suppressed and therefore negligible for the average energy loss of muons, producing significant detector signatures, for example in the IceCube detector.
-To provide a framework for analyses regarding these signatures, both interactions are implemented as optional, additional processes in PROPOSAL.
+To provide a tool for analyses regarding these signatures, both interactions are implemented as optional, additional processes in PROPOSAL.
 
 While PROPOSAL has originally been optimized for muon and tau propagation, the underlying modular code structure can be used to propagate particles of any type.
 As a second focus of this thesis, both photon propagation and a more precise description of electron and positron propagation are realized in PROPOSAL by implementing new processes as well as by adding new, optimized parametrizations of existing processes.
 Being able to propagate electrons, positrons and photons accurately, PROPOSAL can be used to propagate all particles in an electromagnetic shower.
-This provides a framework for the air shower simulation program CORSIKA to simulate a full air shower using PROPOSAL as an electromagnetic model in its upcoming eight version that is currently in development.
+This allows the air shower simulation program CORSIKA to simulate a full air shower using PROPOSAL as an electromagnetic model in its upcoming eighth version that is currently in development.
 
 This thesis is structured as follows.
-A general description of the large scale Monte Carlo simulation frameworks PROPOSAL and CORSIKA is given in section \ref{sec:theory}.
+A general description of the large scale Monte Carlo simulation softwares PROPOSAL and CORSIKA is given in section \ref{sec:theory}.
 The implementation of the rare processes muon pair production and the weak interaction of charged leptons in PROPOSAL is described in section \ref{sec:rare}.
 An overview of analyses where these processes may portray a significant contribution is given as well.
 Section \ref{sec:shower} explains the implementation of a correct description of electron, positron and photon propagation in PROPOSAL.
