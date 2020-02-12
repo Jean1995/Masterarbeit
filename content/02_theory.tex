@@ -3,15 +3,16 @@
 \label{sec:theory}
 
 Modern physical experiments often produce extremely large quantities of data.
-In order to obtain physical results, these datasets need to be evaluated where using computational methods of multivariate analyses is often inevitable due to the complexity and multiplicity of the data.
+In order to obtain physical results, these datasets need to be evaluated.
+Here, using computational methods of multivariate analyses is often inevitable due to the complexity and multiplicity of the data.
 
 One important task that needs to be performed is the signal-background separation to reject events that are irrelevant for the conducted analysis.
-Examples are the gamma-hadron separation in high-energy gamma ray astronomy \cite{Ohm_2009} or the separation of atmospheric muons from neutrino-induced muons in the IceCube Neutrino Observatory \cite{Ahrens_2004}. \todo{Are there better papers to cite here?}
+Examples are the gamma-hadron separation in high-energy gamma-ray astronomy \cite{Ohm_2009} or the separation of atmospheric muons from neutrino-induced muons in the IceCube Neutrino Observatory \cite{Ahrens_2004}. \todo{Are there better papers to cite here?}
 Signatures from signal and background events are separated by classifiers, deciding whether an event is labeled as signal or background, for example by random forests.
-To be able to use a classifier on a given dataset, the models needs to be trained first using data from Monte Carlo simulations where it is known whether the generated signature belongs to a signal or a background event.
-When generating Monte Carlo simulations, both a high quality and quantity of simulation data are important and need to be taken into account when writing a simulation program.
+To be able to use a classifier on a given dataset, the underlying model needs to be trained first using data from Monte Carlo simulations where it is known whether the generated signature belongs to a signal or a background event.
+When generating Monte Carlo simulations, both high quality and quantity of simulation data are important and need to be taken into account when writing a simulation program.
 
-Two examples of Monte Carlo simulation softwares, the lepton propagator PROPOSAL and the air shower simulation program CORSIKA, are presented in the following section.
+Two examples of Monte Carlo simulation software packages, the lepton propagator PROPOSAL and the air shower simulation program CORSIKA, are presented in the following section.
 A common characteristic of both programs is that particles traversing large distances need to be simulated both correctly and efficiently, requiring a trade-off between accuracy and computation time.
 
 \section{The lepton propagator PROPOSAL}
@@ -19,7 +20,7 @@ A common characteristic of both programs is that particles traversing large dist
 PROPOSAL (\textbf{Pr}opagator with \textbf{O}ptimal \textbf{P}recision and \textbf{O}ptimized \textbf{S}peed for \textbf{A}ll \textbf{L}eptons) is a Monte Carlo simulation library capable of simulating the interactions of high energy leptons.
 The original program called MMC (\textbf{M}uon \textbf{M}onte \textbf{C}arlo) has been written in the programming language Java focusing on a precise but also fast muon and tau propagation \cite{chirkin2004propagating}.
 On this basis, MMC has been rewritten within a dissertation to create the \CC library PROPOSAL \cite{Kohne:2013zbq}.
-To allow for a more universal use of the program, PROPOSAL can be used in Python through a wrapper as well.
+Additionally, PROPOSAL can now be used in the programming language Python through a wrapper.
 More modern programming concepts such as polymorphism and a modular code structure were introduced in a recent update of PROPOSAL \cite{dunsch_2018_proposal_improvements}.
 
 The current version of the code is publicly available on GitHub\footnote{\url{https://github.com/tudo-astroparticlephysics/PROPOSAL}} and can be used under the terms of a modified LGPL license.
@@ -54,7 +55,7 @@ In principle, this information could be used right away to sample energy losses 
 However, this approach would cause two immediate problems:
 Firstly, the propagation process would be very time inefficient since small energy losses, especially below the energy threshold of a detector, would be sampled individually.
 Secondly, numerical problems will occur due to the nature of the bremsstrahlung interaction:
-Since photons are massless, the bremsstrahlung cross sections diverges for $v \to 0$, making inverse sampling over the whole parameter range impossible.
+Since photons are massless, the bremsstrahlung cross section diverges for $v \to 0$, making inverse sampling over the whole parameter range impossible.
 
 As a solution, PROPOSAL differentiates between continuous and stochastic energy losses.
 The energy cut parameter $v\prime_\text{cut}$ is defined as
@@ -65,13 +66,13 @@ The energy cut parameter $v\prime_\text{cut}$ is defined as
 \end{equation}
 %
 with a relative energy cut $v_\text{cut}$ and an absolute energy cut $e_\text{cut}$.
-Energy losses with $v > v\prime_\text{cut}$ are treated as stochastic losses, meaning that every interaction with an relative energy loss above the cut is treated individually.
-Energy losses with $v < v\prime_\text{cut}$ however are treated as continuous losses, meaning that an averaged energy loss per distance is calculated from all energy losses below the cut and applied to the particles during propagation.
+Energy losses with $v > v\prime_\text{cut}$ are treated as stochastic losses, meaning that every interaction with a relative energy loss above the cut is treated individually.
+Energy losses with $v < v\prime_\text{cut}$, however, are treated as continuous losses, meaning that an averaged energy loss per distance is calculated from all energy losses below the cut and applied to the particles during propagation.
 Both parameters $e_{\text{cut}}$ and $v_{\text{cut}}$ can be set, or disabled, separately.
 By enabling both parameters simultaneously, the definition in \eqref{eqn:cut} ensures that losses above an absolute detector threshold $e_\text{cut}$ are treated as stochastic even if their relative value is below $v_{\text{cut}}$.
 
 The propagation algorithm in PROPOSAL consists of several, consecutively executed propagation steps where each step consists of continuous losses and a stochastic loss, see section \ref{sec:algorithm} for a detailed description.
-To perform one propagation step, it is therefore necessary to have a mathematical expression to sample the next stochastic loss.
+To perform one propagation step, it is necessary to have a mathematical expression to sample the next stochastic loss.
 
 Let $E_i$ be the initial energy of a particle and
 %
@@ -161,14 +162,14 @@ The task of the propagation algorithm of PROPOSAL is to simulate the properties 
 This includes information on the energy, position, direction and time of the propagated particle and the secondary particles.
 
 On the technical note, the structure of the propagation process in PROPOSAL is determined by the concept of a "chain of responsibility".
-Part of this chain are the \emph{Sector} objects and a \emph{Propagator} object.
+The main parts of this chain are the \emph{Sector} objects and a \emph{Propagator} object.
 
 Each \emph{Sector} is defined by its geometry (i.e.\ the spatial extent of the \emph{Sector}), its medium, its energy cut settings and other sector-specific properties.
-The cut settings itself differentiate between various particle positions with respect to a predefined \emph{Detector} which is a region with an increased propagation accuracy.
+The cut settings itself differentiate between various particle positions relative to a predefined \emph{Detector} which is a region with an increased propagation accuracy.
 By having sectors with varying characteristics the user has the possibility to appropriately model the simulation environment.
 
 The \emph{Propagator} object chooses which \emph{Sector} is responsible for the propagation of the particle at its current position.
-The assigned \emph{Sector} then propagates the particle within its borders and returns the propagated particle back to the \emph{Propagator}.
+The assigned \emph{Sector} then propagates the particle within its borders and returns the particle to the \emph{Propagator} object.
 This process is repeated either until the propagated distance of the initial particle surpasses a preset maximal propagation distance $d_\text{max}$ or until the initial particle energy falls below a preset threshold energy $e_\text{low}$.
 
 The following steps give a simplified overview of the propagation process within a \emph{Sector}.
@@ -182,10 +183,11 @@ If
 	\xi > \exp{\left( \int_{E_i}^{e_\text{low}} \frac{\sigma(E)}{f(E)} \, \symup{d}E \right)},
 \end{equation}
 %
-the sampled energy where the next stochastic loss occurs would fall below the threshold energy $e_\text{low}$, in this case there is no stochastic loss.
+the sampled energy where the next stochastic loss occurs would fall below the threshold energy $e_\text{low}$.
+In this case, there is no stochastic loss.
 
-If the propagated particle is able to decay, an energy where the particle decays is sampled based on its lifetime $\tau$
-Both energy values are compared and the higher energy value, together with its interaction type (stochastic loss or decay), are used for the next step\footnote{If a decay is the next interaction, the step "Simulation of the stochastic energy loss" is replaced accordingly by a decay method.}.
+If the propagated particle is able to decay, an energy where the particle decays is sampled based on its lifetime $\tau$.
+Both energy values are compared and the higher energy value, together with its interaction type (stochastic loss or decay), is used for the next step\footnote{If a decay is the next interaction, the step "Simulation of the stochastic energy loss" is replaced accordingly by a decay method.}.
 
 \subsubsection{Particle displacement}
 
@@ -206,11 +208,14 @@ The elapsed time is determined by the time integral
 	t_f = t_i + \int_{x_i}^{x_f} \frac{\symup{d}x}{v(x)} = t_i - \int_{E_i}^{E_f} \frac{\symup{d}E}{f(E)v(E)}
 \end{equation}
 %
-with the particle velocity $v(E)$, or alternatively using the approximation $v=c$ with 
+with the particle velocity $v(E)$.
+Alternatively, the approximation $v=c$ leading to 
 %
 \begin{equation}
-	t_f = t_i + \frac{x_f - x_i}{c}.
+	t_f = t_i + \frac{x_f - x_i}{c}
 \end{equation}
+%
+can be used.
 
 Optionally, PROPOSAL can apply multiple scattering effects on the calculated displacement.
 This changes the position of the next stochastic loss by sampling a deflection angle as well as the new direction of the particle.
@@ -225,16 +230,16 @@ However, this can cause discontinuities in the energy spectrum as shown in figur
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/cont_rand.pdf}
-    \caption[Energy spectrum of \num{e5} muons with a starting energy of \SI{e8}{\mega\electronvolt}, propagated in \SI{300}{\meter} of standard rock. The spectrum shows the effects of an energy cut with or without continuous randomization.]{Energy spectrum of \num{e5} muons with a starting energy of \SI{e8}{\mega\electronvolt}, propagated in \SI{300}{\meter} of standard rock\protect\footnotemark. The spectrum shows the effects of an energy cut with or without continuous randomization.}
+    \caption[Energy spectrum of \num{e5} muons with an initial energy of \SI{e8}{\mega\electronvolt}, propagated in \SI{300}{\meter} of standard rock. The spectrum shows the effects of an energy cut with or without continuous randomization.]{Energy spectrum of \num{e5} muons with an initial energy of \SI{e8}{\mega\electronvolt}, propagated in \SI{300}{\meter} of standard rock\protect\footnotemark. The spectrum shows the effects of an energy cut with or without continuous randomization.}
     \label{fig:cont_rand}
 \end{figure}
 \todo{Check if the standard rock footnote is on the right page}
 For a sufficiently large $v_\text{cut}$, for example $v_\text{cut} = 0.05$ in figure \ref{fig:cont_rand}, a peak in the final muon energy spectrum appears.
 This peak corresponds to all muons without any stochastic losses within the propagation distance.
-These particle all have the same final energy since no random numbers were effectively used to calculate their final energy, meaning that no fluctuations of the continuous losses are taken into account.
-Setting the energy cut to a significantly lower value, for example $v_\text{cut} = \num{e-4}$ in figure \ref{fig:cont_rand}, eliminates the peak, however the runtime for the propagation is increased by at least an order of magnitude.
+All of these particles have the same final energy since effectively, no random numbers were used to calculate their final energy, meaning that no fluctuations of the continuous losses are taken into account.
+Setting the energy cut to a significantly lower value, for example $v_\text{cut} = \num{e-4}$ in figure \ref{fig:cont_rand}, eliminates the peak, however, the runtime for the propagation is increased by at least an order of magnitude.
 
-As a more time-efficient solution the option \emph{continuous randomization} can be enabled in PROPOSAL.
+As a more time-efficient solution, the option \emph{continuous randomization} can be enabled in PROPOSAL.
 This applies fluctuations on the continuous loss energies sampled from a gaussian distribution.
 The mean of this distribution corresponds to $E_i - E_f$, the variance is calculated by
 %
@@ -265,7 +270,7 @@ To calculate the relative size $v$ of the stochastic loss, the integral equation
 	\frac{1}{\sigma_{\text{stoch},i}} \int_{v\prime_\text{cut}}^{v} \frac{\symup{d}\sigma_i}{\symup{d}v} \, \symup{d}v = \xi_2
 \end{equation}
 %
-is solved for $v$ where $\xi_2 \in \left[0,1\right)$ is a another random number and $i$ the selected process.
+is solved for $v$ where $\xi_2 \in \left[0,1\right)$ is an additional random number and $i$ the selected process.
 
 The propagation routine is repeated by sampling the remaining particle energy before the next interaction occurs (i.e.\ the first step described here) until the particle has decayed, has reached the sector border or until its energy has reached the threshold energy $e_\text{low}$.
 
@@ -283,7 +288,9 @@ The propagation routine is repeated by sampling the remaining particle energy be
 \CatchFileDef{\ionizsum}{build/numbers/ioniz_esum.tex}{}
 
 At the end of the propagation process, PROPOSAL returns the properties of the produced secondary particles as well as the final properties of the initial particle or, if it did decay during propagation, its decay products.
-In this section the characteristic energy losses of muons are described, where ice is used exemplarily as a medium for all plots. The parametrizations for the interactions are always the default options in PROPOSAL, see the listing in section \ref{sec:energy_loss_calculation}, furthermore the Landau-Pomeranchuk-Migdal (LPM) effect for bremsstrahlung and pair production has been enabled, see \cite{Kohne:2013zbq} for a detailed description of the LPM effect.
+In this section the characteristic energy losses of muons are described, where ice is used exemplarily as a medium for all plots. 
+The parametrizations for the interactions are always the default options in PROPOSAL listed in section \ref{sec:energy_loss_calculation}.
+Furthermore the Landau-Pomeranchuk-Migdal (LPM) effect for bremsstrahlung and pair production has been enabled, see \cite{Kohne:2013zbq} for a detailed description of the LPM effect.
 
 In figure \ref{fig:dEdx} the continuous energy losses of muons in ice, calculated according to \eqref{eqn:fE}, are shown.
 For this plot the energy cut has been set to $v_\text{cut} = v_\text{max}$, therefore the values shown correspond to the complete average energy losses of muons in ice. 
@@ -304,10 +311,11 @@ The parameters $a(E), b(E)$ vary only logarithmically with energy.
     \label{fig:dEdx}
 \end{figure}
 
-In figure \ref{fig:spectrum} and \ref{fig:secondary_number} the stochastic losses for muons propagated in ice are shown, the energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$ and $v_\text{cut} = \num{0.05}$ while the muons are propagated until they decay or lost all their energy.
+Figures \ref{fig:spectrum} and \ref{fig:secondary_number} show the stochastic losses for muons propagated in ice, the energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$ and $v_\text{cut} = \num{0.05}$ while the muons are propagated until they decay or lost all their energy.
 
 The histogram in figure \ref{fig:spectrum} shows the energies of all secondary particles sorted by interaction type for $\num{e5}$ muons propagated with an initial energy of $\SI{e8}{\mega\electronvolt}$.
-Between about $\SI{e3}{\mega\electronvolt}$ and $\SI{e6}{\mega\electronvolt}$ the energy losses are dominated by $e$ pair production, this dominance could for example be used to probe the $e$ pair production cross section in this energy range.
+Between about $\SI{e3}{\mega\electronvolt}$ and $\SI{e6}{\mega\electronvolt}$, the energy losses are dominated by $e$ pair production.
+This dominance could, for example, be used to probe the $e$ pair production cross section in this energy range.
 For higher secondary energies, bremsstrahlung and photonuclear interactions are the dominant effects.
 Another effect that can be seen it the energy cut at $e_\text{cut} = \SI{500}{\mega\electronvolt}$ where the histogram cuts off abruptly.
 The energy losses below $e_\text{cut}$ correspond to losses where $E \cdot v < e_\text{cut}$ but $v > v_\text{cut} = 0.05$.
@@ -326,9 +334,9 @@ Table \ref{tab:secondary_number} additionally shows the sum of the secondary ene
 
 It can be seen that bremsstrahlung and photonuclear interaction tend to have a more homogeneous spectrum where the secondary energy is less correlated with the primary energy than for ionization and pair production.
 For bremsstrahlung, the effects of the LPM effect can be seen since this effect causes the bremsstrahlung cross section to be suppressed for small $v$ at very high energies.
-Especially for the ionization histogram the effects of the combined $e_\text{cut}$ and $v_\text{cut}$ can be seen for small primary energies leading to secondary energies below $e_\text{cut}$.
-Table \ref{tab:secondary_number} shows that the sum of the energy losses are of the same order of magnitude for pair production, bremsstrahlung and photonuclear interaction while the contribution for ionization is significantly lower since the latter is mainly treated continuously.
-Although the energy loss contribution of pair production is comparable to bremsstrahlung and photonuclear interaction its frequency is of several orders of magnitude higher due to its tendency to produce energy losses with a smaller relative energy.
+Especially for the ionization histogram, the effect of the combined $e_\text{cut}$ and $v_\text{cut}$ can be seen for small primary energies leading to secondary energies below $e_\text{cut}$.
+Table \ref{tab:secondary_number} shows that the sum of the energy losses is of the same order of magnitude for pair production, bremsstrahlung and photonuclear interaction while the contribution for ionization is significantly lower since the latter is mainly treated continuously.
+Although the energy loss contribution of pair production is comparable to bremsstrahlung and photonuclear interaction, its frequency is of several orders of magnitude higher due to its tendency to produce energy losses with smaller relative energies.
 
 \begin{figure}
     \centering
@@ -367,7 +375,7 @@ Although the energy loss contribution of pair production is comparable to bremss
 
 CORSIKA (\textbf{CO}smic \textbf{R}ay \textbf{SI}mulations for \textbf{KA}scade) is a software to simulate extensive air showers induced by high-energy particles in the atmosphere.
 The software was originally developed to perform simulations for the extensive air shower experiment KASCADE with the first version of CORSIKA being released in October 1989 \cite{userguide}.
-Today, CORSIKA is used as a general purpose tool for all experiments in need of shower simulation data.
+Today, CORSIKA is used as a general-purpose tool for all experiments in need of shower simulation data.
 At this time (February 2020), the most recent version is CORSIKA 7.7100 which has been released in October 2019.
 
 \subsection{Description of CORSIKA 7}
@@ -389,7 +397,7 @@ This particle is propagated where the treatment of the interactions depends on t
 Further effects during the propagation step, for example deflection by a magnetic field, are applied here as well.
 Created secondary particles are saved temporarily on a stack.
 After the current particle interacted, the next particle is read from the stack and propagated as well until its energy falls below a certain threshold and the particle is removed from the simulation.
-Output data with information on all secondary particles on a pre-selected observation level, including particle types, locations, directions and arrival times are generated continuously during the simulation process and can afterwards be further processed by the user.
+Output data with information on all secondary particles on a pre-selected observation level, including particle types, locations, directions and arrival times are generated continuously during the simulation process and can afterward be further processed by the user.
 As soon as the particle stack is empty, the simulation continues by sampling another primary particle initiating the next air shower.
 
 Additional modules changing the program sequence or adding new physical properties can be loaded into CORSIKA at compilation time.
@@ -404,7 +412,7 @@ Instead, these extensions need to be developed to conform specifically with the 
 Furthermore, CORSIKA is written in FORTRAN77 which, on the one hand, poses technical restrictions when developing new code, and on the other hand lacks a large user group compared to modern programming languages such as \CC or Python.
 
 To overcome these existing obstacles, a new version of CORSIKA is being developed.
-With a code structure written from scratch in the programming language \CC, CORSIKA 8 intends to provide a new shower simulation software with focus on flexibility and extensibility oriented towards the present use case of CORSIKA.
+With a code structure written from scratch in the programming language \CC, CORSIKA 8 intends to provide a new shower simulation software focusing on flexibility and extensibility oriented towards the present use case of CORSIKA.
 
 A description of the current status of the development of CORSIKA 8 is given by \cite{corsika8}.
 Furthermore, four building blocks, describing the very general code structure, are presented.
@@ -437,8 +445,8 @@ Up to version seven, CORSIKA used EGS4 as an option to simulate the electromagne
 To conform with additional requirements imposed by CORSIKA, several changes were made to the original EGS4 code which are described in detail in \cite{corsika_physics}.
 
 Due to their importance for the muonic shower components, muon pair production by photons as well as the interaction of photons with protons and neutrons in the atmosphere were added.
-To be able to describe interactions up to highest energies correctly, existing cross section data have been extended up to $\SI{e20}{\electronvolt}$.
-Furthermore, the LPM effect, affecting bremsstrahlung and pair production at highest energies which is relevant for showers induced by high energy photons, has been integrated as well.
+To be able to describe interactions up to the highest energies correctly, existing cross section data have been extended up to $\SI{e20}{\electronvolt}$.
+Furthermore, the LPM effect, affecting bremsstrahlung and pair production at very high energies, which is relevant for showers induced by high energy photons, has been integrated as well.
 
 Since CORSIKA describes showers in a medium with an exponential density profile, the barometric density dependence of air influencing mean free path lengths as well as the density correction of ionization losses are relevant and have therefore been implemented in EGS4.
 

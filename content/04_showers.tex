@@ -102,7 +102,7 @@ also known as the Berger-Seltzer formula \cite{Hirayama:2005zm}, with
 	\tau &= \gamma - 1, & \Delta = \text{min}\left[ \frac{v_{\text{max}} E}{m_e}, \frac{v_{\text{cut}} E}{m_e} \right],
 \end{align}
 %
-the mean ionization energy of the medium $I$ and the contribution from the density correction $\delta$ described in detail in \cite{Kohne:2013zbq}.
+the mean ionization energy of the medium $I$ and the contribution from the density correction $\delta$, described in detail in \cite{Kohne:2013zbq}.
 Furthermore, $F^{\pm}(\tau, \Delta)$ differs for electrons and positrons and is defined by
 \begin{align}
 	\begin{split}
@@ -139,7 +139,7 @@ Furthermore, the Berger-Seltzer formula, compared to the Bethe formula which is 
 While the contribution from the atomic excitation levels is, as a good approximation, identical for electrons and positrons \cite{PhysRev.93.38}, the contribution from high energy transfers differs.
 Here, if the ingoing particle is an electron, it is indistinguishable from the atomic electron after the ionization process.
 Therefore, the electron with the higher energy after the interaction is by definition the initial particle.
-A positron as an ingoing particle however is always distinguishable from the atomic electron and can therefore be the particle with the lower energy after the interaction.
+However, a positron as an ingoing particle is always distinguishable from the atomic electron and can therefore be the particle with the lower energy after the interaction.
 
 \subsection{Bremsstrahlung}
 \label{sec:brems}
@@ -157,7 +157,7 @@ For electrons with high energies, \cite{Kohne:2013zbq} recommends the usage of t
 This ultra-relativistic cross section, given and described by \cite{RevModPhys.46.815}, uses Coulomb corrections as well as the assumption that the screening of the Coulomb field of the nucleus by the atomic electron cloud is maximal, which is an appropriate approximation for high-energy electrons.
 
 EGS uses an alternative parametrization of the bremsstrahlung interaction, including empirical corrections for low energies \cite{Hirayama:2005zm}.
-This parametrization is implemented in PROPOSAL to examine the differences between the cross sections provided by PROPOSAL and EGS as well as the influence from the low energy corrections.
+This parametrization is implemented in PROPOSAL to examine the differences between the cross sections provided by PROPOSAL and EGS as well as effects from low energy corrections.
 
 \subsubsection{Theoretical description}
 
@@ -249,24 +249,24 @@ To use the bremsstrahlung cross section described above in PROPOSAL, the keyword
 \end{sloppypar}
 
 The values for $A^{\prime}(E,Z)$ are provided as a two-dimensional table in $\ln(Z)$ and $E$ with $\num{14}$ entries in $\ln(Z)$ and, for each $\ln(Z)$, $\num{115}$ entries in $E$.  
-PROPOSAL uses a two-dimensional interpolation routine to obtain the correction factor for an arbitrary $Z$, $E$ from the discrete tables values.
+PROPOSAL uses a two-dimensional interpolation routine to obtain the correction factor for an arbitrary ($Z$, $E$) from the discrete table values.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_brems.pdf}
-    \caption{Comparison of the average energy loss of electrons in air due to bremsstrahlung between the parametrization adapted from EGS (Electron Screening) and two alternative parametrizations (Complete Screening, Andreev Bezrukov Bugaev). The dashed red line highlights the cut applied in the Electron Screening parametrization between the high-energy and low-energy part.}
+    \caption{Comparison of the average energy loss of electrons in air due to bremsstrahlung between the parametrization adapted from EGS (Electron Screening) and two alternative parametrizations (Complete Screening, Andreev Bezrukov Bugaev). The dashed red line highlights the cut applied in the Electron Screening parametrization between the high-energy part and the low-energy part.}
     \label{fig:dEdx_brems}
 \end{figure}
 
 
-Figure \ref{fig:dEdx_brems} shows a comparison of the average energy loss for electrons\footnote{The bremsstrahlung cross section is identical for positrons which is valid regarding lowest order calculations in $\alpha$ \cite{RevModPhys.46.815}.} loss due to bremsstrahlung when using different differential cross sections.
+Figure \ref{fig:dEdx_brems} shows a comparison of the average energy loss for electrons\footnote{The bremsstrahlung cross section is identical for electrons and positrons which is valid when regarding only lowest order calculations in $\alpha$ \cite{RevModPhys.46.815}.} loss due to bremsstrahlung when using different differential cross sections.
 For very high energies, all parametrizations yield comparable results.
 However, differences exceeding a factor of $\num{1.5}$ can be seen for lower energies, especially in the domain of several \si{\mega\electronvolt}.
 It is particularly noticeable that the results from the Electron Screening parametrization are in better agreement with the Andreev Bezrukov Bugaev parametrization than the Complete Screening parametrization, although the latter has been recommended for (high energy) electrons.
 
 Furthermore, a discontinuity at $\SI{50}{\mega\electronvolt}$ when using the Electron Screening parametrization is notable.
-This behavior results from the fact that the correction factor $A^{\prime}(E,Z)$ is set to $1$ for $E > \SI{50}{\mega\electronvolt}$ although this approximation is invalid according to the empirical data which imply that $A^{\prime}(E,Z) \neq 1$ for energies above the cut.
-A smoothing of the correction parameter around $\SI{50}{\mega\electronvolt}$ could remove the unphysical discontinuity, however, such a method would be arbitrary to a certain extend.
+This behavior results from the fact that the correction factor $A^{\prime}(E,Z)$ is set to $1$ for $E > \SI{50}{\mega\electronvolt}$ although this approximation is invalid according to empirical data implying that $A^{\prime}(E,Z) \neq 1$ for energies above the cut.
+A smoothing of the correction parameter around $\SI{50}{\mega\electronvolt}$ could remove the unphysical discontinuity, however, such a method would be arbitrary to a certain extent.
 Alternatively, using a differential cross section applicable for all energies without relying on empirical correction factors would be preferable for PROPOSAL. 
 
 \subsection{Electron-positron annihilation}
@@ -389,7 +389,7 @@ After an annihilation interaction, PROPOSAL returns the created photons and stop
 Figure \ref{fig:spectrum_annihilation} shows an energy spectrum of secondary particles produced by positrons where annihilation is enabled.
 Since annihilation is always stochastic with $v=1$, the process is not influenced by the energy cut settings, resulting in stochastic losses with $E \cdot v < {E_\text{cut}}$.
 Quantitatively, the annihilation interaction is, as well as the other processes, suppressed compared to bremsstrahlung processes.
-However, for energy losses around $\SI{1}{\giga\electronvolt}$, a contribution to the secondary spectrum at a level of a few percent can be observed.
+However, for energy losses around $\SI{1}{\giga\electronvolt}$, a contribution to the secondary spectrum at a level of a few percents can be observed.
 
 \begin{figure}
     \centering
@@ -424,7 +424,7 @@ Electron-positron pair production is the dominant interaction of photons in matt
 \subsubsection{Theoretical description}
 
 The process of electron-positron pair production is described by quantum electrodynamics and a differential cross section exact to order $\alpha^3$ is provided by \cite{RevModPhys.46.815}.
-However, the evaluation of this expression is too complicated for a practical implementation.
+However, the evaluation of this expression is too complicated for a direct implementation.
 Based on \cite[][Eq.~3.9]{RevModPhys.46.815}, an approximated expression is given by
 %
 \begin{equation}
@@ -468,7 +468,7 @@ with
 \end{align*}
 %
 and the angle $\theta$ between the initial photon and the produced electron.
-The function $X$, describing the effects from the atomic form factors, varies with $Z$ and is defined in appendix \ref{sec:atomic_form_factors}.
+The function $X$, describing the influence of atomic form factors, varies with $Z$ and is defined in appendix \ref{sec:atomic_form_factors}.
 
 \subsubsection{Implementation in PROPOSAL}
 
@@ -481,7 +481,7 @@ Since the initial photon ceases to exist after the interaction and transfers its
 This requires, very similar to the annihilation process, which is the reverse process of pair production (see \ref{sec:annihilation} for a description), adjustments to the propagation algorithm of PROPOSAL.
 
 To obtain the total stochastic cross section $\sigma_{\text{stoch}}$ for electron-positron pair production, the differential cross section \ref{eqn:crosssection_pairproduction} is integrated over the entire kinematic range of $x$.
-While the relative energy transfer $v=1$ is already known, the parameter $x$ describing the asymmetry of the energy transfer needs to be sampled by solving the integral equation
+While the relative energy transfer $v=1$ is already known, the parameter $x$, describing the asymmetry of the energy transfer, needs to be sampled by solving the integral equation
 %
 \begin{equation}
 	\frac{1}{\sigma_{\text{stoch}}} \int_{x_{\text{min}}}^{x} \frac{\symup{d}\sigma}{\symup{d}x} \, \symup{d}x = \xi
@@ -520,7 +520,7 @@ For both methods, the azimuth angle $\Phi$ is sampled via
 where $\xi \in \left[0,1\right)$ is an additional random number.
 
 Figure \ref{fig:angles} shows a comparison of the two available sampling methods.
-For high energies as well as for analyses where the exact distribution of $\theta$ is irrelevant, the simple expression according to \eqref{eqn:angular_egs} provides a good description of the production angle.
+For high energies as well as for analyses where the exact distribution of $\theta$ is irrelevant, the simple expression according to \eqref{eqn:angular_egs} provides an adequate description of the production angle.
 %
 \begin{figure}
     \centering
@@ -532,7 +532,7 @@ For high energies as well as for analyses where the exact distribution of $\thet
 % sloppypar is needed here because otherwise \texttt{...} breaks the layout because it cant use hyphenation here
 \begin{sloppypar}
 To use the calculation of the production angles according to \eqref{eqn:angular_tsai}, the keyword \texttt{photoangle} in the configuration file can be set to \texttt{PhotoAngleTsaiIntegral}, to use the method from \eqref{eqn:angular_egs}, the keyword can be set to \texttt{PhotoAngleEGS}.
-Per default, both particle inherit the direction of the initial photon, i.e.\ the production angle is neglected.
+Per default, both particles inherit the direction of the initial photon, i.e.\ the production angle is neglected.
 This behavior can be enabled explicitly by setting the keyword to \texttt{PhotoAngleNoDeflection}.
 \end{sloppypar}
 
@@ -552,7 +552,7 @@ For photons with an energy between several $\SI{100}{\kilo\electronvolt}$ and se
 
 \subsubsection{Theoretical description}
 
-Under the assumption that the binding energy of the atomic electrons can be neglected, which is a good approximations especially for photon energies that are high enough to be relevant for shower propagation, i.e.\ $E > 2 m_e$, the differential cross section for Compton scattering is given by the Klein-Nishina formula \cite{KleinNishina}.
+Under the assumption that the binding energy of the atomic electrons can be neglected, which is an adequate approximation especially for photon energies that are high enough to be relevant for shower propagation, i.e.\ $E > 2 m_e$, the differential cross section for Compton scattering is given by the Klein-Nishina formula \cite{KleinNishina}.
 Based on the formulation of the Klein-Nishina formula in \cite{Hirayama:2005zm}, the differential cross section can be written as
 %
 \begin{equation}
@@ -608,14 +608,14 @@ While the differential cross section is evenly distributed for small energies, a
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/compton.pdf}
-    \caption{Plot of the differential cross section in $\cos(\theta)$ for Compton scattering according the Klein-Nishina formula for different photon energies. The angular coordinate determines the deflection angle of the initial photon, the radial axis describes the differential cross section in arbitrary units.}
+    \caption{Plot showing the differential Compton Scattering cross section in $\cos(\theta)$ for different photon energies according to the Klein-Nishina formula. The angular coordinate determines the deflection angle of the initial photon, the radial axis describes the differential cross section in arbitrary units.}
     \label{fig:compton}
 \end{figure}
 \todo{Three variants for the plot: 1. Ticklabels behind the grid and plot, 2. Grid in front of the plot but tick labels in front of the plot, 3. Neglect the (arbitrary)  polar axis altogether}
 
 To evaluate the integrals \eqref{eqn:fE}, \eqref{eqn:stoch_crosssection} and \eqref{eqn:sample_v} numerically for Compton scattering calculations, the substitution $t = \ln(1 - v)$ is used to avoid occurring numerical problems for $v \to 1$ at high energies.
 
-In a stochastic Compton interaction, the initial photon is deflected by an polar angle $\theta$ according to \eqref{eqn:angle_compton} while the azimuth $\Phi$ is selected randomly in the range $\left[0,2\pi\right)$.
+In a stochastic Compton interaction, the initial photon is deflected by a polar angle $\theta$ according to \eqref{eqn:angle_compton} while the azimuth $\Phi$ is selected randomly in the range $\left[0,2\pi\right)$.
 
 The total cross section for Compton scattering, compared to the total cross section for electron-positron pair production by photons, is shown in figure \ref{fig:compton_comparison}.
 As expected, electron-positron pair production is the dominant photon interaction in matter for high energies with a transition to Compton scattering as the dominant process at an energy below about $\SI{20}{\mega\electronvolt}$.
@@ -662,7 +662,7 @@ Therefore, the variation of the density with altitude is not taken into account.
 The primary particle for the electromagnetic shower is a photon initialized at a height of $z = \SI{10}{\kilo\metre}$ directed towards the ground at $z=\SI{0}{\kilo\metre}$ which is described as standard rock.
 The cut settings for the propagation of all particles are set to $e_{\text{cut}} = \SI{50}{\mega\electronvolt}$ with no $v_{\text{cut}}$.
 
-Figure \ref{fig:hex} and \ref{fig:hex_xy} show the track densities of two electromagnetic showers with different initial photon energies.
+Figures \ref{fig:hex} and \ref{fig:hex_xy} show the track densities of two electromagnetic showers with different initial photon energies.
 The plots are obtained by connecting the positions of two consecutive stochastic losses of a particle and plotting the resulting tracks in a high-resolution histogram.
 Both the projection onto the $zy$-plane in figure \ref{fig:hex} and the projection onto the $xy$-plane in figure \ref{fig:hex_xy} show that the showers consist of a core with a very high particle density that decreases with distance from the initial shower axis.
 In figure \ref{fig:hist_1e6} and figure \ref{fig:hist_1e7}, the shower profiles for both showers, i.e.\ the number of particles in the $xy$-plane as a function of the distance $z$ from the ground, are shown.
