@@ -161,7 +161,7 @@ def propagate_muons():
     param_defs_mupair = [mu_def, sector_def.medium, sector_def.cut_settings, 1.0, True, interpolation_def]
     param_mupair = pp.parametrization.mupairproduction.KelnerKokoulinPetrukhinInterpolant(*param_defs_mupair)
 
-    statistics_log = 4
+    statistics_log = 5
     statistics = int(10**statistics_log)
     propagation_length = 1e20 # cm
     E_log = 8.0

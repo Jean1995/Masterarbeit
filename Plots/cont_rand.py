@@ -73,7 +73,7 @@ if __name__ == "__main__":
     # =========================================================
 
     energy = 1e8
-    statistics = int(1e5)
+    statistics = int(1e6)
     dist = 300
     binning = 100
 

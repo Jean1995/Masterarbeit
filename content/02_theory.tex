@@ -7,7 +7,7 @@ In order to obtain physical results, these datasets need to be evaluated.
 Here, using computational methods of multivariate analyses is often inevitable due to the complexity and multiplicity of the data.
 
 One important task that needs to be performed is the signal-background separation to reject events that are irrelevant for the conducted analysis.
-Examples are the gamma-hadron separation in high-energy gamma-ray astronomy \cite{Ohm_2009} or the separation of atmospheric muons from neutrino-induced muons in the IceCube Neutrino Observatory \cite{Ahrens_2004}. \todo{Are there better papers to cite here?}
+Examples are the gamma-hadron separation in high-energy gamma-ray astronomy \cite{Ohm_2009} or the separation of atmospheric muons from neutrino-induced muons in the IceCube Neutrino Observatory \cite{Ahrens_2004}.
 Signatures from signal and background events are separated by classifiers, deciding whether an event is labeled as signal or background, for example by random forests.
 To be able to use a classifier on a given dataset, the underlying model needs to be trained first using data from Monte Carlo simulations where it is known whether the generated signature belongs to a signal or a background event.
 When generating Monte Carlo simulations, both high quality and quantity of simulation data are important and need to be taken into account when writing a simulation program.
@@ -230,10 +230,10 @@ However, this can cause discontinuities in the energy spectrum as shown in figur
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/cont_rand.pdf}
-    \caption[Energy spectrum of \num{e5} muons with an initial energy of \SI{e8}{\mega\electronvolt}, propagated in \SI{300}{\meter} of standard rock. The spectrum shows the effects of an energy cut with or without continuous randomization.]{Energy spectrum of \num{e5} muons with an initial energy of \SI{e8}{\mega\electronvolt}, propagated in \SI{300}{\meter} of standard rock\protect\footnotemark. The spectrum shows the effects of an energy cut with or without continuous randomization.}
+    \caption[Energy spectrum of \num{e6} muons with an initial energy of \SI{e8}{\mega\electronvolt}, propagated in \SI{300}{\meter} of standard rock. The spectrum shows the effects of an energy cut with or without continuous randomization.]{Energy spectrum of \num{e5} muons with an initial energy of \SI{e8}{\mega\electronvolt}, propagated in \SI{300}{\meter} of standard rock\protect\footnotemark. The spectrum shows the effects of an energy cut with or without continuous randomization.}
     \label{fig:cont_rand}
 \end{figure}
-\todo{Check if the standard rock footnote is on the right page}
+
 For a sufficiently large $v_\text{cut}$, for example $v_\text{cut} = 0.05$ in figure \ref{fig:cont_rand}, a peak in the final muon energy spectrum appears.
 This peak corresponds to all muons without any stochastic losses within the propagation distance.
 All of these particles have the same final energy since effectively, no random numbers were used to calculate their final energy, meaning that no fluctuations of the continuous losses are taken into account.
@@ -341,10 +341,9 @@ Although the energy loss contribution of pair production is comparable to bremss
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/secondary_number.pdf}
-    \caption{Energy spectra for $\num{e3}$ muons with an initial energy of $E = \SI{e14}{\mega\electronvolt}$ propagated in ice. For each histogram, the x-axis shows the energy of the primary particle before the stochastic loss and the y-axis the energy of the secondary particle created in the stochastic loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
+    \caption{Energy spectra for $\num{e4}$ muons with an initial energy of $E = \SI{e14}{\mega\electronvolt}$ propagated in ice. For each histogram, the x-axis shows the energy of the primary particle before the stochastic loss and the y-axis the energy of the secondary particle created in the stochastic loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
     \label{fig:secondary_number}
 \end{figure}
-\todo{Adapt numbers in captions of figures}
 
 \begin{table}
 	\centering

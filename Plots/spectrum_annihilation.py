@@ -154,7 +154,7 @@ def propagate_muons():
 
     prop = pp.Propagator(mu_def, [sector_def], detector, interpolation_def)
 
-    statistics_log = 4
+    statistics_log = 5
     statistics = int(10**statistics_log)
     propagation_length = 1e20 # cm
     E_log = 8.0
