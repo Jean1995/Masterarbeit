@@ -106,12 +106,12 @@ TeXOptions = -lualatex \
 			 -halt-on-error \
 			 -output-directory=build
                                                                                 
-build/masterthesis.pdf: FORCE build/cont_rand.pdf build/spectrum.pdf build/dEdx.pdf build/secondary_number.pdf build/dEdx_mupair.pdf \
+build/masterthesis.pdf: FORCE build/cont_rand.pdf build/spectrum.pdf build/dEdx.pdf build/dEdx_mupair.pdf build/photopair_angles.pdf \
 							build/spectrum_mupair.pdf build/spectrum_mupair_secondary_comparison.pdf build/spectrum_mupair_secondary.pdf \
 						    build/mupair_rho.pdf build/dNdx_weak.pdf build/dEdx_weak.pdf build/dEdx_ionization.pdf build/dEdx_brems.pdf \
 							build/spectrum_annihilation.pdf build/dEdx_annihilation.pdf build/compton.pdf build/compare_compton.pdf build/hex_1e5.png \
 							build/hist_1e5.pdf build/hex_1e5_xy.png build/hex_1e6.png build/shower_1e6.png build/hist_1e6.pdf build/hex_1e6_xy.png \
-							build/shower_1e5.png build/hex_1e7.png build/hist_1e7.pdf build/hex_1e7_xy.png build/photopair_angles.pdf | build
+							build/shower_1e5.png build/hex_1e7.png build/hist_1e7.pdf build/hex_1e7_xy.png build/secondary_number.pdf | build
 	latexmk $(TeXOptions) masterthesis.tex
 
 preview: FORCE | build

@@ -150,8 +150,7 @@ def propagate_muons():
 
     prop = pp.Propagator(mu_def, [sector_def], detector, interpolation_def)
 
-    statistics_log = 5
-    statistics = int(10**statistics_log)
+    statistics = int(1e4)
     propagation_length = 1e20 # cm
     E_log = 8.0
     pp.RandomGenerator.get().set_seed(1234)
@@ -209,7 +208,9 @@ def propagate_muons():
         figsize=(width, 4)
     )
 
-    x_space = np.logspace(min(np.log10(np.concatenate((ioniz_secondary_energy,brems_secondary_energy,photo_secondary_energy,epair_secondary_energy)))), E_log, 100)
+    tmp = np.concatenate((ioniz_secondary_energy,brems_secondary_energy,photo_secondary_energy,epair_secondary_energy))
+    tmp = tmp[tmp > 0] # remove zero elements
+    x_space = np.logspace(min(np.log10(tmp)), E_log, 100)
 
     ax_all = fig_all.add_subplot(111)
     ax_all.hist(

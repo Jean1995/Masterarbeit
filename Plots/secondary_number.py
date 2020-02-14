@@ -158,7 +158,7 @@ if __name__ == "__main__":
     # 	Commandline args
     # =========================================================
 
-    statistics = int(1e5)
+    statistics = int(5e3)
     config_file = "resources/config_ice.json"
 
     if len(sys.argv) == 2:
