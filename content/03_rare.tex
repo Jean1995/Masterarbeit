@@ -151,13 +151,13 @@ The origin of such a bundle can be muon pair production, in this case, the bundl
 
 \subsubsection{IceCube event signatures}
 
-Due to resolution effects, the IceCube detector is unable to identify the muons in a bundle as individual muon signatures.
+Due to resolution effects, the IceCube detector is unable to identify the muons in a bundle as individual muon signatures \cite{Abbasi_2009}.
 However, the signature of a single muon traversing the detector is different from a muon bundle originating from muon pair production with the same sum of energy.
 The signature of a high-energetic muon in IceCube is often characterized by a dominating high-energetic stochastic energy loss creating a spherical signature.
 In a muon bundle, each muon with only a fraction of the total energy produces smaller stochastic losses.
-Since the stochastic losses of the individual muons in the bundle are independent of each other, the resulting signature is homogeneous and the energy loss per distance of a bundle is more uniform compared to the energy loss per distance of a single muon with the same total energy \cite{charmante_myonen}.
+Since the stochastic losses of the individual muons in the bundle are independent of each other, the resulting signature is more homogeneous and the energy loss per distance of a bundle is more uniform compared to the energy loss per distance of a single muon with the same total energy \cite{charmante_myonen}.
 
-\subsubsection{Background for muons bundles in extensive air showers}
+\subsubsection{Background for muon bundles in extensive air showers}
 
 Underground detectors observing muons originating from extensive air showers can use the information about muon bundles created in these air showers to learn about the cosmic ray composition and hadronic interaction models.
 This is done by comparing the frequency and multiplicity of muon bundles as well as the muon separation measured in experiments with the predictions from Monte Carlo studies.
@@ -173,7 +173,7 @@ The separation of muon bundles due to muon pair production is mostly below $\SI{
 The process called weak interaction in PROPOSAL refers to the conversion of a charged lepton to a neutrino under exchange of a W boson, i.e.\ a charged current weak interaction.
 This interaction is highly suppressed compared to other processes. However, the produced signature can be of importance, for example as a background for tau neutrino searches as described in section \ref{sec:weak_signature}.
 
-\subsection{Theory and description of the data}
+\subsection{Theory and data description}
 \label{sec:weak_theory}
 
 The process of interest
@@ -191,7 +191,7 @@ This specific process is related to the interaction of an anti-neutrino under ex
     \overline{\nu}_l + N \rightarrow \overline{l} + X,
 \end{equation}
 %
-via crossing symmetry\footnote{The argument of crossing symmetry is identical when switching all particles with their corresponding antiparticles, i.e.\ the process $\overline{l} + N \rightarrow \overline{\nu}_l + X$ is connected to $\nu_l + N \rightarrow l + X$.} as depicted in figure \ref{fig:feynman_weak} \cite{Griffiths:111880}.
+via crossing symmetry\footnote{The argument of crossing symmetry is identical when switching all particles with their corresponding antiparticles, i.e.\ the process $\overline{l} + N \rightarrow \overline{\nu}_l + X$ is related to $\nu_l + N \rightarrow l + X$.} as depicted in figure \ref{fig:feynman_weak} \cite{Griffiths:111880}.
 %
 \begin{figure}
     \centering
@@ -212,7 +212,7 @@ Tabulated numerical values for the differential cross section describing the con
 By using crossing symmetry, these data can directly be used to describe the conversion of a charged lepton to a neutrino, i.e.\ \eqref{eqn:weak_lepton}, which is the process of interest in PROPOSAL.
 
 The cross sections for interactions of leptons with hadrons can be derived under the use of parton distribution functions which describe the probability to find a specific parton (quark or gluon) with a given fraction $x$ of the nucleon's momentum when the momentum transfer is given by $Q^2$.
-To make predictions for the (anti)neutrino charged current cross sections, the authors of \cite{Cooper_Sarkar_2011} performed next-to-leading order calculations and used the HERAPDF1.5 data set which provides the parton distribution functions based on deep-inelastic scattering measurements performed from 2003 to 2007 at the HERA experiment \cite{am2010proton}.
+To make predictions for the (anti)neutrino charged current cross sections, the authors of \cite{Cooper_Sarkar_2011} performed next-to-leading order calculations and used the HERAPDF1.5 data set which provides the parton distribution functions based on deep-inelastic scattering measurements performed at the HERA experiment from 2003 to 2007 \cite{am2010proton}.
 
 The values for $\sfrac{\symup{d}\sigma}{\symup{d}v}$ are provided as two-dimensional tables in $E$ and $v$ with $\num{100}$ entries in $E$ and, for each energy, $\num{110}$ entires in $v$.  
 Here, $v$ describes the fraction of the initial lepton energy $E$ lost to the nucleon.
@@ -221,11 +221,11 @@ The ranges of the tabulated values are $\SI{10}{\giga\electronvolt} \leq E \leq 
 The lower limit of $v$ has been set to
 %
 \begin{align}
-    v_\text{min} &= \frac{Q^2_{\text{min}}}{s}, & s &= 2 E m + m^2, & Q^2_{\text{min}} &= \SI{1}{\giga\electronvolt^2}
+    v_\text{min} &= \frac{Q^2_{\text{min}}}{s}, & s &= 2 E m + m^2, & Q^2_{\text{min}} &= \SI{1}{\giga\electronvolt^2},
 \end{align}
 %
 with the mass of the involved nucleon $m$ and the center-of-mass energy $\sqrt{s}$.
-For values where $Q^2 < Q_\text{min}^2$, the underlying theory of quantum chromodynamics can not be treated perturbatively anymore, meaning that the predictions for the cross sections are not reliable in this kinematic range \cite{Cooper_Sarkar_2011}. 
+For values where $Q^2 < Q_\text{min}^2$, the underlying theory of quantum chromodynamics can no longer be treated perturbatively, meaning that the predictions for the cross sections are not reliable in this kinematic range \cite{Cooper_Sarkar_2011}. 
 
 \subsection{Implementation in PROPOSAL}
 \label{sec:weak_implementation}
@@ -247,22 +247,23 @@ In contrast to previously described processes, the weak interaction is a catastr
 Therefore, treating a process with this signature continuously as described in section \ref{sec:energy_loss_calculation} would be unphysical, meaning that there is no contribution to the continuous loss in \eqref{eqn:fE} from these interactions.
 Additionally, all interactions with catastrophic losses are treated stochastically by neglecting the energy cut in \eqref{eqn:stoch_crosssection} and \eqref{eqn:sample_v}.
 Instead, the lower integral limit is set to $v_{\text{min}}$.
-Afterward, PROPOSAL returns the produced neutrino as well as the energy transfer to the nucleon and stops the particle propagation.
+After a weak interaction, PROPOSAL returns the produced neutrino as well as the energy transfer to the nucleon and stops the particle propagation.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_weak.pdf}
-    \caption{Comparison of the average energy loss of muons in ice for weak interaction in comparison to other interactions. Note that losses due to weak interactions are always stochastic, the average energy loss is calculated by taking into account that the muon loses all its energy during a weak interaction event.}
+    \caption{Comparison of the average energy loss of muons in ice due to weak interactions in comparison to other interactions. Note that losses due to weak interactions are always stochastic, the average energy loss is calculated by taking into account that the muon loses all its energy during a weak interaction event.}
     \label{fig:dEdx_weak}
 \end{figure}
 
 Figure \ref{fig:dEdx_weak} shows the average energy loss due to weak interactions compared to the average energy loss due to other processes.
-For high energies, the average energy loss due to weak interaction is suppressed by three orders of magnitude compared to other default processes in PROPOSAL with an even higher suppression for lower energies, its quantitative contribution to the average energy loss is therefore entirely negligible.
+For high energies, the average energy loss due to weak interactions is suppressed by three orders of magnitude compared to other default processes in PROPOSAL with an even higher suppression for lower energies.
+Therefore, its quantitative contribution to the average energy loss is entirely negligible.
 
 \subsection{Significant detector signatures}
 \label{sec:weak_signature}
 
-As described in the previous section, the weak interaction process is highly suppressed and therefore negligible in its contribution to the energy loss of a charged lepton.
+As described in the previous section, the weak interaction process is highly suppressed and therefore negligible in its contribution to the average energy loss of a charged lepton.
 However, under certain conditions, the detector signature of the process could be significant for searches of tau neutrinos, for example in the IceCube neutrino observatory \cite{Sandrock:2018hpj}.
 
 \begin{figure}
@@ -285,7 +286,7 @@ However, under certain conditions, the detector signature of the process could b
 \end{figure}
 
 One possible signature hinting at a tau neutrino event called the "lollipop" signature is illustrated in figure \ref{fig:lollipop_signature}.
-Here, a tau neutrino moving towards the detector interacts via a charged current before it reaches the detector and is being converted to a tau lepton \cite{Cowen_2007}.
+Here, a tau neutrino moving towards the detector interacts via a charged current and is being converted to a tau lepton \cite{Cowen_2007}.
 The tau lepton then enters the detector, leaving behind an observable track of Cherenkov light emerging from the tau itself and the created secondary particles.
 %Due to its short lifetime, the created tau can only reach the detector if its energy is high enough, the average tau decay length scales with energy as \SI{5}{\cm\per\tera\electronvolt} \cite{Aartsen_2016} meaning the tau energy has to be $E_{\tau} \gtrapprox \SI{100}{\tera\electronvolt}$.
 Due to its short lifetime, the created tau can only reach the detector if its energy is high enough since the average tau decay length scales with energy as \SI{5}{\cm\per\tera\electronvolt} \cite{Aartsen_2016}.
@@ -299,6 +300,6 @@ However, the tracks from both signatures behave differently since the energy los
 To have a similar track signature, the tau involved needs to have an energy that is about $\num{6}$ to $\num{11}$ times higher than the energy of a corresponding muon \cite{Sandrock:2018hpj}.
 
 It follows that analyses searching for lollipop signatures have to consider the weak interaction as a possible background.
-According to approximative calculations in \cite{Sandrock:2018hpj} based on the properties of the IceCube detector, the expected rate of false lollipop events due to atmospheric muons undergoing weak interaction is about $\SI{2e-2}{\per yr}$. 
+According to approximative calculations in \cite{Sandrock:2018hpj} based on the properties of the IceCube detector, the expected rate of false lollipop events due to atmospheric muons undergoing weak interactions is about $\SI{2e-2}{\per yr}$. 
 This, together with further approximative calculations for real lollipop signatures from tau neutrino events, corresponds to a possible background of $\SI{10}{\percent}$.
 However, further effects such as event selection efficiency (assumed to be perfect in this calculation) or a detailed detector simulation were not taken into account but need to be evaluated when conducting a detailed analysis.

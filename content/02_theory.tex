@@ -42,18 +42,18 @@ Processes causing energy losses and implemented are
 	\item bremsstrahlung \cite{brems_default},
 	\item ionization \cite{Rossi:99081, PhysRevD.98.030001},
 	\item photonuclear interactions \cite{abramowicz1997allm, butkevich2001crosssection} and
-	\item pair production of an electron-positron pair \cite{epair_correction, osti_4563918},
+	\item pair production of an electron-positron pair \cite{epair_correction, osti_4563918}
 \end{itemize}
 %
 with references to descriptions of the default parametrizations used in PROPOSAL.
-Alternative parametrizations, for example recently improved bremsstrahlung and pair production cross sections provided by \cite{Soedingrekso:2019qlr}, are available as well.
+Alternative parametrizations, for example recently improved bremsstrahlung and pair production cross sections provided by \cite{Soedingrekso:2019qlr}, are available as well and can by used optionally.
 
 Quantitatively, the interaction probability for a process is described by its cross section $\sigma$.
-To describe the process with respect to a specific variable in the final state, the cross section can be written in a differential form, for example $\sfrac{\symup{d}\sigma}{\symup{d}v}$.
+To describe the interaction probability with respect to a specific variable in the final state, the cross section can be written in a differential form, for example $\sfrac{\symup{d}\sigma}{\symup{d}v}$.
 
 In principle, this information could be used right away to sample energy losses from differential cross sections, which are treated as probability density functions, by using inverse sampling.
 However, this approach would cause two immediate problems:
-Firstly, the propagation process would be very time inefficient since small energy losses, especially below the energy threshold of a detector, would be sampled individually.
+Firstly, the propagation process would be very time-inefficient since small energy losses, especially below the energy threshold of a detector, would be sampled individually.
 Secondly, numerical problems will occur due to the nature of the bremsstrahlung interaction:
 Since photons are massless, the bremsstrahlung cross section diverges for $v \to 0$, making inverse sampling over the whole parameter range impossible.
 
@@ -88,14 +88,19 @@ To derive an expression for \eqref{eqn:cum}, the distance between the initial pa
 The probability for a stochastic loss after a distance of $x_f - x_i$, without any stochastic losses in the interval $\left(x_i, x_f\right)$, can be described as
 %
 \begin{equation}
-	\label{eqn:discrete}
 	\begin{split}
 	\Delta P\left(x_f\right) &= P\left( x_f + \Delta x \right) - P\left( x_f \right)\\
-	&= \left( 1 - \sigma(x_i) \Delta x \right) \cdot \left( 1 - \sigma(x_{i+1}) \Delta x \right) \cdot\ldots\cdot \left( 1 - \sigma(x_{f-1}) \Delta x \right) \cdot \sigma(x_f) \Delta x \\
-	&\approx \exp \left( - \sum_{j=i}^{f-1} \sigma(x_j) \Delta x_j \right) \cdot \sigma(x_f) \Delta x\\
-	\intertext{where $\sigma$ describes the probability for a stochastic loss. Note that $\Delta x \ll 1$ was used in the last step. In a differential form, the relation can be written as}
-	\symup{d}P\left( x_f \right) &= \exp\left(-\int_{x_i}^{x_f} \sigma(x) \, \symup{d}x \right) \cdot \sigma(x_f) \, \symup{d} x_f
+	&= \left( 1 - \sigma(x_i) \Delta x_i \right) \cdot \left( 1 - \sigma(x_{i+1}) \Delta x_{i+1} \right) \cdot\ldots\cdot \left( 1 - \sigma(x_{f-1}) \Delta x_{f-1} \right) \cdot \sigma(x_f) \Delta x_f \\
+	&\approx \exp \left( - \sum_{j=i}^{f-1} \sigma(x_j) \Delta x_j \right) \cdot \sigma(x_f) \Delta x_f\\
 	\end{split}
+\end{equation}
+
+where $\sigma$ describes the probability for a stochastic loss. 
+Note that $\Delta x \ll 1$ was used in the last step. 
+In a differential form, this relation can be written as
+\begin{equation}
+	\label{eqn:discrete}
+	\symup{d}P\left( x_f \right) = \exp\left(-\int_{x_i}^{x_f} \sigma(x) \, \symup{d}x \right) \cdot \sigma(x_f) \, \symup{d} x_f.
 \end{equation}
 %
 To transfer the dependency on the location $x$ to a dependency on the energy $E$, the relation
@@ -159,9 +164,9 @@ By sampling $\xi$, \eqref{eqn:energy_integral} can be used to calculate the rema
 \label{sec:algorithm}
 
 The task of the propagation algorithm of PROPOSAL is to simulate the properties of the secondary particles produced in interactions as well as the properties of the initial particle after each interaction.
-This includes information on the energy, position, direction and time of the propagated particle and the secondary particles.
+This includes information on the energy, position, direction and time of both the propagated particle and the secondary particles.
 
-On the technical note, the structure of the propagation process in PROPOSAL is determined by the concept of a "chain of responsibility".
+From a technical point of view, the structure of the propagation process in PROPOSAL is determined by the concept of a "chain of responsibility".
 The main parts of this chain are the \emph{Sector} objects and a \emph{Propagator} object.
 
 Each \emph{Sector} is defined by its geometry (i.e.\ the spatial extent of the \emph{Sector}), its medium, its energy cut settings and other sector-specific properties.
@@ -198,11 +203,11 @@ Given the initial energy $E_i$ and the energy of the interaction $E_f$, the (str
 	x_f = x_i - \int_{E_i}^{E_f} \frac{\symup{d}E}{f(E)}
 \end{equation}
 %
-where $x_f - x_i$ describes the propagated distance.
+where $x_f - x_i$ denotes the propagated distance.
 If the calculated propagated distance would exceed the distance to the sector border $d$, $E_f$ is recalculated by setting $x_f = x_i + d$ in \eqref{eqn:tracking_integral} and solving the integral equation for $E_f$.
 In this case, no interaction will occur at $E_f$.
 
-The elapsed time is determined by the time integral 
+The elapsed time is determined using the time integral 
 %
 \begin{equation}
 	t_f = t_i + \int_{x_i}^{x_f} \frac{\symup{d}x}{v(x)} = t_i - \int_{E_i}^{E_f} \frac{\symup{d}E}{f(E)v(E)}
@@ -218,9 +223,9 @@ Alternatively, the approximation $v=c$ leading to
 can be used.
 
 Optionally, PROPOSAL can apply multiple scattering effects on the calculated displacement.
-This changes the position of the next stochastic loss by sampling a deflection angle as well as the new direction of the particle.
-Currently, three different parametrizations for multiple scattering can be used in PROPOSAL:
-A parametrization based on Molière's theory of multiple scattering as well as two parametrizations based on a gaussian-like approximation of the Molière theory by Highland, see \cite{GeiselBrinck2013RevisionOT} for a detailed description of the scattering processes used in PROPOSAL. 
+This changes the position of the next stochastic loss by sampling a deflection angle as well as a new direction for the particle.
+Currently, three different parametrizations of multiple scattering can be used in PROPOSAL:
+A parametrization based on Molière's theory of multiple scattering as well as two parametrizations based on a gaussian-like approximation of the Molière theory by Highland, see \cite{GeiselBrinck2013RevisionOT} for a detailed description of the scattering models used in PROPOSAL. 
 
 \subsubsection{Continuous energy losses and continuous randomization}
 
@@ -234,14 +239,15 @@ However, this can cause discontinuities in the energy spectrum as shown in figur
     \label{fig:cont_rand}
 \end{figure}
 
-For a sufficiently large $v_\text{cut}$, for example $v_\text{cut} = 0.05$ in figure \ref{fig:cont_rand}, a peak in the final muon energy spectrum appears.
+For a sufficiently large $v_\text{cut}$, for example $v_\text{cut} = 0.05$ as in figure \ref{fig:cont_rand}, a peak in the final muon energy spectrum appears.
 This peak corresponds to all muons without any stochastic losses within the propagation distance.
 All of these particles have the same final energy since effectively, no random numbers were used to calculate their final energy, meaning that no fluctuations of the continuous losses are taken into account.
-Setting the energy cut to a significantly lower value, for example $v_\text{cut} = \num{e-4}$ in figure \ref{fig:cont_rand}, eliminates the peak, however, the runtime for the propagation is increased by at least an order of magnitude.
+Setting the energy cut to a significantly lower value, for example $v_\text{cut} = \num{e-4}$ as in figure \ref{fig:cont_rand}, eliminates the peak. 
+However, the runtime for the propagation is increased by at least an order of magnitude.
 
 As a more time-efficient solution, the option \emph{continuous randomization} can be enabled in PROPOSAL.
 This applies fluctuations on the continuous loss energies sampled from a gaussian distribution.
-The mean of this distribution corresponds to $E_i - E_f$, the variance is calculated by
+The mean of this distribution corresponds to $0$, the variance is calculated by
 %
 \begin{equation}
 	\left< \Delta (\Delta E)^2 \right> = \int_{E_i}^{E_f} \frac{E^2}{-f(E)} \left< \frac{\symup{d}^2E}{\symup{d}x^2} \right>,
@@ -255,7 +261,7 @@ The effects can be seen in figure \ref{fig:cont_rand}, the energy spectrum becom
 \subsubsection{Simulation of the stochastic energy loss}
 
 If the stochastic energy loss falls inside the sector and occurs before the initial particle decays, a stochastic loss at the energy $E_f$ is sampled.
-The total stochastic cross section for the process $i$ is calculated by
+The total stochastic cross section for a process $i$ is calculated by
 %
 \begin{equation}
 	\label{eqn:stoch_crosssection}
@@ -287,12 +293,12 @@ The propagation routine is repeated by sampling the remaining particle energy be
 \CatchFileDef{\photosum}{build/numbers/photo_esum.tex}{}
 \CatchFileDef{\ionizsum}{build/numbers/ioniz_esum.tex}{}
 
-At the end of the propagation process, PROPOSAL returns the properties of the produced secondary particles as well as the final properties of the initial particle or, if it did decay during propagation, its decay products.
+At the end of the propagation process, PROPOSAL returns the properties of the produced secondary particles as well as the final properties of the initial particle or, if the particle decayed during propagation, its decay products.
 In this section the characteristic energy losses of muons are described, where ice is used exemplarily as a medium for all plots. 
 The parametrizations for the interactions are always the default options in PROPOSAL listed in section \ref{sec:energy_loss_calculation}.
-Furthermore the Landau-Pomeranchuk-Migdal (LPM) effect for bremsstrahlung and pair production has been enabled, see \cite{Kohne:2013zbq} for a detailed description of the LPM effect.
+Furthermore, the Landau-Pomeranchuk-Migdal (LPM) effect for bremsstrahlung and pair production has been enabled, see \cite{Kohne:2013zbq} for a detailed description of the LPM effect.
 
-In figure \ref{fig:dEdx} the continuous energy losses of muons in ice, calculated according to \eqref{eqn:fE}, are shown.
+In figure \ref{fig:dEdx}, the continuous energy losses of muons in ice, calculated according to \eqref{eqn:fE}, are shown.
 For this plot the energy cut has been set to $v_\text{cut} = v_\text{max}$, therefore the values shown correspond to the complete average energy losses of muons in ice. 
 It can be seen that the average energy loss is quantitatively dominated by ionization for lower energies while $e$ pair production, bremsstrahlung and photonuclear interactions become dominant for higher energies.
 Furthermore, it can clearly be seen that the parametrization
@@ -301,13 +307,14 @@ Furthermore, it can clearly be seen that the parametrization
 	- \left\langle \frac{\symup{d}E}{\symup{d}x} \right\rangle \approx a(E) + b(E) \cdot E
 \end{equation}
 %
-of the average energy loss as a quasi-linear function is valid where $a(E)$ corresponds to energy losses due to ionization and $b(E)$ to energy losses due to $e$ pair production, bremsstrahlung and photonuclear interactions.
+of the average energy loss as a quasi-linear function is valid.
+Here, $a(E)$ corresponds to energy losses due to ionization and $b(E)$ to energy losses due to $e$ pair production, bremsstrahlung and photonuclear interactions.
 The parameters $a(E), b(E)$ vary only logarithmically with energy.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx.pdf}
-    \caption{Continuous energy losses of muons in ice. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuously. Additionally, the average energy loss due to muon decay is shown where the muon loses, per definition, all its energy when it decay. }
+    \caption{Continuous energy losses of muons in ice. No energy cuts are applied in this plot, hence this plot represents the case where all losses are treated continuously. Additionally, the average energy loss due to muon decay is shown where the muon loses, per definition, all its energy when it decays. }
     \label{fig:dEdx}
 \end{figure}
 
@@ -319,12 +326,12 @@ This dominance could, for example, be used to probe the $e$ pair production cros
 For higher secondary energies, bremsstrahlung and photonuclear interactions are the dominant effects.
 Another effect that can be seen it the energy cut at $e_\text{cut} = \SI{500}{\mega\electronvolt}$ where the histogram cuts off abruptly.
 The energy losses below $e_\text{cut}$ correspond to losses where $E \cdot v < e_\text{cut}$ but $v > v_\text{cut} = 0.05$.
-These losses are dominated by ionization losses since ionization is the relevant process for low energies.
+These losses are mainly ionization losses since ionization is the dominant process for low energies.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/spectrum.pdf}
-    \caption{Secondary particle energy spectrum for $\num{1e4}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
+    \caption{Secondary particle energy spectrum for $\num{e4}$ muons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in ice. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cuts applied here are $e_\text{cut} = \SI{500}{\mega\electronvolt}$, $v_\text{cut} = 0.05$.}
     \label{fig:spectrum}
 \end{figure}
 
@@ -335,7 +342,7 @@ Table \ref{tab:secondary_number} additionally shows the sum of the secondary ene
 It can be seen that bremsstrahlung and photonuclear interaction tend to have a more homogeneous spectrum where the secondary energy is less correlated with the primary energy than for ionization and pair production.
 For bremsstrahlung, the effects of the LPM effect can be seen since this effect causes the bremsstrahlung cross section to be suppressed for small $v$ at very high energies.
 Especially for the ionization histogram, the effect of the combined $e_\text{cut}$ and $v_\text{cut}$ can be seen for small primary energies leading to secondary energies below $e_\text{cut}$.
-Table \ref{tab:secondary_number} shows that the sum of the energy losses is of the same order of magnitude for pair production, bremsstrahlung and photonuclear interaction while the contribution for ionization is significantly lower since the latter is mainly treated continuously.
+Table \ref{tab:secondary_number} shows that the sum of the energy losses is of the same order of magnitude for pair production, bremsstrahlung and photonuclear interaction while the contribution from ionization losses is significantly lower since the latter is mainly treated continuously.
 Although the energy loss contribution of pair production is comparable to bremsstrahlung and photonuclear interaction, its frequency is of several orders of magnitude higher due to its tendency to produce energy losses with smaller relative energies.
 
 \begin{figure}
@@ -359,7 +366,7 @@ Although the energy loss contribution of pair production is comparable to bremss
 		\toprule
 		{Interaction} & {Frequency} & {$\sum E_\text{prim} \cdot v \:/\: \si{\mega\electronvolt}$} \\	
 		\midrule
-		\text{pair production} & \epaircount & \epairsum \\
+		e \text{pair production} & \epaircount & \epairsum \\
 		\text{Bremsstrahlung} & \bremscount & \bremssum \\
 		\text{Photonuclear} & \photocount & \photosum \\
 		\text{Ionization} & \ionizcount & \ionizsum \\

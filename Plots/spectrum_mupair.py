@@ -377,7 +377,7 @@ def propagate_muons():
         figsize=(width, 4)
     )
 
-    gs = matplotlib.gridspec.GridSpec(2, 1, height_ratios=[4, 1], hspace=0.05)
+    gs = matplotlib.gridspec.GridSpec(2, 1, height_ratios=[4, 1], hspace=0.1)
 
 
     x_space = np.logspace(min(np.log10(np.concatenate((ioniz_secondary_energy_nomupair,photo_secondary_energy_nomupair,brems_secondary_energy_nomupair,epair_secondary_energy_nomupair)))), E_log, 100)
@@ -412,13 +412,25 @@ def propagate_muons():
                 epair_secondary_energy_nomupair)
             )
         ],
-        color = ['C3', 'C2', 'C1', 'C0','C7'],
+        color = ['C3', 'C2', 'C1', 'C0', 'C7'],
         label=['Ionization', 'Photonuclear', 'Bremsstrahlung', r'$e$ pair production', 'Sum'],
         histtype='step',
         log=True,
         bins=x_space,
         zorder = 4,
     )    
+
+    ax_all.hist(
+        [
+            np.array([0])      
+        ],
+        color = ['C4'],
+        label=[r'$\mu$ pair production'],
+        histtype='step',
+        log=True,
+        bins=x_space,
+        zorder = 0,
+    )   
 
     plt.xscale('log')
     #minor_locator = AutoMinorLocator()
@@ -453,6 +465,7 @@ def propagate_muons():
 
     ax_all.set_xlabel(r'$ E \cdot v \,/\, \mathrm{MeV} $')
     ax_all.set_ylabel(r'ratio')
+    plt.ylim(0.9, 1.1)
     plt.grid(grid_conf)
     ax_all.axhline(y=1, linewidth=0.5, zorder=0, C = 'C7')
 

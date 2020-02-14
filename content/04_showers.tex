@@ -10,7 +10,7 @@ As an actively maintained propagation program written in a modern programming la
 As a requirement, PROPOSAL needs to be able to propagate electrons, positrons and photons.
 
 In the following section, the measures taken to improve the propagation of electrons and positrons as well as the measures taken to realize the propagation of photons are described.
-Furthermore, as a proof of concept, the simulation of photon-induced electromagnetic showers with PROPOSAL using the newly integrated cross sections are presented.
+Furthermore, as a proof of concept, simulations of photon-induced electromagnetic showers with PROPOSAL using the newly implemented cross sections are presented.
 
 Definitions and numerical values of variables are, unless otherwise specified, listed, if necessary with their corresponding numerical values, in appendix \ref{sec:constants}.
 
@@ -28,8 +28,8 @@ For positrons, annihilation with atomic electrons is a new interaction that is n
 \label{sec:ionization}
 
 Ionization describes the inelastic collision of a particle with atomic electrons, leading to an energy loss of the primary particle.
-For heavy, charged particles the average energy loss due to ionization is given by the Bethe formula.
-PROPOSAL uses a modified Bethe formula, taking into account density correction effects, to describe the ionization losses for muons and tau particles \cite{Kohne:2013zbq, Rossi:99081, PhysRevD.98.030001}.
+For heavy, charged particles, the average energy loss due to ionization is given by the Bethe formula.
+PROPOSAL uses a modified Bethe formula, taking into account density correction effects, to describe the ionization losses for muon and tau leptons \cite{Kohne:2013zbq, Rossi:99081, PhysRevD.98.030001}.
 However, the Bethe formula can't be applied for electrons and positrons due to their lower mass as well as the indistinguishability of incoming electrons with atomic electrons \cite{10027956359}.
 Therefore, a separate treatment of the ionization losses for electrons and positrons is necessary.
 
@@ -70,7 +70,7 @@ with
 %
 \begin{align*}
 	B_1 &= 2 - y^2, & B_2 &= (1 - 2y)(3 + y^2), \\ 
-	B_3 &= (1-2y)^2 + (1 - 2y)^3, & B_4 &= (1 - 2y)^3 \\
+	B_3 &= (1-2y)^2 + (1 - 2y)^3, & B_4 &= (1 - 2y)^3, \\
 	\intertext{and}
 	y &= \frac{1}{\gamma + 1}, & v_{\text{max}} &= 1 - \frac{m_e}{E}.
 \end{align*}
@@ -103,7 +103,7 @@ also known as the Berger-Seltzer formula \cite{Hirayama:2005zm}, with
 \end{align}
 %
 the mean ionization energy of the medium $I$ and the contribution from the density correction $\delta$, described in detail in \cite{Kohne:2013zbq}.
-Furthermore, $F^{\pm}(\tau, \Delta)$ differs for electrons and positrons and is defined by
+Furthermore, $F^{\pm}(\tau, \Delta)$ differs for electrons ($F^-$) and positrons ($F^+$) and is defined by
 \begin{align}
 	\begin{split}
 	F^{+}(\tau, \Delta) &= \ln\left(\tau \Delta \right) - \frac{\beta^2}{\tau} \biggl[ \tau + 2 \Delta - \frac{3 \Delta^2 }{2} \\ &\quad- (\Delta - \frac{\Delta^2}{3}) y^2 - ( \frac{\Delta^2}{2} - \frac{\tau\Delta^3}{3} + \frac{\Delta^4}{4} ) y^3 \biggr],
@@ -122,21 +122,21 @@ Furthermore, $F^{\pm}(\tau, \Delta)$ differs for electrons and positrons and is 
 The ionization cross sections for electrons and positrons described above can be used in PROPOSAL by setting the keyword \texttt{ioniz} in the configuration file to \texttt{IonizBergerSeltzerMoller} to use the parametrization for electrons or \texttt{IonizBergerSeltzerBhabha} to use the parametrization for positrons. 
 \end{sloppypar}
 
-To take into account the atomic excitation levels relevant for small energy transfers, the Berger-Seltzer formula, i.e.\ \eqref{eqn:ioniz_sum}, is used when calculating the continuous ionization losses.
-When sampling the stochastic losses the differential cross section for M{\o}ller scattering \eqref{eqn:moller}, respectively the differential cross section for Bhabha scattering \eqref{eqn:bhabha}, is used directly since the contributions from small energy transfers are negligible here.
+To take into account the atomic excitation levels relevant for small energy transfers, the Berger-Seltzer formula, i.e.\ \eqref{eqn:ioniz_sum}, is used when calculating continuous ionization losses.
+When sampling stochastic losses, the differential cross section for M{\o}ller scattering \eqref{eqn:moller}, respectively the differential cross section for Bhabha scattering \eqref{eqn:bhabha}, is used directly since the contributions from small energy transfers are negligible here.
 
 Figure \ref{fig:dEdx_ionization} shows the differences in the continuous ionization loss for electrons and positrons when using the appropriate Berger-Seltzer formula compared to the Bethe formula.
-It can be seen that the influence is up to $\SI{5}{\percent}$ for small energies.
+It can be seen that, neglecting NLO corrections, the difference is up to $\SI{5}{\percent}$ for small energies.
 %
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/dEdx_ionization.pdf}
-    \caption{Average energy loss of electrons and positrons in air due to ionization. Note that the Bethe formula is, unlike the Berger-Seltzer formula, identical for electrons and positrons. The default Bethe parametrization used in PROPOSAL includes NLO inelastic bremsstrahlung corrections \cite{Kohne:2013zbq}. For an easier comparison to the Berger-Seltzer formula (which does not consider NLO corrections), the Bethe formula without NLO corrections has been calculated as well. In the lower half of the figure, this version of the Bethe formula is compared to the Berger-Seltzer formula.}
+    \caption{Average energy loss of electrons and positrons in air due to ionization. Note that the Bethe formula is, unlike the Berger-Seltzer formula, identical for electrons and positrons. The default Bethe parametrization used in PROPOSAL includes NLO inelastic bremsstrahlung corrections \cite{Kohne:2013zbq}. For an easier comparison to the Berger-Seltzer formula (which does not consider NLO corrections), the Bethe formula without NLO corrections has been calculated as well. In the lower half of the figure, this version of the Bethe formula is compared to the Berger-Seltzer formulas.}
     \label{fig:dEdx_ionization}
 \end{figure}
 %
 Furthermore, the Berger-Seltzer formula, compared to the Bethe formula which is independent of the particle charge, takes differences between ionization energy losses of electrons and positrons into account.
-While the contribution from the atomic excitation levels is, as a good approximation, identical for electrons and positrons \cite{PhysRev.93.38}, the contribution from high energy transfers differs.
+While the contribution from atomic excitation levels is, as a good approximation, identical for electrons and positrons \cite{PhysRev.93.38}, the contribution from high energy transfers differs.
 Here, if the ingoing particle is an electron, it is indistinguishable from the atomic electron after the ionization process.
 Therefore, the electron with the higher energy after the interaction is by definition the initial particle.
 However, a positron as an ingoing particle is always distinguishable from the atomic electron and can therefore be the particle with the lower energy after the interaction.
@@ -161,7 +161,7 @@ This parametrization is implemented in PROPOSAL to examine the differences betwe
 
 \subsubsection{Theoretical description}
 
-The bremsstrahlung cross section provided by EGS5, which is described in detail by \cite{Hirayama:2005zm}, is split into a high-energy and a low-energy part with a discrete cut at $\SI{50}{\mega\electronvolt}$.
+The bremsstrahlung cross section provided by EGS, which is described in detail by \cite{Hirayama:2005zm}, is split into a high-energy and a low-energy part with a discrete cut at $\SI{50}{\mega\electronvolt}$.
 
 For $E > \SI{50}{\mega\electronvolt}$, the ultra-relativistic differential cross section, comparable to the Complete Screening parametrization in PROPOSAL, is given by
 %
@@ -223,7 +223,7 @@ with the radiation logarithms
 		4.710 & \text{if $Z = 4$}, \\
 		4.740 & \text{if $Z = 3$}, \\
 		4.790 & \text{if $Z = 2$}, \\
-		5.310 & \text{if $Z = 1$}.
+		5.310 & \text{if $Z = 1$},
 	\end{cases}
 \end{align}
 accounts for atomic electron effects.
@@ -259,7 +259,7 @@ PROPOSAL uses a two-dimensional interpolation routine to obtain the correction f
 \end{figure}
 
 
-Figure \ref{fig:dEdx_brems} shows a comparison of the average energy loss for electrons\footnote{The bremsstrahlung cross section is identical for electrons and positrons which is valid when regarding only lowest order calculations in $\alpha$ \cite{RevModPhys.46.815}.} loss due to bremsstrahlung when using different differential cross sections.
+Figure \ref{fig:dEdx_brems} shows a comparison of the average energy loss for electrons\footnote{Regarding only leading order calculations in $\alpha$, the bremsstrahlung cross section is identical for electrons and positrons \cite{RevModPhys.46.815}.} loss due to bremsstrahlung when using different parametrizations.
 For very high energies, all parametrizations yield comparable results.
 However, differences exceeding a factor of $\num{1.5}$ can be seen for lower energies, especially in the domain of several \si{\mega\electronvolt}.
 It is particularly noticeable that the results from the Electron Screening parametrization are in better agreement with the Andreev Bezrukov Bugaev parametrization than the Complete Screening parametrization, although the latter has been recommended for (high energy) electrons.
@@ -290,7 +290,7 @@ The Feynman diagram describing this process in leading order is shown in figure 
 
 \subsubsection{Theoretical description}
 
-Under the assumption that the atomic electron is initially free and at rest, which is a good approximation for positrons with energies high compared to atomic binding energies, the differential annihilation cross section is described by the Heitler formula \cite{heitler1954quantum} given by \cite{Hirayama:2005zm}
+Under the assumption that the atomic electron is initially free and at rest, which is an appropriate approximation for positrons with energies high compared to atomic binding energies, the differential annihilation cross section is described by the Heitler formula \cite{heitler1954quantum} and given by \cite{Hirayama:2005zm}
 %
 \begin{equation}
 	\label{eqn:heitler_annihilation}
@@ -301,19 +301,21 @@ Under the assumption that the atomic electron is initially free and at rest, whi
 Here, $\gamma$ and $\epsilon$ are defined by
 %
 \begin{align*}
-	\gamma &= \frac{E}{m}, & \epsilon &= \frac{E_{\gamma, 1}}{E + m_e},
+	\gamma &= \frac{E}{m_e}, & \epsilon &= \frac{E_{\gamma, 1}}{E + m_e},
 \end{align*}
 %
-meaning that $\epsilon$ describes the ratio of the energy transfer to one of the created photons to the available energy, i.e.\ the positron energy and the mass of the atomic electron.
+with the energy of the initial positron $E$ and the energy $E_{\gamma, 1}$ of one of the created photons.
+Here, $\epsilon$ describes the ratio of the energy transfer to one of the created photons to the available energy, i.e.\ the positron energy and the mass of the atomic electron.
 
 Since annihilation describes a two-body interaction, the kinematics of the final state are fully determined for a given $E$ and $\epsilon$.
-Considering a general two-body interaction 
+A general two-body interaction can be described by the process
 %
 \begin{align*}
 	X_1 + X_2 \rightarrow X_3 + X_4
 \end{align*}
 %
-with the corresponding energies $E_i$, masses $m_i$ and absolute momenta $p_i$ of the particles involved, applying the conservation of four-momentum (i.e.\ conservation of energy and conservation of 3-space momentum) leads to the relation \cite{Hirayama:2005zm}
+with the corresponding energies $E_i$, masses $m_i$ and absolute momenta $p_i$ of the particles involved.
+Applying the conservation of four-momentum (i.e.\ conservation of energy and conservation of 3-space momentum) leads to the relation \cite{Hirayama:2005zm}
 %
 \begin{equation}
 	\label{eqn:2to2process_angle}
@@ -367,10 +369,10 @@ Since $v=1$, the energy transfer doesn't need to be calculated here.
 Instead, $\epsilon$ needs to be sampled by solving the integral equation
 %
 \begin{equation}
-	\frac{1}{\sigma_{\text{stoch}}} \int_{\epsilon_{\text{min}}}^{\epsilon} \frac{\symup{d}\sigma}{\symup{d}\epsilon} \, \symup{d}\epsilon = \xi
+	\frac{1}{\sigma_{\text{stoch}}} \int_{\epsilon_{\text{min}}}^{\epsilon} \frac{\symup{d}\sigma}{\symup{d}\epsilon} \, \symup{d}\epsilon = \xi_1
 \end{equation}
 %
-for $\epsilon$ with a random number $\xi \in \left[0,1\right)$.
+for $\epsilon$ with a random number $\xi_1 \in \left[0,1\right)$.
 With the sampled $\epsilon$, the energies of the created photons are set to
 %
 \begin{align}
@@ -380,21 +382,21 @@ With the sampled $\epsilon$, the energies of the created photons are set to
 Furthermore, the photons inherit the direction of the initial positron with an additional deflection of a polar angle $\theta$ according to \eqref{eqn:annihilation_angle_1} and \eqref{eqn:annihilation_angle_2} as well as an azimuth angle $\Phi$ sampled via
 %
 \begin{align}
-	\Phi_{\gamma,1} &= 2 \pi \xi, & \Phi_{\gamma,2} &= (2 \pi \xi + \pi) \;\mathrm{mod}\; 2 \pi,
+	\Phi_{\gamma,1} &= 2 \pi \xi_2, & \Phi_{\gamma,2} &= (2 \pi \xi_2 + \pi) \;\mathrm{mod}\; 2 \pi,
 \end{align}
 %
-where $\xi \in \left[0,1\right)$ is a random number.
+where $\xi_2 \in \left[0,1\right)$ is an additional random number.
 After an annihilation interaction, PROPOSAL returns the created photons and stops the particle propagation.
 
 Figure \ref{fig:spectrum_annihilation} shows an energy spectrum of secondary particles produced by positrons where annihilation is enabled.
-Since annihilation is always stochastic with $v=1$, the process is not influenced by the energy cut settings, resulting in stochastic losses with $E \cdot v < {E_\text{cut}}$.
+Since annihilation interactions are always stochastic with $v=1$, the process is not influenced by the energy cut settings, resulting in stochastic losses with $E \cdot v < {e_\text{cut}}$.
 Quantitatively, the annihilation interaction is, as well as the other processes, suppressed compared to bremsstrahlung processes.
 However, for energy losses around $\SI{1}{\giga\electronvolt}$, a contribution to the secondary spectrum at a level of a few percents can be observed.
 
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/spectrum_annihilation.pdf}
-    \caption{Secondary particle energy spectrum for $\num{e5}$ positrons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in air. Electron-Positron annihilation is enabled. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cut applied here is $E_\text{cut} = \SI{500}{\mega\electronvolt}$. Note that the annihilation process is not affected by the cut settings since the relative energy transfer $v$ is always $1$.}
+    \caption{Secondary particle energy spectrum for $\num{e5}$ positrons with an initial energy of $\SI{e8}{\mega\electronvolt}$, propagated in air. Electron-positron annihilation is enabled. The histogram shows the frequency of the stochastic losses during propagation, classified by the type of energy loss. The energy cut applied here is $e_\text{cut} = \SI{500}{\mega\electronvolt}$. Note that the annihilation process is not affected by the cut settings since the relative energy transfer $v$ is always $1$.}
     \label{fig:spectrum_annihilation}
 \end{figure}
 
@@ -409,7 +411,7 @@ However, photons with energies below $2 m_e$ are irrelevant for the further deve
 
 \subsection{Pair production by photons}
 
-Photo pair production, called electron-positron pair production in the further course of this subsection (although not to be confused with the creation of an electron-positron pair by an incoming lepton), describes the creation of an electron-positron pair by an ingoing photon in the field of an atomic nucleus.
+Photo pair production, called electron-positron pair production in the further course of this section (although not to be confused with the creation of an electron-positron pair by an ingoing lepton), describes the creation of an electron-positron pair by an ingoing photon in the field of an atomic nucleus.
 A Feynman diagram for the process is shown in figure \ref{fig:feynman_photopair}.
 %
 \begin{figure}
@@ -484,10 +486,10 @@ To obtain the total stochastic cross section $\sigma_{\text{stoch}}$ for electro
 While the relative energy transfer $v=1$ is already known, the parameter $x$, describing the asymmetry of the energy transfer, needs to be sampled by solving the integral equation
 %
 \begin{equation}
-	\frac{1}{\sigma_{\text{stoch}}} \int_{x_{\text{min}}}^{x} \frac{\symup{d}\sigma}{\symup{d}x} \, \symup{d}x = \xi
+	\frac{1}{\sigma_{\text{stoch}}} \int_{x_{\text{min}}}^{x} \frac{\symup{d}\sigma}{\symup{d}x} \, \symup{d}x = \xi_1
 \end{equation}
 %
-for $x$ with a random number $\xi \in \left[0,1\right)$.
+for $x$ with a random number $\xi_1 \in \left[0,1\right)$.
 The energy of the electron $E_-$, respectively the energy of the positron $E_+$, is set to
 %
 \begin{align}
@@ -495,15 +497,15 @@ The energy of the electron $E_-$, respectively the energy of the positron $E_+$,
 \end{align}
 %
 
-To offer different levels of accuracy in the simulation of the angular distribution, three different options can be used to describe the angles between the initial photon and the created electron and positron.
+To offer different levels of accuracy in the simulation of the angular distribution, two options are available to describe the angles between the initial photon and the created electron and positron.
 Firstly, the double-differential cross section \eqref{eqn:angular_distribution} can be used to sample the polar angle $\theta$ for both the electron and the positron by solving, once for each particle, the integral equation
 %
 \begin{equation}
 	\label{eqn:angular_tsai}
-    \left( \frac{\symup{d}\sigma}{\symup{d}p}(p^{\ast}) \right)^{-1} \int_{0}^{\theta} \frac{\mathrm{d}^2\sigma}{\mathrm{d}\theta \mathrm{d}p}(p^{\ast}) \, \symup{d}\theta = \xi
+    \left( \frac{\symup{d}\sigma}{\symup{d}p}(p^{\ast}) \right)^{-1} \int_{0}^{\theta} \frac{\mathrm{d}^2\sigma}{\mathrm{d}\theta \mathrm{d}p}(p^{\ast}) \, \symup{d}\theta = \xi_2
 \end{equation}
 %
-for $\theta$ where $\xi \in \left[0,1\right)$ is a random number and $p = p^{\ast}$ the fixed absolute momentum of the electron, respectively the positron.
+for $\theta$ where $\xi_2 \in \left[0,1\right)$ is an additional random number and $p = p^{\ast}$ the fixed absolute momentum of the electron, respectively the positron.
 Alternatively, a simpler method suggested by \cite{Hirayama:2005zm} can be applied where the angle of both particles is set to
 %
 \begin{equation}
@@ -514,10 +516,10 @@ Alternatively, a simpler method suggested by \cite{Hirayama:2005zm} can be appli
 For both methods, the azimuth angle $\Phi$ is sampled via
 %
 \begin{align}
-	\Phi_{-} &= 2 \pi \xi, & \Phi_{+} &= (2 \pi \xi + \pi) \;\mathrm{mod}\; 2 \pi,
+	\Phi_{-} &= 2 \pi \xi_3, & \Phi_{+} &= (2 \pi \xi_3 + \pi) \;\mathrm{mod}\; 2 \pi,
 \end{align}
 %
-where $\xi \in \left[0,1\right)$ is an additional random number.
+where $\xi_3 \in \left[0,1\right)$ is an additional random number.
 
 Figure \ref{fig:angles} shows a comparison of the two available sampling methods.
 For high energies as well as for analyses where the exact distribution of $\theta$ is irrelevant, the simple expression according to \eqref{eqn:angular_egs} provides an adequate description of the production angle.
@@ -525,7 +527,7 @@ For high energies as well as for analyses where the exact distribution of $\thet
 \begin{figure}
     \centering
     \includegraphics[scale=1]{build/photopair_angles.pdf}
-    \caption{Distribution of pair production angles in air with an initial particle energy of $E_{\gamma} = \SI{e2}{\electronvolt}$. EGS shows the expression of the production angle according to \eqref{eqn:angular_egs}, Tsai the distribution for the production angle according to \eqref{eqn:angular_tsai} where $\left<\theta\right>$ denotes the mean of this distribution. For this plot, $x=0.85$ has been used. Note that the distribution of Tsai is affected by the choice of $x$, however, the expression according to EGS is independent of $x$. }
+    \caption{Distribution of pair production angles in air with an initial particle energy of $E_{\gamma} = \SI{e2}{\electronvolt}$. The vertical line labeled "EGS approximation" shows the production angle according to \eqref{eqn:angular_egs}, the line labeled "Tsai" shows the distribution for the production angle according to \eqref{eqn:angular_tsai} where $\left<\theta\right>$ denotes the mean of this distribution. For this plot, $x=0.85$ has been used. Note that the distribution of Tsai is affected by the choice of $x$, however, the expression according to EGS is independent of $x$. }
     \label{fig:angles}
 \end{figure}
 
@@ -574,7 +576,7 @@ To obtain a relation between $\theta$, the angle between the initial photon and 
 	E_3 &= (1 - v) E \coloneqq E^{\prime},
 \end{align*}
 %
-according to the kinematic for Compton scattering, yields
+according to the kinematics for Compton scattering, yields
 %
 \begin{equation}
 	\label{eqn:angle_compton}
@@ -630,7 +632,7 @@ As expected, electron-positron pair production is the dominant photon interactio
 \section{Electromagnetic shower propagation with PROPOSAL}
 \label{sec:proposal_showers}
 
-With the improvement of electron and positron propagation, as described in section \ref{sec:electronprop}, as well as the implementation of photon propagation, as described in section \ref{sec:photonprop}, PROPOSAL can be used to simulate all particles essential for an electromagnetic shower.
+With the improvement of electron and positron propagation, as described in section \ref{sec:electronprop}, as well as the implementation of photon propagation, as described in section \ref{sec:photonprop}, PROPOSAL can be used to simulate all particles in an electromagnetic shower.
 As a proof of concept, the simulation of a simple electromagnetic shower with PROPOSAL as a model for electromagnetic interactions is presented.
 
 \begin{algorithm}[H]
