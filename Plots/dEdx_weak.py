@@ -26,7 +26,7 @@ def sigma_decay(E, rho):
     c = 2.99792458e10 #speed of light in cm / s
     tau = 2.1969811e-6 # muon life time
     m = 105.6583745 # muon mass in MeV
-    gamma = (E - m)/m
+    gamma = E/m
     beta = np.sqrt(1 - 1 / gamma**2)
     return 1 / (gamma * beta * tau * c * rho)
 
